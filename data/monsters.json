@@ -1,0 +1,168 @@
+{
+	"_meta": {
+		"description": "怪物数据（GDD 4.4）。skills 为内联技能；ai.priority 为行为优先级列表，ai.skill_cooldown 为技能冷却（GDD 4.3）",
+		"difficulty_templates": {
+			"1": { "hp": [18, 25], "dmg": [2, 5], "acc": 75, "dodge": 8, "prot": 0.0, "stress": 1, "drop_mult": 1.0 },
+			"2": { "hp": [25, 35], "dmg": [4, 7], "acc": 78, "dodge": 12, "prot": 0.05, "stress": [1, 2], "drop_mult": 1.5 },
+			"3": { "hp": [35, 45], "dmg": [6, 10], "acc": 80, "dodge": 15, "prot": 0.1, "stress": 2, "drop_mult": 2.2 },
+			"4": { "hp": [45, 60], "dmg": [8, 13], "acc": 82, "dodge": 18, "prot": 0.15, "stress": [2, 3], "drop_mult": 3.0 },
+			"5": { "hp": [60, 80], "dmg": [10, 16], "acc": 84, "dodge": 20, "prot": 0.2, "stress": 3, "drop_mult": 4.0 }
+		}
+	},
+	"ruins_skel_soldier": {
+		"id": "ruins_skel_soldier", "name": "骷髅士兵", "region": "ruins", "role": "tank", "difficulty": 1,
+		"base_stats": { "hp": 22, "spd": 2, "acc": 75, "dodge": 8, "crit": 0.02, "dmg_min": 2, "dmg_max": 5, "prot": 0.05, "stress_dmg": 0 },
+		"skills": [{ "id": "bone_slash", "name": "骨刃劈砍", "type": "damage", "dmg_mult": 1.0, "base_acc": 75, "target_pos": [1, 2] }],
+		"ai": { "priority": ["front_most"], "skill_cooldown": {} }
+	},
+	"ruins_skel_archer": {
+		"id": "ruins_skel_archer", "name": "骷髅弓手", "region": "ruins", "role": "ranged", "difficulty": 1,
+		"base_stats": { "hp": 18, "spd": 3, "acc": 78, "dodge": 10, "crit": 0.05, "dmg_min": 3, "dmg_max": 5, "prot": 0.0, "stress_dmg": 0 },
+		"skills": [{ "id": "bone_arrow", "name": "骨箭", "type": "damage", "dmg_mult": 1.0, "base_acc": 78, "target_pos": [3, 4] }, { "id": "marking_shot", "name": "瞄准标记", "type": "debuff", "base_acc": 90, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "mark", "duration": 3 }] }],
+		"ai": { "priority": ["back_most", "use_mark_on_3rd_turn"], "skill_cooldown": { "marking_shot": 2 } }
+	},
+	"ruins_skel_priest": {
+		"id": "ruins_skel_priest", "name": "骸骨祭司", "region": "ruins", "role": "stress", "difficulty": 2,
+		"base_stats": { "hp": 28, "spd": 3, "acc": 78, "dodge": 10, "crit": 0.02, "dmg_min": 2, "dmg_max": 4, "prot": 0.0, "stress_dmg": 2 },
+		"skills": [{ "id": "fear_bone", "name": "骸骨恐惧", "type": "stress_damage", "base_acc": 80, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 3 }, { "status": "fear", "duration": 2 }] }],
+		"ai": { "priority": ["highest_stress", "fear_every_turn"], "skill_cooldown": { "fear_bone": 0 } }
+	},
+	"ruins_ghoul": {
+		"id": "ruins_ghoul", "name": "食尸鬼", "region": "ruins", "role": "damage", "difficulty": 2,
+		"base_stats": { "hp": 30, "spd": 4, "acc": 78, "dodge": 12, "crit": 0.05, "dmg_min": 4, "dmg_max": 7, "prot": 0.0, "stress_dmg": 0 },
+		"skills": [{ "id": "claw_tear", "name": "利爪撕裂", "type": "damage", "dmg_mult": 1.1, "base_acc": 78, "target_pos": [1, 2], "effects": [{ "status": "bleed", "value": 2, "duration": 3 }] }],
+		"ai": { "priority": ["lowest_hp"], "skill_cooldown": {} }
+	},
+	"ruins_ghost": {
+		"id": "ruins_ghost", "name": "幽灵", "region": "ruins", "role": "stress", "difficulty": 2,
+		"base_stats": { "hp": 24, "spd": 5, "acc": 80, "dodge": 22, "crit": 0.03, "dmg_min": 2, "dmg_max": 4, "prot": 0.1, "stress_dmg": 2 },
+		"skills": [{ "id": "wail", "name": "怨魂哀嚎", "type": "stress_damage", "base_acc": 85, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 3 }] }],
+		"ai": { "priority": ["highest_stress"], "skill_cooldown": { "wail": 1 } }
+	},
+	"forest_wolf_member": {
+		"id": "forest_wolf_member", "name": "狼群成员", "region": "forest", "role": "displacer", "difficulty": 2,
+		"base_stats": { "hp": 26, "spd": 6, "acc": 80, "dodge": 14, "crit": 0.06, "dmg_min": 3, "dmg_max": 6, "prot": 0.0, "stress_dmg": 0 },
+		"skills": [{ "id": "pounce", "name": "扑袭", "type": "damage", "dmg_mult": 1.0, "base_acc": 80, "target_pos": [1, 2, 3], "effects": [{ "status": "pull", "distance": 1 }] }],
+		"ai": { "priority": ["front_most", "group_coordinated"], "skill_cooldown": {} }
+	},
+	"forest_dire_wolf": {
+		"id": "forest_dire_wolf", "name": "巨狼", "region": "forest", "role": "tank", "difficulty": 3,
+		"base_stats": { "hp": 40, "spd": 5, "acc": 80, "dodge": 12, "crit": 0.04, "dmg_min": 6, "dmg_max": 9, "prot": 0.1, "stress_dmg": 0 },
+		"skills": [{ "id": "heavy_bite", "name": "巨颚噬咬", "type": "damage", "dmg_mult": 1.2, "base_acc": 80, "target_pos": [1, 2], "effects": [{ "status": "bleed", "value": 3, "duration": 3 }] }],
+		"ai": { "priority": ["lowest_hp"], "skill_cooldown": {} }
+	},
+	"forest_rot_shooter": {
+		"id": "forest_rot_shooter", "name": "腐藤射手", "region": "forest", "role": "ranged", "difficulty": 2,
+		"base_stats": { "hp": 25, "spd": 4, "acc": 82, "dodge": 12, "crit": 0.04, "dmg_min": 3, "dmg_max": 6, "prot": 0.0, "stress_dmg": 0 },
+		"skills": [{ "id": "rot_spore", "name": "腐孢射击", "type": "damage", "dmg_mult": 0.9, "base_acc": 82, "target_pos": [3, 4], "effects": [{ "status": "poison", "value": 3, "duration": 3 }] }],
+		"ai": { "priority": ["back_most"], "skill_cooldown": { "rot_spore": 1 } }
+	},
+	"forest_dryad": {
+		"id": "forest_dryad", "name": "树妖", "region": "forest", "role": "stress", "difficulty": 3,
+		"base_stats": { "hp": 36, "spd": 5, "acc": 80, "dodge": 18, "crit": 0.03, "dmg_min": 3, "dmg_max": 6, "prot": 0.05, "stress_dmg": 2 },
+		"skills": [{ "id": "charm_whisper", "name": "魅惑低语", "type": "stress_damage", "base_acc": 85, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 3 }, { "status": "confuse", "duration": 1, "chance": 0.2 }] }],
+		"ai": { "priority": ["highest_stress"], "skill_cooldown": { "charm_whisper": 1 } }
+	},
+	"forest_giant_spider": {
+		"id": "forest_giant_spider", "name": "巨型蜘蛛", "region": "forest", "role": "damage", "difficulty": 3,
+		"base_stats": { "hp": 32, "spd": 6, "acc": 82, "dodge": 16, "crit": 0.05, "dmg_min": 6, "dmg_max": 10, "prot": 0.0, "stress_dmg": 0 },
+		"skills": [{ "id": "venom_fang", "name": "毒牙", "type": "damage", "dmg_mult": 1.1, "base_acc": 82, "target_pos": [1, 2, 3], "effects": [{ "status": "poison", "value": 4, "duration": 2 }, { "status": "weak", "duration": 3 }] }],
+		"ai": { "priority": ["lowest_hp"], "skill_cooldown": {} }
+	},
+	"moor_fanatic": {
+		"id": "moor_fanatic", "name": "异教徒狂信者", "region": "moor", "role": "stress", "difficulty": 3,
+		"base_stats": { "hp": 38, "spd": 5, "acc": 80, "dodge": 14, "crit": 0.04, "dmg_min": 4, "dmg_max": 7, "prot": 0.05, "stress_dmg": 2 },
+		"skills": [{ "id": "self_harm_prayer", "name": "血祭祈祷", "type": "stress_damage", "base_acc": 85, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 4 }] }],
+		"ai": { "priority": ["highest_stress", "self_buff_when_low"], "skill_cooldown": { "self_harm_prayer": 1 } }
+	},
+	"moor_raider": {
+		"id": "moor_raider", "name": "渔人劫掠者", "region": "moor", "role": "damage", "difficulty": 3,
+		"base_stats": { "hp": 34, "spd": 6, "acc": 82, "dodge": 15, "crit": 0.05, "dmg_min": 6, "dmg_max": 10, "prot": 0.05, "stress_dmg": 0 },
+		"skills": [{ "id": "rusty_harpoon", "name": "锈钩", "type": "damage", "dmg_mult": 1.1, "base_acc": 82, "target_pos": [1, 2, 3], "effects": [{ "status": "bleed", "value": 3, "duration": 3 }, { "status": "pull", "distance": 1 }] }],
+		"ai": { "priority": ["front_most"], "skill_cooldown": {} }
+	},
+	"moor_plague_spawn": {
+		"id": "moor_plague_spawn", "name": "疫病仆从", "region": "moor", "role": "damage", "difficulty": 4,
+		"base_stats": { "hp": 48, "spd": 5, "acc": 82, "dodge": 16, "crit": 0.04, "dmg_min": 8, "dmg_max": 12, "prot": 0.1, "stress_dmg": 0 },
+		"skills": [{ "id": "pestilent_touch", "name": "瘟疫之触", "type": "damage", "dmg_mult": 1.0, "base_acc": 82, "target_pos": [1, 2], "effects": [{ "status": "poison", "value": 4, "duration": 3 }] }],
+		"ai": { "priority": ["lowest_hp"], "skill_cooldown": { "pestilent_touch": 1 } }
+	},
+	"moor_bog_shaman": {
+		"id": "moor_bog_shaman", "name": "腐沼萨满", "region": "moor", "role": "support", "difficulty": 4,
+		"base_stats": { "hp": 42, "spd": 6, "acc": 82, "dodge": 18, "crit": 0.03, "dmg_min": 5, "dmg_max": 8, "prot": 0.1, "stress_dmg": 2 },
+		"skills": [{ "id": "bog_curse", "name": "腐沼诅咒", "type": "debuff", "base_acc": 85, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "vulnerable", "value": 0.2, "duration": 3 }, { "status": "fear", "duration": 2 }] }],
+		"ai": { "priority": ["random_hero", "curse_on_2nd_turn"], "skill_cooldown": { "bog_curse": 2 } }
+	},
+	"moor_behemoth": {
+		"id": "moor_behemoth", "name": "荒原巨兽", "region": "moor", "role": "tank", "difficulty": 4,
+		"base_stats": { "hp": 60, "spd": 3, "acc": 80, "dodge": 12, "crit": 0.03, "dmg_min": 8, "dmg_max": 12, "prot": 0.2, "stress_dmg": 0 },
+		"skills": [{ "id": "swamp_stomp", "name": "沼泽践踏", "type": "damage", "dmg_mult": 1.1, "base_acc": 80, "target_pos": [1, 2] }],
+		"ai": { "priority": ["front_most"], "skill_cooldown": {} }
+	},
+	"warrens_giant_rat": {
+		"id": "warrens_giant_rat", "name": "巨鼠", "region": "warrens", "role": "damage", "difficulty": 4,
+		"base_stats": { "hp": 45, "spd": 7, "acc": 84, "dodge": 18, "crit": 0.05, "dmg_min": 8, "dmg_max": 12, "prot": 0.05, "stress_dmg": 0 },
+		"skills": [{ "id": "swarm_bite", "name": "鼠群撕咬", "type": "damage", "dmg_mult": 0.8, "base_acc": 84, "target_pos": [1, 2, 3], "effects": [{ "status": "aoe" }, { "status": "bleed", "value": 2, "duration": 2 }] }],
+		"ai": { "priority": ["lowest_hp"], "skill_cooldown": {} }
+	},
+	"warrens_warren_worm": {
+		"id": "warrens_warren_worm", "name": "暗穴蠕虫", "region": "warrens", "role": "damage", "difficulty": 4,
+		"base_stats": { "hp": 50, "spd": 5, "acc": 82, "dodge": 14, "crit": 0.04, "dmg_min": 8, "dmg_max": 12, "prot": 0.1, "stress_dmg": 0 },
+		"skills": [{ "id": "coil_strike", "name": "缠绕绞杀", "type": "damage", "dmg_mult": 1.0, "base_acc": 82, "target_pos": [1, 2, 3], "effects": [{ "status": "stun", "duration": 1, "chance": 0.4 }] }],
+		"ai": { "priority": ["front_most"], "skill_cooldown": { "coil_strike": 2 } }
+	},
+	"warrens_brood_mother": {
+		"id": "warrens_brood_mother", "name": "污秽母巢", "region": "warrens", "role": "summoner", "difficulty": 5,
+		"base_stats": { "hp": 70, "spd": 4, "acc": 82, "dodge": 12, "crit": 0.03, "dmg_min": 8, "dmg_max": 12, "prot": 0.15, "stress_dmg": 0 },
+		"skills": [{ "id": "spawn_larva", "name": "孵化幼体", "type": "summon", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "summon", "unit": "warrens_larva", "count": 1 }] }],
+		"ai": { "priority": ["summon_every_3rd_turn", "protect_front"], "skill_cooldown": { "spawn_larva": 3 } }
+	},
+	"warrens_bile_ooze": {
+		"id": "warrens_bile_ooze", "name": "腐液怪", "region": "warrens", "role": "damage", "difficulty": 4,
+		"base_stats": { "hp": 46, "spd": 4, "acc": 82, "dodge": 12, "crit": 0.03, "dmg_min": 8, "dmg_max": 12, "prot": 0.2, "stress_dmg": 0 },
+		"skills": [{ "id": "acid_spray", "name": "酸液喷溅", "type": "damage", "dmg_mult": 0.9, "base_acc": 82, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "burn", "value": 4, "duration": 2 }] }],
+		"ai": { "priority": ["random_hero"], "skill_cooldown": {} }
+	},
+	"warrens_warden": {
+		"id": "warrens_warden", "name": "暗穴看守", "region": "warrens", "role": "tank", "difficulty": 5,
+		"base_stats": { "hp": 80, "spd": 4, "acc": 82, "dodge": 14, "crit": 0.03, "dmg_min": 10, "dmg_max": 14, "prot": 0.25, "stress_dmg": 1 },
+		"skills": [{ "id": "warden_maul", "name": "看守重击", "type": "damage", "dmg_mult": 1.1, "base_acc": 82, "target_pos": [1, 2] }, { "id": "pressure_aura", "name": "压力光环", "type": "stress_damage", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "stress_aura", "value": 1 }] }],
+		"ai": { "priority": ["front_most", "aura_passive"], "skill_cooldown": {} }
+	},
+	"boss_stone_skull": {
+		"id": "boss_stone_skull", "name": "圣殿守卫「石颅」", "region": "ruins", "role": "boss", "difficulty": 5, "phases": 2, "phase_trigger": "hp<50%",
+		"base_stats": { "hp": 180, "spd": 4, "acc": 84, "dodge": 16, "crit": 0.05, "dmg_min": 10, "dmg_max": 16, "prot": 0.25, "stress_dmg": 2 },
+		"skills": [
+			{ "id": "skull_slam", "name": "颅骨震击", "type": "damage", "dmg_mult": 1.2, "base_acc": 84, "target_pos": [1, 2, 3] },
+			{ "id": "summon_skel", "name": "召唤骷髅", "type": "summon", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "summon", "unit": "ruins_skel_soldier", "count": 1 }], "phase": 2 }
+		],
+		"ai": { "priority": ["lowest_hp", "phase2_summon_every_3rd_turn"], "skill_cooldown": { "summon_skel": 3 } }
+	},
+	"boss_throat_ripper": {
+		"id": "boss_throat_ripper", "name": "林间兽王「破喉」", "region": "forest", "role": "boss", "difficulty": 5, "phases": 2, "phase_trigger": "hp<50%",
+		"base_stats": { "hp": 170, "spd": 7, "acc": 84, "dodge": 20, "crit": 0.06, "dmg_min": 12, "dmg_max": 18, "prot": 0.15, "stress_dmg": 1 },
+		"skills": [
+			{ "id": "throat_tear", "name": "破喉撕咬", "type": "damage", "dmg_mult": 1.3, "base_acc": 84, "target_pos": [1, 2], "effects": [{ "status": "bleed", "value": 5, "duration": 3 }] },
+			{ "id": "frenzy", "name": "狂怒加速", "type": "buff", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "berserk", "duration": 2, "dmg_up": 0.4, "acc_down": 0.1 }, { "status": "immune_displacement", "duration": 1 }], "phase": 2 }
+		],
+		"ai": { "priority": ["lowest_hp", "phase2_frenzy_on_2nd_turn"], "skill_cooldown": { "frenzy": 4 } }
+	},
+	"boss_whisperer": {
+		"id": "boss_whisperer", "name": "荒原大祭司「低语者」", "region": "moor", "role": "boss", "difficulty": 5, "phases": 2, "phase_trigger": "hp<50%",
+		"base_stats": { "hp": 160, "spd": 6, "acc": 85, "dodge": 18, "crit": 0.04, "dmg_min": 8, "dmg_max": 12, "prot": 0.1, "stress_dmg": 3 },
+		"skills": [
+			{ "id": "maddening_whisper", "name": "疯人低语", "type": "stress_damage", "base_acc": 88, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 5 }, { "status": "aoe" }] },
+			{ "id": "abyssal_scream", "name": "深渊尖啸", "type": "stress_damage", "base_acc": 85, "target_pos": [1, 2, 3, 4], "effects": [{ "status": "stress_damage", "value": 8 }, { "status": "aoe" }], "phase": 2 }
+		],
+		"ai": { "priority": ["highest_stress", "phase2_aoe_scream_on_2nd_turn"], "skill_cooldown": { "abyssal_scream": 3 } }
+	},
+	"boss_proliferation_mother": {
+		"id": "boss_proliferation_mother", "name": "暗穴母体「增殖之母」", "region": "warrens", "role": "boss", "difficulty": 5, "phases": 2, "phase_trigger": "hp<50%",
+		"base_stats": { "hp": 200, "spd": 5, "acc": 82, "dodge": 14, "crit": 0.04, "dmg_min": 10, "dmg_max": 14, "prot": 0.2, "stress_dmg": 1 },
+		"skills": [
+			{ "id": "endless_birth", "name": "无尽增殖", "type": "summon", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "summon", "unit": "warrens_larva", "count": 1 }] },
+			{ "id": "core_drain", "name": "核心汲取", "type": "heal", "base_acc": 100, "target_pos": [0], "effects": [{ "status": "heal", "mult": 0.05 }], "phase": 2 }
+		],
+		"ai": { "priority": ["summon_every_turn", "phase2_heal_when_low"], "skill_cooldown": { "endless_birth": 0 } }
+	}
+}

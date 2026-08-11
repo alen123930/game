@@ -1,0 +1,59 @@
+{
+	"_meta": {
+		"description": "掉落与经济（GDD 4.5 / 4.6）",
+		"exp_formula": { "base": 300, "star_coef": 0.6, "length_coef": { "short": 1.0, "medium": 1.5, "long": 2.0 } },
+		"retreat_settle_mult": 0.7,
+		"heirloom_types": ["statue", "scroll", "badge", "tablet"],
+		"trinket_rarities": ["white", "blue", "purple", "gold"]
+	},
+	"1": {
+		"star": 1,
+		"gold_min": 600,
+		"gold_max": 1200,
+		"heirloom_min": 1,
+		"heirloom_max": 2,
+		"trinket_chance": 0.15,
+		"trinket_rarities": ["white"],
+		"special": [{ "item": "herb", "count": 2 }]
+	},
+	"2": {
+		"star": 2,
+		"gold_min": 1200,
+		"gold_max": 2500,
+		"heirloom_min": 2,
+		"heirloom_max": 3,
+		"trinket_chance": 0.25,
+		"trinket_rarities": ["white", "blue"],
+		"special": [{ "item": "holy_water", "count": 2 }]
+	},
+	"3": {
+		"star": 3,
+		"gold_min": 2500,
+		"gold_max": 4500,
+		"heirloom_min": 3,
+		"heirloom_max": 4,
+		"trinket_chance": 0.35,
+		"trinket_rarities": ["blue", "purple"],
+		"special": [{ "item": "key", "count": 2 }]
+	},
+	"4": {
+		"star": 4,
+		"gold_min": 4500,
+		"gold_max": 7500,
+		"heirloom_min": 4,
+		"heirloom_max": 6,
+		"trinket_chance": 0.45,
+		"trinket_rarities": ["purple"],
+		"special": [{ "item": "rare_trinket", "count": 1 }]
+	},
+	"5": {
+		"star": 5,
+		"gold_min": 7500,
+		"gold_max": 12000,
+		"heirloom_min": 6,
+		"heirloom_max": 8,
+		"trinket_chance": 0.55,
+		"trinket_rarities": ["purple", "gold"],
+		"special": [{ "item": "boss_material", "count": 1 }]
+	}
+}

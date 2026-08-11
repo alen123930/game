@@ -1,0 +1,96 @@
+{
+	"_meta": {
+		"description": "区域与关卡结构（GDD 4.1 / 4.2）。rooms 为房间类型数量配置（短/中/长）",
+		"task_lengths": ["short", "medium", "long"],
+		"torch_decay_outside_battle": 5,
+		"torch_decay_per_turn": 1
+	},
+	"ruins": {
+		"id": "ruins",
+		"name": "废墟遗迹",
+		"theme": "圣殿残骸、被遗忘的修道院",
+		"difficulty_min": 1,
+		"difficulty_max": 2,
+		"features": ["圣物/祭坛事件多", "黑暗惩罚较高"],
+		"task_types": [
+			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
+			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
+			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
+			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+		],
+		"rooms": {
+			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
+			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
+			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+		},
+		"map_size": [4, 4],
+		"boss": "boss_stone_skull",
+		"monsters": ["ruins_skel_soldier", "ruins_skel_archer", "ruins_skel_priest", "ruins_ghoul", "ruins_ghost"]
+	},
+	"forest": {
+		"id": "forest",
+		"name": "阴森林地",
+		"theme": "腐败林地、兽穴",
+		"difficulty_min": 2,
+		"difficulty_max": 3,
+		"features": ["大量流血伤害", "草药资源多"],
+		"task_types": [
+			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
+			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
+			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
+			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+		],
+		"rooms": {
+			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
+			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
+			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+		},
+		"map_size": [5, 4],
+		"boss": "boss_throat_ripper",
+		"monsters": ["forest_wolf_member", "forest_dire_wolf", "forest_rot_shooter", "forest_dryad", "forest_giant_spider"]
+	},
+	"moor": {
+		"id": "moor",
+		"name": "幽暗荒原",
+		"theme": "荒废海岸、腐败沼泽",
+		"difficulty_min": 3,
+		"difficulty_max": 4,
+		"features": ["压力型敌人多", "毒雾持续压力"],
+		"task_types": [
+			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
+			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
+			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
+			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+		],
+		"rooms": {
+			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
+			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
+			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+		},
+		"map_size": [5, 5],
+		"boss": "boss_whisperer",
+		"monsters": ["moor_fanatic", "moor_raider", "moor_plague_spawn", "moor_bog_shaman", "moor_behemoth"]
+	},
+	"warrens": {
+		"id": "warrens",
+		"name": "污秽暗穴",
+		"theme": "下水道、暗洞",
+		"difficulty_min": 4,
+		"difficulty_max": 5,
+		"features": ["中毒、火灾伤害", "照明极差"],
+		"task_types": [
+			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
+			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
+			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
+			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+		],
+		"rooms": {
+			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
+			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
+			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+		},
+		"map_size": [6, 5],
+		"boss": "boss_proliferation_mother",
+		"monsters": ["warrens_giant_rat", "warrens_warren_worm", "warrens_brood_mother", "warrens_bile_ooze", "warrens_warden"]
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"_meta": {
+		"description": "补给品商店（GDD 3.7）。type: supply/trinket/loot/boss_material",
+		"shop": "town"
+	},
+	"food": { "id": "food", "name": "食物", "price": 60, "type": "supply", "effect": "探索饥饿，每格消耗 1", "stackable": true },
+	"torch": { "id": "torch", "name": "火把", "price": 40, "type": "supply", "effect": "火把 +25", "stackable": true },
+	"bandage": { "id": "bandage", "name": "绷带", "price": 100, "type": "supply", "effect": "止血（解除流血）", "stackable": true },
+	"herb": { "id": "herb", "name": "药草", "price": 150, "type": "supply", "effect": "解除虚弱/净化", "stackable": true },
+	"antidote": { "id": "antidote", "name": "解毒剂", "price": 120, "type": "supply", "effect": "解毒（解除中毒）", "stackable": true },
+	"holy_water": { "id": "holy_water", "name": "圣水", "price": 120, "type": "supply", "effect": "解燃烧、净化祭坛", "stackable": true },
+	"key": { "id": "key", "name": "钥匙", "price": 90, "type": "supply", "effect": "开锁宝箱/门", "stackable": true },
+	"shovel": { "id": "shovel", "name": "铲子", "price": 100, "type": "supply", "effect": "挖开障碍物", "stackable": true },
+	"charm": { "id": "charm", "name": "护符", "price": 200, "type": "supply", "effect": "一次性抵挡一次致命攻击", "stackable": false }
+}

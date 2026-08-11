@@ -1,0 +1,85 @@
+{
+	"_meta": {
+		"description": "城镇建筑（GDD 3.2）。levels 为 1~3 级配置，upgrade_cost 为升级所需传承物（雕像/卷轴/徽章/铭牌）"
+	},
+	"recruitment": {
+		"id": "recruitment",
+		"name": "雇佣厅",
+		"function": "招募英雄",
+		"levels": [
+			{ "level": 1, "desc": "英雄池 4 人/天", "candidates_per_day": 4, "refresh_count": 0, "upgrade_cost": {} },
+			{ "level": 2, "desc": "6 人/天，可刷新 1 次", "candidates_per_day": 6, "refresh_count": 1, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "8 人/天，可刷新 2 次", "candidates_per_day": 8, "refresh_count": 2, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"clinic": {
+		"id": "clinic",
+		"name": "诊疗室",
+		"function": "治疗伤病/疾病",
+		"levels": [
+			{ "level": 1, "desc": "可治疗伤病", "can_cure_injury": true, "can_cure_disease": false, "fee_mult": 1.0, "upgrade_cost": {} },
+			{ "level": 2, "desc": "可治疗疾病", "can_cure_injury": true, "can_cure_disease": true, "fee_mult": 1.0, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "治疗费用 -50%", "can_cure_injury": true, "can_cure_disease": true, "fee_mult": 0.5, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"training_ground": {
+		"id": "training_ground",
+		"name": "训练场",
+		"function": "升级技能",
+		"levels": [
+			{ "level": 1, "desc": "技能可升到 2 级", "max_skill_level": 2, "upgrade_cost": {} },
+			{ "level": 2, "desc": "技能可升到 3 级", "max_skill_level": 3, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "技能可升到 5 级", "max_skill_level": 5, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"blacksmith": {
+		"id": "blacksmith",
+		"name": "铁匠铺",
+		"function": "升级武器",
+		"levels": [
+			{ "level": 1, "desc": "武器可升到 2 级", "max_weapon_level": 2, "upgrade_cost": {} },
+			{ "level": 2, "desc": "武器可升到 3 级", "max_weapon_level": 3, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "武器可升到 5 级", "max_weapon_level": 5, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"armory": {
+		"id": "armory",
+		"name": "护甲坊",
+		"function": "升级护甲",
+		"levels": [
+			{ "level": 1, "desc": "护甲可升到 2 级", "max_armor_level": 2, "upgrade_cost": {} },
+			{ "level": 2, "desc": "护甲可升到 3 级", "max_armor_level": 3, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "护甲可升到 5 级", "max_armor_level": 5, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"church": {
+		"id": "church",
+		"name": "教堂",
+		"function": "减压",
+		"levels": [
+			{ "level": 1, "desc": "烛光冥想 -15 压力", "stress_relief": [{ "action": "meditate", "name": "烛光冥想", "stress": -15, "cost": 300 }], "upgrade_cost": {} },
+			{ "level": 2, "desc": "安魂曲 -30 压力", "stress_relief": [{ "action": "meditate", "name": "烛光冥想", "stress": -15, "cost": 300 }, { "action": "requiem", "name": "安魂曲", "stress": -30, "cost": 600 }], "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "解锁祝福（+5% 全属性 1 次任务）", "unlock_blessing": true, "stress_relief": [{ "action": "meditate", "name": "烛光冥想", "stress": -15, "cost": 300 }, { "action": "requiem", "name": "安魂曲", "stress": -30, "cost": 600 }], "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"tavern": {
+		"id": "tavern",
+		"name": "酒馆",
+		"function": "减压（带风险）",
+		"levels": [
+			{ "level": 1, "desc": "痛饮 -20 压力（小概率新怪癖）", "activities": [{ "action": "drink", "name": "痛饮", "stress": -20, "cost": 250, "risk_new_quirk": 0.05 }], "upgrade_cost": {} },
+			{ "level": 2, "desc": "赌局可赢金币或 -30 压力", "activities": [{ "action": "drink", "name": "痛饮", "stress": -20, "cost": 250, "risk_new_quirk": 0.05 }, { "action": "gamble", "name": "赌局", "stress": -30, "cost": 400, "win_gold": 500, "lose_chance": 0.3, "lose_gold": 300 }], "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "解锁招募特殊英雄", "unlock_special_recruit": true, "activities": [{ "action": "drink", "name": "痛饮", "stress": -20, "cost": 250, "risk_new_quirk": 0.05 }, { "action": "gamble", "name": "赌局", "stress": -30, "cost": 400, "win_gold": 500, "lose_chance": 0.3, "lose_gold": 300 }], "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	},
+	"graveyard": {
+		"id": "graveyard",
+		"name": "墓地",
+		"function": "永久增益",
+		"levels": [
+			{ "level": 1, "desc": "安葬英雄（队伍 +1% 全属性）", "stat_per_burial": 0.01, "upgrade_cost": {} },
+			{ "level": 2, "desc": "每个安葬英雄 +2%", "stat_per_burial": 0.02, "upgrade_cost": { "statue": 3, "scroll": 5, "badge": 8, "tablet": 5 } },
+			{ "level": 3, "desc": "每个 +3%", "stat_per_burial": 0.03, "upgrade_cost": { "statue": 8, "scroll": 12, "badge": 18, "tablet": 10 } }
+		]
+	}
+}

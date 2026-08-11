@@ -1,0 +1,14 @@
+# Godot 4 generated files
+.godot/
+*.import
+*.tmp
+
+# 构建产物（Android 导出等）
+build/
+*.apk
+*.aab
+
+# 系统与编辑器杂项
+.DS_Store
+Thumbs.db
+*.user

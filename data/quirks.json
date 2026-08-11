@@ -1,0 +1,18 @@
+{
+	"_meta": {
+		"description": "怪癖系统（GDD 3.5）。type: positive/negative",
+		"purge": { "location": "church", "cost_mult": 1.0 }
+	},
+	"fearless": { "id": "fearless", "name": "无畏", "type": "positive", "effects": [{ "status": "immune_fear" }] },
+	"steadfast": { "id": "steadfast", "name": "坚毅", "type": "positive", "effects": [{ "status": "stress_reduction", "value": 0.2 }] },
+	"night_vision": { "id": "night_vision", "name": "夜视", "type": "positive", "effects": [{ "status": "darkness_penalty_halved" }] },
+	"tenacious": { "id": "tenacious", "name": "坚韧", "type": "positive", "effects": [{ "status": "hp_up", "value": 0.1 }] },
+	"quick_footed": { "id": "quick_footed", "name": "迅捷", "type": "positive", "effects": [{ "status": "spd_up", "value": 1 }] },
+	"bloodthirsty": { "id": "bloodthirsty", "name": "嗜血", "type": "positive", "effects": [{ "status": "crit_up", "value": 0.05 }] },
+	"nyctophobia": { "id": "nyctophobia", "name": "恐暗", "type": "negative", "effects": [{ "status": "stress_in_dark", "value": 5 }] },
+	"greedy": { "id": "greedy", "name": "贪婪", "type": "negative", "effects": [{ "status": "stress_when_no_loot", "value": 3 }] },
+	"obsessive": { "id": "obsessive", "name": "强迫症", "type": "negative", "effects": [{ "status": "stress_without_trinket", "value": 3 }] },
+	"clumsy": { "id": "clumsy", "name": "笨拙", "type": "negative", "effects": [{ "status": "acc_down", "value": 5 }] },
+	"fragile": { "id": "fragile", "name": "脆弱", "type": "negative", "effects": [{ "status": "hp_down", "value": 0.1 }] },
+	"cowardly": { "id": "cowardly", "name": "怯懦", "type": "negative", "effects": [{ "status": "stress_up_on_retreat", "value": 5 }] }
+}
