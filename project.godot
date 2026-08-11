@@ -1,0 +1,38 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+
+config_version=5
+
+[application]
+
+config/name="晨昏之下"
+config/description="类《暗黑地牢》手机游戏（经营 + 回合制战斗），Godot 4.x"
+run/main_scene="res://scenes/main/main.tscn"
+config/features=PackedStringArray("4.4", "Mobile")
+config/icon="res://icon.svg"
+
+[autoload]
+
+DataLoader="*res://scripts/autoload/data_loader.gd"
+GameState="*res://scripts/autoload/game_state.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation="landscape"
+
+[gui]
+
+theme/custom="res://theme/main_theme.tres"
+
+[rendering]
+
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+textures/vram_compression/import_etc2_astc=true

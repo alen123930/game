@@ -1,0 +1,10 @@
+# Godot 4 auto-generated
+.godot/
+*.translation
+
+# Imported resources
+*.import
+
+# System
+Thumbs.db
+Desktop.ini
