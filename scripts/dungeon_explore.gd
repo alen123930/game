@@ -547,13 +547,6 @@ func _update_ui() -> void:
 	var tier: Dictionary = GameState.get_torch_tier()
 	torch_tier_label.text = "火把 %d ｜ %s" % [GameState.torch, tier.get("name", "昏暗")]
 	party_label.text = "队伍：" + "  ".join(_party_summary())
-
-func _party_summary() -> PackedStringArray:
-	var parts := PackedStringArray()
-	for h in GameState.party:
-		var s := "%s HP%d/%d 压力%d" % [h["name"], h["hp"], h["max_hp"], h["stress"]]
-		parts.append(s)
-	return parts
 	supplies_label.text = "补给：火把×%d  钥匙×%d  铲子×%d" % [
 		int(GameState.supplies.get("torch", 0)),
 		int(GameState.supplies.get("key", 0)),
@@ -561,6 +554,14 @@ func _party_summary() -> PackedStringArray:
 	]
 	_show_room_info()
 	_refresh_room_tiles()
+
+
+func _party_summary() -> PackedStringArray:
+	var parts := PackedStringArray()
+	for h in GameState.party:
+		var s := "%s HP%d/%d 压力%d" % [h["name"], h["hp"], h["max_hp"], h["stress"]]
+		parts.append(s)
+	return parts
 
 
 ## 火把档位名 → 配置键名（明亮/昏暗/黑暗）。

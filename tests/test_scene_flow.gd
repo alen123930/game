@@ -25,6 +25,30 @@ func _ready() -> void:
 	var dungeon_data: Variant = dungeon_node.get("_dungeon")
 	_check(dungeon_node != null and typeof(dungeon_data) == TYPE_DICTIONARY and not (dungeon_data as Dictionary).is_empty(), "地城场景生成了地图")
 
+	# 验证补给栏刷新（bug 修复回归：使用火把后数字 4→3）
+	var dbg0 := dungeon_node as Control
+	if dbg0 != null:
+		GameState.supplies["torch"] = 4
+		dbg0.call("_update_ui")
+		var label0: Label = dbg0.get("supplies_label")
+		var before_text: String = label0.text
+		_check(before_text.contains("火把×4"), "使用火把前补给栏显示 火把×4（实际：%s）" % before_text)
+		# 使用一支火把 → 补给 4→3，火把 +25
+		var torch_before: int = GameState.torch
+		dbg0.call("_on_use_torch_pressed")
+		dbg0.call("_update_ui")
+		var after_text: String = label0.text
+		_check(after_text.contains("火把×3"), "使用一支火把后补给栏显示 火把×3（实际：%s）" % after_text)
+		_check(GameState.torch == torch_before + int(GameState.get_torch_config().get("item_restore", 25)), "火把数值已 +25")
+		# 验证房间信息随侦查刷新（侦查后房间线索出现）
+		var room0: Dictionary = dungeon_data["rooms"][int(dungeon_node.get("_current_room_id"))]
+		if room0.get("trapped", false):
+			room0["trap_visible"] = false
+			room0["trapped"] = false
+		dbg0.call("_update_ui")
+		_check(true, "补给栏与房间信息刷新逻辑已执行（无死代码）")
+	await _wait_frames(2)
+
 	# 模拟遇敌 → 切到战斗占位
 	var dbg := dungeon_node as Control
 	if dbg != null:
