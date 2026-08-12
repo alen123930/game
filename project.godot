@@ -22,6 +22,7 @@ ConfigManager="*res://autoload/ConfigManager.gd"
 SaveManager="*res://autoload/SaveManager.gd"
 DataLoader="*res://autoload/DataLoader.gd"
 GameState="*res://autoload/GameState.gd"
+TurnManager="*res://autoload/TurnManager.gd"
 
 [display]
 
