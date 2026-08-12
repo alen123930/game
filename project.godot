@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 
 ConfigManager="*res://autoload/ConfigManager.gd"
 SaveManager="*res://autoload/SaveManager.gd"
+DataLoader="*res://autoload/DataLoader.gd"
+GameState="*res://autoload/GameState.gd"
 
 [display]
 
@@ -27,7 +29,11 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep"
-window/handheld/orientation=0
+window/handheld/orientation="landscape"
+
+[gui]
+
+theme/custom="res://theme/main_theme.tres"
 
 [rendering]
 

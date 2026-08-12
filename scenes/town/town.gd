@@ -1,23 +1,58 @@
 extends Control
-## 城镇场景（占位）：经营阶段入口。后续 WS-9 在此实现建筑交互/招募/养成。
+## 城镇场景（WS-5，GDD 1.1）：任务准备入口。选择任务长度后出发进入遗迹探索。
+## 完整城镇经营（建筑/招募/养成）由 WS-9 填充。
+
+var _selected_length := "short"
+
+@onready var length_label: Label = %LengthLabel
+@onready var torch_label: Label = %TorchLabel
+@onready var party_list: VBoxContainer = %PartyList
+
 
 func _ready() -> void:
-	$Layout/ExploreButton.pressed.connect(_on_explore_pressed)
-	$Layout/RecruitButton.pressed.connect(_on_recruit_pressed)
-	var gold: Variant = _load_gold()
-	print("[Town] 城镇已加载，当前金币 = %s" % gold)
+	_update_ui()
 
-func _on_explore_pressed() -> void:
+
+func _on_short_pressed() -> void:
+	_selected_length = "short"
+	_update_ui()
+
+
+func _on_medium_pressed() -> void:
+	_selected_length = "medium"
+	_update_ui()
+
+
+func _on_long_pressed() -> void:
+	_selected_length = "long"
+	_update_ui()
+
+
+func _on_start_pressed() -> void:
+	GameState.start_run(_selected_length)
 	_change_state(GameMain.GameState.EXPLORATION)
 
-func _on_recruit_pressed() -> void:
-	print("[Town] 招募（占位）：雇佣厅功能将在城镇经营任务中实现")
-
-func _load_gold() -> Variant:
-	var data := SaveManager.load_game(1)
-	return data.get("gold", 0)
 
 func _change_state(state: int) -> void:
-	var main: GameMain = get_tree().current_scene as GameMain
+	var main: GameMain = get_tree().get_first_node_in_group("game_main")
 	if main != null:
 		main.change_state(state)
+
+
+func _update_ui() -> void:
+	if length_label == null:
+		return
+	var names := {"short": "短（3战/1宝/2事件）", "medium": "中（5战/2宝/3事件）", "long": "长（7战/3宝/4事件/Boss）"}
+	length_label.text = "任务长度：%s" % names[_selected_length]
+	torch_label.text = "火把初始：%d" % GameState.get_torch_config().get("start", 75)
+	for child in party_list.get_children():
+		child.queue_free()
+	for hero in GameState.PLACEHOLDER_PARTY:
+		var row := HBoxContainer.new()
+		var name_label := Label.new()
+		name_label.text = "%s（%s）" % [hero["name"], hero["class"]]
+		var hp_label := Label.new()
+		hp_label.text = "HP %d/%d" % [hero["hp"], hero["max_hp"]]
+		row.add_child(name_label)
+		row.add_child(hp_label)
+		party_list.add_child(row)

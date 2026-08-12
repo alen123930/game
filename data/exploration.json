@@ -1,0 +1,75 @@
+{
+  "dungeon_types": {
+    "battle": { "name": "战斗房", "desc": "敌人盘踞于此，进入即触发战斗。" },
+    "treasure": { "name": "宝箱房", "desc": "暗处藏着宝箱，或许有陷阱看守。" },
+    "event": { "name": "事件房", "desc": "房间里残留着异象与遗留物。" },
+    "safe": { "name": "安全房", "desc": "相对安稳的一角，可以稍作休整。" },
+    "start": { "name": "起始房", "desc": "队伍进入遗迹的入口。" },
+    "boss": { "name": "关底房", "desc": "遗迹最深处的存在在此等待。" }
+  },
+  "map": {
+    "min_cols": 4,
+    "max_cols": 6,
+    "min_rows": 4,
+    "max_rows": 5,
+    "room_ratios": {
+      "short": { "battle": 3, "treasure": 1, "event": 2, "safe": 2, "boss": 0 },
+      "medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 3, "boss": 0 },
+      "long": { "battle": 7, "treasure": 3, "event": 4, "safe": 3, "boss": 1 }
+    },
+    "min_rooms": 8
+  },
+  "exploration": {
+    "scout_cost_torch": 1,
+    "scout_success_bright": 0.9,
+    "scout_success_dim": 0.6,
+    "scout_success_dark": 0.3,
+    "inspect_cost_torch": 1,
+    "explore_requires_scout": false
+  },
+  "torch": {
+    "start": 75,
+    "max": 100,
+    "decay_per_room": 5,
+    "item_restore": 25,
+    "tiers": [
+      { "name": "明亮", "min": 75, "max": 100, "crit_bonus": 5, "scout_bonus": 25, "encounter_factor": 0.8, "loot_factor": 1.0, "desc": "火光明亮，视野清晰。" },
+      { "name": "昏暗", "min": 26, "max": 74, "crit_bonus": 0, "scout_bonus": 0, "encounter_factor": 1.0, "loot_factor": 1.0, "desc": "火光摇曳，勉强可辨。" },
+      { "name": "黑暗", "min": 0, "max": 25, "crit_bonus": -10, "scout_bonus": -30, "encounter_factor": 1.3, "loot_factor": 1.25, "desc": "黑暗吞噬一切，危险倍增。" }
+    ]
+  },
+  "traps": {
+    "chance": 0.25,
+    "shovel_disarm": true,
+    "disarm_base_chance": 0.6,
+    "shovel_bonus": 0.35,
+    "damage_min": 2,
+    "damage_max": 6,
+    "stress_min": 5,
+    "stress_max": 12
+  },
+  "doors": {
+    "locked_chance": 0.2,
+    "key_opens": true,
+    "shovel_breaks": true,
+    "shovel_break_chance": 0.7,
+    "rogue_unlock_chance": 0.6
+  },
+  "loot": {
+    "treasure_gold_min": 120,
+    "treasure_gold_max": 400,
+    "treasure_key_chance": 0.2,
+    "treasure_shovel_chance": 0.2,
+    "treasure_torch_chance": 0.25,
+    "event_gold_min": 60,
+    "event_gold_max": 200,
+    "loot_factor_scale": true
+  },
+  "encounters": {
+    "ruins_monsters": ["骷髅士兵", "骷髅弓手", "骸骨祭司", "食尸鬼", "幽灵"],
+    "boss_id": "石颅",
+    "group_min": 1,
+    "group_max": 3,
+    "dark_bonus_chance": 0.15
+  }
+}

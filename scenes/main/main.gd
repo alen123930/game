@@ -30,10 +30,14 @@ const STATE_NAMES := {
 	GameState.SETTLEMENT: "结算",
 }
 
+const MAIN_GROUP := "game_main"
+
 var _current_state: int = -1
 var _current_scene: Node = null
 
 func _ready() -> void:
+	# 注册到组，供各场景通过 get_first_node_in_group 查找本状态机（兼容测试与正式运行）。
+	add_to_group(MAIN_GROUP)
 	change_state(GameState.MAIN_MENU)
 
 func get_current_state() -> int:

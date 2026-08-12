@@ -3,53 +3,98 @@
 [ext_resource type="Script" path="res://scenes/town/town.gd" id="1_town"]
 
 [node name="Town" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_town")
 
 [node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 color = Color(0.145098, 0.113725, 0.078431, 1)
 
-[node name="Layout" type="VBoxContainer" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -180.0
-offset_right = 220.0
-offset_bottom = 180.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = 60.0
+offset_right = -60.0
+offset_bottom = -60.0
 
-[node name="Title" type="Label" parent="Layout"]
+[node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 56
+
+[node name="Title" type="Label" parent="Margin/VBox"]
+layout_mode = 2
 text = "晨昏庄园 · 城镇"
-horizontal_alignment = 1
+font_size = 48
 
-[node name="RecruitButton" type="Button" parent="Layout"]
+[node name="Subtitle" type="Label" parent="Margin/VBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
-text = "雇佣厅（占位）"
+text = "准备出发 · 废墟遗迹"
+font_size = 28
 
-[node name="ExploreButton" type="Button" parent="Layout"]
+[node name="Spacer1" type="Control" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
-text = "出发探索"
 
-[node name="Hint" type="Label" parent="Layout"]
+[node name="LengthLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "城镇经营（8 建筑/招募/养成）在后续任务实现"
-horizontal_alignment = 1
+font_size = 26
+
+[node name="LengthButtons" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="ShortBtn" type="Button" parent="Margin/VBox/LengthButtons"]
+custom_minimum_size = Vector2(260, 64)
+layout_mode = 2
+text = "短任务"
+
+[node name="MediumBtn" type="Button" parent="Margin/VBox/LengthButtons"]
+custom_minimum_size = Vector2(260, 64)
+layout_mode = 2
+text = "中任务"
+
+[node name="LongBtn" type="Button" parent="Margin/VBox/LengthButtons"]
+custom_minimum_size = Vector2(260, 64)
+layout_mode = 2
+text = "长任务"
+
+[node name="Spacer2" type="Control" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="PartyLabel" type="Label" parent="Margin/VBox"]
+layout_mode = 2
+text = "队伍（占位）"
+font_size = 26
+
+[node name="PartyList" type="VBoxContainer" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Spacer3" type="Control" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="TorchLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+font_size = 22
+
+[node name="StartBtn" type="Button" parent="Margin/VBox"]
+custom_minimum_size = Vector2(420, 80)
+layout_mode = 2
+text = "出发 · 进入遗迹"
+font_size = 28
+
+[connection signal="pressed" from="Margin/VBox/LengthButtons/ShortBtn" to="." method="_on_short_pressed"]
+[connection signal="pressed" from="Margin/VBox/LengthButtons/MediumBtn" to="." method="_on_medium_pressed"]
+[connection signal="pressed" from="Margin/VBox/LengthButtons/LongBtn" to="." method="_on_long_pressed"]
+[connection signal="pressed" from="Margin/VBox/StartBtn" to="." method="_on_start_pressed"]

@@ -2,6 +2,7 @@
 .godot/
 *.import
 *.tmp
+*.translation
 
 # 构建产物（Android 导出等）
 build/
@@ -11,4 +12,5 @@ build/
 # 系统与编辑器杂项
 .DS_Store
 Thumbs.db
+Desktop.ini
 *.user

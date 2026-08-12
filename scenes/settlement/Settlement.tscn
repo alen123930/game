@@ -2,49 +2,69 @@
 
 [ext_resource type="Script" path="res://scenes/settlement/settlement.gd" id="1_settle"]
 
-[node name="Settlement" type="Control"]
+[node name="Result" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
 script = ExtResource("1_settle")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.113725, 0.141176, 0.105882, 1)
+offset_left = 120.0
+offset_top = 120.0
+offset_right = -120.0
+offset_bottom = -120.0
 
-[node name="Layout" type="VBoxContainer" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -220.0
-offset_top = -120.0
-offset_right = 220.0
-offset_bottom = 120.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 20
-
-[node name="Title" type="Label" parent="Layout"]
+[node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 56
+
+[node name="Title" type="Label" parent="Margin/VBox"]
+layout_mode = 2
 text = "任务结算"
+font_size = 44
 horizontal_alignment = 1
 
-[node name="BackButton" type="Button" parent="Layout"]
+[node name="Spacer1" type="Control" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-custom_minimum_size = Vector2(0, 52)
+
+[node name="OutcomeLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "结果"
+font_size = 34
+horizontal_alignment = 1
+
+[node name="DetailLabel" type="Label" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "明细"
+font_size = 26
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="BackBtn" type="Button" parent="Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(340, 88)
+layout_mode = 2
 text = "返回城镇"
+font_size = 26
 
-[node name="Hint" type="Label" parent="Layout"]
+[node name="AgainBtn" type="Button" parent="Margin/VBox/Buttons"]
+custom_minimum_size = Vector2(340, 88)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "掉落/经济/经验结算在 WS-10 实现"
-horizontal_alignment = 1
+text = "再次出发"
+font_size = 26
+
+[connection signal="pressed" from="Margin/VBox/Buttons/BackBtn" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Margin/VBox/Buttons/AgainBtn" to="." method="_on_again_pressed"]
