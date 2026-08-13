@@ -22,6 +22,7 @@ func _ready() -> void:
 	_test_treatment()
 	_test_full_loop()
 	await _test_town_scene_flow()
+	await _test_town_ui_visual()
 	print("===== WS-9 headless test end: %d failures =====" % failures)
 	get_tree().quit(1 if failures > 0 else 0)
 
@@ -335,7 +336,6 @@ func _test_town_scene_flow() -> void:
 			if TownManager.candidates.is_empty():
 				break
 			town.call("_on_recruit", TownManager.candidates[0])
-			town.call("_rebuild_all")
 		_check(TownManager.roster.size() == before + 4, "通过 UI 招募 4 名英雄（名册 %d→%d）" % [before, TownManager.roster.size()])
 		# 把 4 名英雄加入队伍
 		var ids: Array = []
@@ -369,4 +369,57 @@ func _test_town_scene_flow() -> void:
 	_check(not TownManager._selected_party_ids.is_empty() or TownManager.gold > 0, "城镇状态延续（金币/队伍）")
 
 	print("[ui] 城镇场景 UI 集成测试完成")
+	GameState.end_run()
+
+
+# ------------------------------------------------------------------
+# 8. 城镇 UI 视觉修复回归（页签中文标题 + 建筑卡片外景 + 城镇背景）
+# ------------------------------------------------------------------
+
+func _test_town_ui_visual() -> void:
+	TownManager.reset_game(77)
+	TownManager.add_gold(100000)
+	TownManager.refresh_candidates()
+
+	var main: GameMain = load("res://scenes/main/Main.tscn").instantiate()
+	add_child(main)
+	await get_tree().process_frame
+	main.change_state(GameMain.GameState.TOWN)
+	await get_tree().process_frame
+
+	var town: Node = main.get("_current_scene")
+	_check(town != null and town.name == "Town", "城镇场景实例化（视觉回归）")
+	if town == null:
+		GameState.end_run()
+		return
+	town.call("_rebuild_all")
+	await get_tree().process_frame
+
+	# 1) 页签标题为中文，且建筑页在第一位
+	var tabs: TabContainer = town.get_node_or_null("Margin/VBox/Tabs")
+	_check(tabs != null, "TabContainer 存在")
+	if tabs != null:
+		var expected_titles := ["建筑", "招募", "英雄养成", "商店", "治疗减压"]
+		var got: PackedStringArray = []
+		for i in tabs.get_tab_count():
+			got.append(tabs.get_tab_title(i))
+		_check(got == PackedStringArray(expected_titles), "页签标题为中文：%s（实际 %s）" % [", ".join(expected_titles), ", ".join(got)])
+		_check(tabs.get_tab_title(0) == "建筑", "建筑页放第一位")
+
+		# 2) 建筑页每个建筑渲染为带外景图的卡片（TextureRect + 对应 Lv 外景）
+		var buildings_list: VBoxContainer = town.get_node_or_null("Margin/VBox/Tabs/BuildingsTab/BuildingsScroll/BuildingsList")
+		_check(buildings_list != null and buildings_list.get_child_count() == 8, "建筑列表渲染 8 张卡片（实际 %d）" % (buildings_list.get_child_count() if buildings_list else -1))
+		if buildings_list != null:
+			var card_with_tex := 0
+			for card in buildings_list.get_children():
+				var tr: TextureRect = card.find_child("ExtThumb", true, false)
+				if tr != null and tr.texture != null:
+					card_with_tex += 1
+			_check(card_with_tex == 8, "8 张建筑卡片全部带外景纹理（实际 %d）" % card_with_tex)
+
+	# 3) 城镇背景垫底图（bg_town_overview）
+	var bg: TextureRect = town.get_node_or_null("BgTexture")
+	_check(bg != null and bg.texture != null, "城镇背景图已垫底")
+
+	print("[ui] 城镇 UI 视觉修复回归测试完成")
 	GameState.end_run()

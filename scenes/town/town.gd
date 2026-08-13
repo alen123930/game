@@ -1,11 +1,14 @@
 extends Control
 ## 城镇场景（WS-9，GDD 第三章）：经营核心 UI。
-## 五个标签页：建筑升级 / 招募 / 英雄养成 / 补给商店 / 治疗减压；底部选择任务长度与出发。
-## 所有状态读写 TownManager；WS-12 美术到位前使用占位样式。
+## 五个标签页：建筑 / 招募 / 英雄养成 / 商店 / 治疗减压；底部选择任务长度与出发。
+## 所有状态读写 TownManager；建筑页展示 WS-12 外景美术（assets/art/buildings/）。
 
 var _selected_length := "short"
 var _selected_hero_id := ""
 var _detail_hero_id := ""
+
+const ART_BUILDINGS_DIR := "res://assets/art/buildings/"
+const TAB_TITLES := ["建筑", "招募", "英雄养成", "商店", "治疗减压"]
 
 @onready var resource_label: Label = %ResourceLabel
 @onready var buildings_list: VBoxContainer = %BuildingsList
@@ -21,7 +24,18 @@ var _detail_hero_id := ""
 
 
 func _ready() -> void:
+	_set_tab_titles()
 	_rebuild_all()
+
+
+## 页签标题改为中文（默认显示节点名：BuildingsTab/RecruitTab/…）。
+func _set_tab_titles() -> void:
+	var tabs: TabContainer = get_node_or_null("Margin/VBox/Tabs")
+	if tabs == null:
+		return
+	for i in mini(TAB_TITLES.size(), tabs.get_tab_count()):
+		tabs.set_tab_title(i, TAB_TITLES[i])
+	tabs.current_tab = 0
 
 
 # ------------------------------------------------------------------
@@ -57,6 +71,7 @@ func _length_name(length: String) -> String:
 # 建筑
 # ------------------------------------------------------------------
 
+## 建筑页：每栋建筑渲染为可见卡片（外景图 + 图标 + 名称/等级/功能 + 升级按钮）。
 func _rebuild_buildings() -> void:
 	for child in buildings_list.get_children():
 		child.queue_free()
@@ -64,28 +79,67 @@ func _rebuild_buildings() -> void:
 		var cfg: Dictionary = ConfigManager.get_entry("buildings", bid)
 		var lvl := TownManager.get_building_level(bid)
 		var lvl_cfg: Dictionary = TownManager._building_cfg(bid)
-		var row := HBoxContainer.new()
-		var name_label := _label("%s（%s）" % [cfg.get("name", bid), _level_desc(lvl)], 22)
-		name_label.custom_minimum_size = Vector2(320, 0)
+
+		var card := PanelContainer.new()
+		card.custom_minimum_size = Vector2(0, 150)
+		var card_hb := HBoxContainer.new()
+		card_hb.add_theme_constant_override("separation", 20)
+		card.add_child(card_hb)
+		buildings_list.add_child(card)
+
+		# 外景缩略图（按当前等级显示对应 Lv 外景，1024×768 → 240×180 展示）
+		var ext_tex := load("%sbuilding_%s_ext_lv%d.png" % [ART_BUILDINGS_DIR, bid, lvl])
+		var thumb := TextureRect.new()
+		thumb.name = "ExtThumb"
+		thumb.custom_minimum_size = Vector2(300, 168)
+		thumb.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		thumb.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		if ext_tex is Texture2D:
+			thumb.texture = ext_tex
+		else:
+			# 美术缺失时回退纯色占位块，保证卡片结构可见
+			thumb.texture = null
+			var fallback := ColorRect.new()
+			fallback.custom_minimum_size = Vector2(300, 168)
+			fallback.color = Color(0.22, 0.17, 0.12, 0.6)
+			card_hb.add_child(fallback)
+		if ext_tex is Texture2D:
+			card_hb.add_child(thumb)
+
+		# 图标 + 名称/等级/功能
+		var info_box := VBoxContainer.new()
+		info_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var icon_tex := load("%sbuilding_%s_icon.png" % [ART_BUILDINGS_DIR, bid])
+		if icon_tex is Texture2D:
+			var icon := TextureRect.new()
+			icon.custom_minimum_size = Vector2(72, 72)
+			icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			icon.texture = icon_tex
+			info_box.add_child(icon)
+		var name_label := _label("%s（%s）" % [cfg.get("name", bid), _level_desc(lvl)], 24)
+		info_box.add_child(name_label)
 		var desc := _label(String(lvl_cfg.get("desc", "")), 18)
-		desc.custom_minimum_size = Vector2(560, 0)
+		desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		info_box.add_child(desc)
+		card_hb.add_child(info_box)
+
+		# 升级按钮（消耗传承物）
 		var up_btn := Button.new()
-		up_btn.custom_minimum_size = Vector2(300, 56)
+		up_btn.custom_minimum_size = Vector2(300, 64)
+		up_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		if lvl >= 3:
 			up_btn.text = "已满级"
 			up_btn.disabled = true
 		else:
 			var cost := TownManager.get_upgrade_cost(bid)
-			up_btn.text = "升级 → 3 级（雕像%d 卷轴%d 徽章%d 铭牌%d）" % [
+			up_btn.text = "升级（雕像%d 卷轴%d 徽章%d 铭牌%d）" % [
 				int(cost.get("statue", 0)), int(cost.get("scroll", 0)),
 				int(cost.get("badge", 0)), int(cost.get("tablet", 0)),
 			]
 			up_btn.disabled = not TownManager.can_upgrade(bid)
 			up_btn.pressed.connect(_on_upgrade_building.bind(bid))
-		row.add_child(name_label)
-		row.add_child(desc)
-		row.add_child(up_btn)
-		buildings_list.add_child(row)
+		card_hb.add_child(up_btn)
 
 
 func _level_desc(lvl: int) -> String:

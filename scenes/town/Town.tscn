@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/town/town.gd" id="1_town"]
+[ext_resource type="Texture2D" path="res://assets/art/town/bg_town_overview.png" id="2_bg"]
 
 [node name="Town" type="Control"]
 layout_mode = 3
@@ -9,12 +10,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_town")
 
+[node name="BgTexture" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.145098, 0.113725, 0.078431, 1)
+color = Color(0.145098, 0.113725, 0.078431, 0.55)
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
