@@ -191,6 +191,9 @@ func _rebuild_roster_detail() -> void:
 		roundi(float(stats["crit"]) * 100.0), stats["dmg_min"], stats["dmg_max"],
 		roundi(float(stats["prot"]) * 100.0),
 	], 18))
+	var bg := Narrative.get_class_background(String(hero["class_id"]))
+	if bg != "":
+		roster_detail_v.add_child(_label("背景：%s" % bg, 18))
 	roster_detail_v.add_child(_label("经验：%d / %d" % [hero["exp"], TownManager.get_exp_needed(hero["level"])], 18))
 	roster_detail_v.add_child(_label("怪癖：%s" % _quirk_names(hero["quirks"]), 18))
 	if not hero["injuries"].is_empty():
