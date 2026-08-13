@@ -25,6 +25,10 @@ func _ready() -> void:
 		_:
 			outcome_label.text = "撤退"
 
+	var narrative := Narrative.settlement_line(outcome)
+	if narrative != "":
+		outcome_label.text += "\n%s" % narrative
+
 	detail_label.text = "已探索房间：%d\n任务金币：%d（已入城镇）\n经验：%d（按任务长度）\n关底 Boss：%s\n剩余火把：%d\n\n英雄状态（HP/压力）与伤病已回写城镇。" % [
 		rooms, gold, exp, ("已击败" if boss else "未遭遇"), torch,
 	]
