@@ -18,7 +18,7 @@
 - **遗迹地图 + 探索循环（WS-5）**：程序化网格地图生成（4×4~6×5，战斗/宝箱/事件/安全/起始/关底房），房间探索动作（侦查→探索→检查）、陷阱（铲子/徒手解除）与门锁（钥匙/铲子/盗贼撬锁）、团队火把（0~100，三档效果曲线）、遇敌切战斗、撤退/击破后结算回城。
 - 探索相关运行时配置在 `data/exploration.json`，由 `DataLoader` 加载；`GameState` 承载运行期状态（地图/火把/队伍/补给/战斗衔接）。
 
-> 待办：WS-4 回合制战斗核心（in_progress，尚未并入）；WS-6 美术素材已交付（见 issue）。
+> 待办：WS-6 美术 V0.1 / WS-12 美术 V0.2 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
 
 ## 工程结构
 
@@ -45,6 +45,14 @@ data/                全部数值配置（JSON，改动数值不改代码）
   quirks.json        怪癖（GDD 3.5）
   items.json         补给品商店（GDD 3.7）
   exploration.json   遗迹探索运行时配置（地图尺寸/火把档位/陷阱/门锁/掉落/遇敌）
+assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落地）
+  buildings/           8 建筑外景 ×3 级 + 交互面板背景 + 建筑图标（1024×768 / 256×256）
+  town/                城镇全貌背景（1920×1080）
+  ui/                  面板九宫格/按钮三态/HP/压力/火把条/站位格/技能栏/加载页/结算页
+  items/               物品图标：补给 9 + 战利品 20 + 饰品 30（256×256）
+  fx/                  特效：挥砍/箭矢/法阵/治疗/暴击/粒子/黑雾/净化光环
+  manifest.json        素材清单与规格（GDD 6.4）
+  SOURCES_AND_LICENSES.md  来源与许可证（game-icons.net CC-BY 3.0 + 程序化合成）
 theme/main_theme.tres  全局主题（CJK 字体回退）
 tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转）
 export_presets.cfg   Android 导出预设（minSdk 26 / targetSdk 35，arm64-v8a + armeabi-v7a）
