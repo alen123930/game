@@ -73,12 +73,12 @@ func _ready() -> void:
 			battle_room["locked_door"] = false
 			dbg.call("_on_explore_pressed")
 	await _wait_frames(5)
-	_check(_current_is(main, "BattlePlaceholder"), "遇敌后进入战斗场景")
+	_check(_current_is(main, "Battle"), "遇敌后进入战斗场景")
 
 	# 战斗胜利 → 回地城
 	var battle_node: Node = main.get("_current_scene")
-	if battle_node != null and battle_node.has_method("_on_win_pressed"):
-		battle_node.call("_on_win_pressed")
+	if battle_node != null and battle_node.has_method("_finish_battle"):
+		battle_node.call("_finish_battle", true)
 	await _wait_frames(5)
 	_check(_current_is(main, "DungeonExplore"), "战斗胜利后回到地城场景")
 

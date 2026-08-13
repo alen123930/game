@@ -10,15 +10,19 @@
 - 平台：Android 8.0+（API 26+），横屏锁定
 - 设计分辨率：1920×1080 横屏（`display/window/stretch` canvas_items + keep）
 
-## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-9）
+## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-7 + WS-8 + WS-9）
 
 已实现：
 
 - **工程脚手架 + 数据驱动配置层（WS-3）**：`ConfigManager` 加载 `data/` 下 10 个 JSON 实体配置并校验；`SaveManager` 提供 JSON 存档（槽位 1~3）+ ConfigFile 设置；`Main`（GameMain）状态机驱动 主菜单/城镇/探索/战斗/结算 五态闭环。
 - **遗迹地图 + 探索循环（WS-5）**：程序化网格地图生成（4×4~6×5，战斗/宝箱/事件/安全/起始/关底房），房间探索动作（侦查→探索→检查）、陷阱（铲子/徒手解除）与门锁（钥匙/铲子/盗贼撬锁）、团队火把（0~100，三档效果曲线）、遇敌切战斗、撤退/击破后结算回城。
 - **回合制战斗核心（WS-4）**：`TurnManager` 单例驱动回合流程（回合开始结算持续效果 → SPD+D100 行动顺序 → 依次行动 → 回合结束检查）、站位系统（1~4 号位、空缺自动前移）、技能结算（命中/伤害/PROT/暴击×1.5/治疗/DOT/状态/位移/召唤/冷却）、濒死判定与死亡结算、AI 与脚本化行动。
+- **压力 + 火把系统（WS-7）**：压力 0~200（来源/减压、100 触发精神判定：美德/受难随机分支、崩溃行为、>200 立即死亡）；火把 0~100 三档效果曲线（明亮/昏暗/黑暗），战斗外每房间 −5、战斗每回合 −1。
+- **战斗触屏 UI（WS-8，GDD 2.11 / 7.3）**：单指流交互（点英雄→底部技能栏→选技能→高亮可攻击目标→点目标执行；支持先选技能再选施法者）；技能不可用即时置灰；撤退/防御/道具/结束回合固定底部大热区（≥150px ≈ 54dp ≥44dp，间距 ≥24px ≈ 8dp）；长按任意单位显示详细属性；撤退二次确认；SafeArea 刘海/圆角避让 + Control anchors 自适应。`TurnManager` 负责回合推进，玩家指令经 `script_action` 入队。
 - **城镇经营系统（WS-9）**：`TownManager` 单例承载城镇经营（GDD 第三章）——资源管理（金币/传承物 4 种/补给/饰品）、8 栋建筑各 3 级升级（等级门控功能上限：候选人数、技能/武器/护甲上限、治疗折扣、减压活动、墓地永久增益）、每日英雄招募（4~8 名、白/蓝/紫/金稀有度与费用、2~4 怪癖）、养成（经验升级、技能装备与训练场升级、武器/护甲 5 级、饰品 2 槽）、伤病/疾病/怪癖处理与压力处理（教堂/酒馆/派遣休息）、补给商店（9 种物品）；结算把金币/经验/伤病回写城镇，完成「招募→培养→出发→返回→结算→治疗/减压」闭环。新增数据：`data/trinkets.json`、`data/injuries.json`。
 - **存档系统（WS-11）**：`SaveManager` 全量存档（GDD 7.1）——JSON 存档覆盖城镇状态（金币/传承物/补给/饰品/建筑等级/名册/候选/刷新/队伍/英雄序号/墓地/RNG）与任务进度（地图/位置/火把/房间/Boss/任务长度/队伍/补给/战斗衔接/结算载荷）；自动存档每节点/每战斗后写 `autosave.json`，手动存档槽 3 个（城镇底部按钮）；读档带完整性校验（缺字段/损坏 JSON/版本不符 → 降级为空档，不崩溃），主菜单「继续」优先读自动存档。
+- 探索相关运行时配置在 `data/exploration.json`，由 `DataLoader` 加载；`GameState` 承载运行期状态（地图/火把/队伍/补给/战斗衔接）。
+- **剧情章节 + 旁白文案（WS-15）**：新增 `data/narrative.json`（GDD 第五章全部文本）+ `Narrative` 自动加载单例。覆盖：世界观背景「晨昏庄园」叙事结构（序章/第一幕/第二幕）、5 势力设定（圣烛会/低语者教团/偷渡者公会/无面低语/被遗忘的先祖）、8 职业背景文案、4 区域进入开场白、事件文案（宝箱/遗物/祭坛/低语/塌陷/安全/陷阱/遭遇/关底）、结算文案（胜利/击破关底撤退/撤退）。语气规则（GDD 5.5：第二人称、短句压抑、悲剧底色）写入 `_meta.tone_rules`。嵌入点：探索场景首次出发显示序章 + 区域开场白（`GameState.story_prologue_shown` 仅一次）、事件房/宝箱/陷阱/安全房/遇敌与关底写入叙事行、结算页显示叙事结语、城镇英雄详情显示职业背景。
 
 > 待办：WS-8 战斗触屏 UI；WS-10 掉落与经济。WS-6 美术 V0.1 / WS-12 美术 V0.2 / WS-16 美术 V0.3 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
 
@@ -32,6 +36,7 @@ autoload/
   GameState.gd       全局运行状态：当前地图/火把/队伍/补给/战斗衔接/结算载荷
   TurnManager.gd     回合制战斗核心（WS-4）：回合流程/站位/技能结算/濒死/胜负
   TownManager.gd     城镇经营核心（WS-9）：资源/建筑/招募/养成/治疗减压/结算
+  Narrative.gd       剧情与旁白文案（WS-15）：启动加载 data/narrative.json（GDD 第五章）
 scenes/
   main/Main.tscn     Main 状态机（主菜单/城镇/探索/战斗/结算），class_name GameMain
   main_menu/         主菜单（新游戏/继续/设置/退出）
@@ -50,6 +55,7 @@ data/                全部数值配置（JSON，改动数值不改代码）
   items.json         补给品商店（GDD 3.7）
   trinkets.json      饰品（GDD 3.4，白/蓝/紫/金）
   injuries.json      伤病与疾病（GDD 3.5）
+  narrative.json     剧情章节与旁白文案（GDD 第五章）：世界观/章节/势力/职业背景/区域开场白/事件/结算文案 + 语气规则
   exploration.json   遗迹探索运行时配置（地图尺寸/火把档位/陷阱/门锁/掉落/遇敌）
 assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落地）
   buildings/           8 建筑外景 ×3 级 + 交互面板背景 + 建筑图标（1024×768 / 256×256）
@@ -60,7 +66,7 @@ assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落
   manifest.json        素材清单与规格（GDD 6.4）
   SOURCES_AND_LICENSES.md  来源与许可证（game-icons.net CC-BY 3.0 + 程序化合成）
 theme/main_theme.tres  全局主题（CJK 字体回退）
-tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-9 城镇经营）
+tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-7 压力火把 + WS-8 战斗触屏 UI + WS-9 城镇经营）
 export_presets.cfg   Android 导出预设（minSdk 26 / targetSdk 35，arm64-v8a + armeabi-v7a）
 ```
 
@@ -90,11 +96,17 @@ godot --headless --path . res://tests/combat_test.tscn
 # WS-7 压力 + 火把（精神判定/美德受难分支/崩溃行为/>200死亡/火把衰减与三档效果）
 godot --headless --path . res://tests/stress_test.tscn
 
+# WS-8 战斗触屏 UI（单指流/置灰/高亮/先选技能/长按/撤退确认/完整战斗胜利+撤退）
+godot --headless --path . res://tests/battle_ui_test.tscn
+
 # WS-9 城镇经营（资源/8建筑三级/招募/养成/治疗减压/全闭环 + 城镇 UI 集成）
 godot --headless --path . res://tests/test_ws9.tscn
 
 # WS-11 存档系统（全量捕获/恢复/手动3槽/自动存档/完整性校验降级 + 场景集成）
 godot --headless --path . res://tests/test_ws11.tscn
+
+# WS-15 剧情章节 + 旁白文案（文案数据完整性 + 探索/结算/城镇嵌入）
+godot --headless --path . res://tests/test_ws15.tscn
 ```
 
 ## 数据驱动约定
