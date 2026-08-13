@@ -28,6 +28,12 @@ var dmg_max: int = 0
 var prot: float = 0.0          # 护甲（0~0.8）
 var stress: int = 0
 var max_stress: int = 200
+## 是否已触发「精神判定」（压力到 100 一次，GDD 2.4）。
+var resolved: bool = false
+## 精神判定结果："virtue" 美德 / "affliction" 受难崩溃。
+var resolution: String = ""
+## 具体美德/受难名（强化/专注/坚定/暴怒 或 偏执/自弃/鲁莽/怯懦/自虐）。
+var crisis: String = ""
 
 # ---- 战斗状态 ----
 ## 站位 1~4（1 为最前排）。

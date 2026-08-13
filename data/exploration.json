@@ -31,11 +31,12 @@
     "start": 75,
     "max": 100,
     "decay_per_room": 5,
+    "decay_per_battle_round": 1,
     "item_restore": 25,
     "tiers": [
-      { "name": "明亮", "min": 75, "max": 100, "crit_bonus": 5, "scout_bonus": 25, "encounter_factor": 0.8, "loot_factor": 1.0, "desc": "火光明亮，视野清晰。" },
-      { "name": "昏暗", "min": 26, "max": 74, "crit_bonus": 0, "scout_bonus": 0, "encounter_factor": 1.0, "loot_factor": 1.0, "desc": "火光摇曳，勉强可辨。" },
-      { "name": "黑暗", "min": 0, "max": 25, "crit_bonus": -10, "scout_bonus": -30, "encounter_factor": 1.3, "loot_factor": 1.25, "desc": "黑暗吞噬一切，危险倍增。" }
+      { "name": "明亮", "min": 75, "max": 100, "crit_bonus": 5, "scout_bonus": 25, "encounter_factor": 0.8, "loot_factor": 1.0, "stress_per_round": 0, "desc": "火光明亮，视野清晰。" },
+      { "name": "昏暗", "min": 26, "max": 74, "crit_bonus": 0, "scout_bonus": 0, "encounter_factor": 1.0, "loot_factor": 1.0, "stress_per_round": 0, "desc": "火光摇曳，勉强可辨。" },
+      { "name": "黑暗", "min": 0, "max": 25, "crit_bonus": -10, "scout_bonus": -30, "encounter_factor": 1.3, "loot_factor": 1.25, "stress_per_round": 1, "desc": "黑暗吞噬一切，危险倍增。" }
     ]
   },
   "traps": {

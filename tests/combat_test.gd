@@ -123,8 +123,8 @@ func _test_crit() -> void:
 	TurnManager.script_action(1, b, "blood_rage", s)
 	TurnManager.script_action(1, s, "defend", -1)
 	# 狂战士 CRIT 0.15 → 暴击判定15%；掷1命中暴击
-	# 掷骰：行动顺序(b,skel) → 命中50 → 暴击1 → 伤害13 → 暴击压力2
-	TurnManager.debug_force_rolls([100, 1, 50, 1, 13, 2])
+	# 掷骰：行动顺序(b,skel) → 命中50 → 暴击1 → 伤害13 → 暴击压力2（对敌）→ 暴击减压3（对己）
+	TurnManager.debug_force_rolls([100, 1, 50, 1, 13, 2, 3])
 	var st := TurnManager.run_round()
 	# 伤害 = round(13 × (1−0.05) × 1.4 × 1.5) = round(25.935) = 26
 	_check(st["monsters"][0]["hp"] == 30 - 26, "暴击伤害 26，HP=%d" % st["monsters"][0]["hp"])
@@ -408,9 +408,12 @@ func _test_victory() -> void:
 func _test_reproducible_battle() -> void:
 	var heroes := ["knight", "shieldguard", "berserker", "physician"]
 	var monsters := ["ruins_skel_soldier", "ruins_skel_archer", "ruins_skel_priest", "ruins_ghoul"]
+	# 火把为全局状态（WS-7 战斗每回合 −1），两场对局前统一复位保证可比
+	GameState.torch = 75
 	TurnManager.start_battle(heroes, monsters, {"seed": 20240812})
 	var st1 := TurnManager.run_battle(60)
 	var log1 := JSON.stringify(TurnManager.event_log)
+	GameState.torch = 75
 	TurnManager.start_battle(heroes, monsters, {"seed": 20240812})
 	var st2 := TurnManager.run_battle(60)
 	var log2 := JSON.stringify(TurnManager.event_log)

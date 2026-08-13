@@ -337,7 +337,11 @@ func _start_encounter(is_boss: bool) -> void:
 	if is_boss:
 		group.append(enc_cfg.get("boss_id", "石颅"))
 	else:
-		var count := randi_range(int(enc_cfg.get("group_min", 1)), int(enc_cfg.get("group_max", 3)))
+		# 遇敌规模随火把档位缩放（GDD 2.5：明亮 0.8 / 昏暗 1.0 / 黑暗 1.3）
+		var tier: Dictionary = GameState.get_torch_tier()
+		var factor := float(tier.get("encounter_factor", 1.0))
+		var base := randi_range(int(enc_cfg.get("group_min", 1)), int(enc_cfg.get("group_max", 3)))
+		var count := maxi(1, int(round(float(base) * factor)))
 		for i in count:
 			group.append(monsters[randi() % monsters.size()])
 	room["explored"] = true
