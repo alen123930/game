@@ -17,6 +17,9 @@ var boss_defeated: bool = false
 var quest_length: String = "short"            # short / medium / long
 var run_gold: int = 0                         # 本次任务获得的金币（展示用，经济系统由 WS-10 接管）
 
+# ---- 剧情（WS-15，GDD 第五章）----
+var story_prologue_shown: bool = false        # 序章开场白是否已显示（每局仅一次）
+
 # ---- 战斗衔接（WS-4 就绪前使用占位战斗场景）----
 var pending_battle: Dictionary = {}           # {room_id, is_boss, monsters, torch_tier}
 var battle_result: Dictionary = {}            # {victory, room_id, is_boss}

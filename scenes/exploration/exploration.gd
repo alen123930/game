@@ -37,12 +37,25 @@ func _ready() -> void:
 		var start_room: Dictionary = _dungeon["rooms"][_current_room_id]
 		start_room["revealed"] = true
 		start_room["scouted"] = true
+		_log_narrative_open()
 	else:
 		_current_room_id = GameState.current_pos
 	_apply_battle_result()
 	_rebuild_map()
 	_rebuild_actions()
 	_update_ui()
+
+
+## 叙事开场白（GDD 5.2 / 5.5）：首次出发先显示序章，随后每次出发显示区域开场白。
+func _log_narrative_open() -> void:
+	var region_id := String(_dungeon.get("map_type", "ruins"))
+	if not GameState.story_prologue_shown:
+		GameState.story_prologue_shown = true
+		for line in Narrative.get_act("prologue").get("intro", []):
+			_log(String(line))
+	var intro := Narrative.region_intro(region_id)
+	if intro != "":
+		_log(intro)
 
 
 ## 切换场景：经由 GameMain 状态机（组内查找，兼容测试与正式运行）。
@@ -317,6 +330,9 @@ func _trigger_trap() -> void:
 	for hero in GameState.party:
 		hero["stress"] = mini(200, int(hero["stress"]) + randi_range(stress_min, stress_max))
 	_dungeon["rooms"][_pending_trap_room_id]["trap_disarmed"] = true
+	var line := Narrative.event_line("trap")
+	if line != "":
+		_log(line)
 	_log("陷阱被触发了！全队受到 %d 点伤害，压力上升。" % res["total_damage"])
 	_check_party_dead()
 
@@ -353,6 +369,9 @@ func _start_encounter(is_boss: bool) -> void:
 		"torch_tier": GameState.get_torch_tier().get("name", "昏暗"),
 		"torch_value": GameState.torch,
 	}
+	var line := Narrative.event_line("boss" if is_boss else "encounter")
+	if line != "":
+		_log(line)
 	_change_state(GameMain.GameState.BATTLE)
 
 
@@ -381,6 +400,9 @@ func _open_treasure() -> void:
 	elif randf() < float(loot_cfg2.get("treasure_torch_chance", 0.25)):
 		GameState.add_supply("torch", 1)
 		got = "，还有一支火把"
+	var line := Narrative.event_line("treasure")
+	if line != "":
+		_log(line)
 	_log(msg + got)
 	_refresh_room_tiles()
 	_update_ui()
@@ -393,21 +415,34 @@ func _trigger_event() -> void:
 	if r < 0.3:
 		var gold := randi_range(int(loot_cfg.get("event_gold_min", 60)), int(loot_cfg.get("event_gold_max", 200)))
 		GameState.run_gold += gold
+		var line := Narrative.event_line("loot")
+		if line != "":
+			_log(line)
 		_log("你在残骸中发现了一袋遗物，获得金币 %d。" % gold)
 	elif r < 0.5:
 		GameState.add_supply("torch", 1)
 		GameState.add_torch(10)
+		var line := Narrative.event_line("altar")
+		if line != "":
+			_log(line)
 		_log("你点燃了祭坛上的蜡烛，火把 +10。")
 	elif r < 0.7:
 		var stress_roll := randi_range(0, 100)
 		if stress_roll > 30:
-			_log("墙壁的低语渗入你的意识……（占位：压力略升）")
+			var line := Narrative.event_line("whisper")
+			if line != "":
+				_log(line)
+			_log("墙壁的低语渗入你的意识……（压力略升）")
 			for hero in GameState.party:
 				hero["stress"] = mini(200, int(hero["stress"]) + randi_range(3, 8))
 		else:
-			_log("你抵住了耳边的低语。")
+			var resist := Narrative.event_line("whisper_resist")
+			_log(resist if resist != "" else "你抵住了耳边的低语。")
 	else:
 		GameState.damage_party(1, 3)
+		var line := Narrative.event_line("collapse")
+		if line != "":
+			_log(line)
 		_log("地板突然塌陷，队伍擦伤（少量伤害）。")
 	room["explored"] = true
 	GameState.rooms_cleared += 1
@@ -423,6 +458,9 @@ func _open_safe() -> void:
 		hero["stress"] = maxi(0, int(hero["stress"]) - 10)
 	room["explored"] = true
 	GameState.rooms_cleared += 1
+	var line := Narrative.event_line("safe")
+	if line != "":
+		_log(line)
 	_log("安全房：队伍在此喘息，回复少量生命并缓解压力。")
 	_refresh_room_tiles()
 	_update_ui()
