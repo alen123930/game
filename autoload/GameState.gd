@@ -44,6 +44,23 @@ func _ready() -> void:
 	torch = int(_dungeon_config.get("torch", {}).get("start", 75))
 
 
+## 清空运行期状态（新游戏用，配合存档系统 WS-11）。
+func reset_run() -> void:
+	current_dungeon = {}
+	current_pos = 0
+	torch = int(_dungeon_config.get("torch", {}).get("start", 75))
+	run_active = false
+	rooms_cleared = 0
+	boss_defeated = false
+	quest_length = "short"
+	run_gold = 0
+	pending_battle = {}
+	battle_result = {}
+	result_payload = {}
+	party = []
+	supplies = {}
+
+
 ## 开始一次遗迹探索（由城镇/结算场景触发）。
 func start_run(length: String) -> void:
 	quest_length = length

@@ -21,11 +21,45 @@ const TAB_TITLES := ["建筑", "招募", "英雄养成", "商店", "治疗减压
 @onready var length_label: Label = %LengthLabel
 @onready var party_label: Label = %PartyLabel
 @onready var party_list: HBoxContainer = %PartyList
+@onready var save_slot_btns: Array[Button] = [%SaveSlot1, %SaveSlot2, %SaveSlot3]
+@onready var save_hint: Label = %SaveHint
 
 
 func _ready() -> void:
 	_set_tab_titles()
+	for i in save_slot_btns.size():
+		save_slot_btns[i].pressed.connect(_on_manual_save_slot.bind(i + 1))
 	_rebuild_all()
+
+
+## 手动存档槽位状态刷新（GDD 7.1：3 个手动存档槽）。
+func _rebuild_save_slots() -> void:
+	for i in save_slot_btns.size():
+		var slot := i + 1
+		var info := SaveManager.slot_info(slot)
+		if info["exists"]:
+			var tag := "进行中" if info["run_active"] else "城镇"
+			save_slot_btns[i].text = "槽位%d（%s，金%d，名册%d，%s）" % [slot, info["saved_at"], int(info["gold"]), int(info["roster_count"]), tag]
+		else:
+			save_slot_btns[i].text = "槽位%d（空）" % slot
+	# 自动存档状态提示（GDD 7.1：每节点/每战斗后自动存档）
+	if SaveManager.has_autosave():
+		var info := SaveManager.autosave_info()
+		save_hint.text = "自动存档：%s（金%d，名册%d%s）" % [
+			info["saved_at"], int(info["gold"]), int(info["roster_count"]),
+			"，任务进行中" if info["run_active"] else "",
+		]
+	else:
+		save_hint.text = ""
+
+
+func _on_manual_save_slot(slot: int) -> void:
+	if SaveManager.save_slot(slot):
+		save_hint.text = "已保存到槽位 %d。" % slot
+		print("[Town] 手动存档 → 槽位 %d" % slot)
+	else:
+		save_hint.text = "保存失败（槽位 %d）。" % slot
+	_rebuild_save_slots()
 
 
 ## 页签标题改为中文（默认显示节点名：BuildingsTab/RecruitTab/…）。
@@ -50,6 +84,7 @@ func _rebuild_all() -> void:
 	_rebuild_shop()
 	_rebuild_treatment()
 	_update_party()
+	_rebuild_save_slots()
 	length_label.text = "任务长度：%s" % _length_name(_selected_length)
 
 

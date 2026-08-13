@@ -28,6 +28,8 @@ func _ready() -> void:
 	detail_label.text = "已探索房间：%d\n任务金币：%d（已入城镇）\n经验：%d（按任务长度）\n关底 Boss：%s\n剩余火把：%d\n\n英雄状态（HP/压力）与伤病已回写城镇。" % [
 		rooms, gold, exp, ("已击败" if boss else "未遭遇"), torch,
 	]
+	# 结算后自动存档（GDD 7.1：把回写后的城镇状态落盘）
+	SaveManager.autosave()
 
 
 func _change_state(state: int) -> void:

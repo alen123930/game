@@ -193,6 +193,36 @@ text = "提示：在「英雄」页选择最多 4 名英雄组成队伍，再在
 font_size = 18
 modulate = Color(0.75, 0.68, 0.55, 1)
 
+[node name="SaveRow" type="HBoxContainer" parent="Margin/VBox/Bottom"]
+layout_mode = 2
+
+[node name="SaveTitle" type="Label" parent="Margin/VBox/Bottom/SaveRow"]
+layout_mode = 2
+text = "手动存档："
+font_size = 20
+
+[node name="SaveSlot1" type="Button" parent="Margin/VBox/Bottom/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "槽位1（空）"
+
+[node name="SaveSlot2" type="Button" parent="Margin/VBox/Bottom/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "槽位2（空）"
+
+[node name="SaveSlot3" type="Button" parent="Margin/VBox/Bottom/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "槽位3（空）"
+
+[node name="SaveHint" type="Label" parent="Margin/VBox/Bottom/SaveRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = ""
+font_size = 18
+modulate = Color(0.75, 0.68, 0.55, 1)
+
 [node name="PartyList" type="HBoxContainer" parent="Margin/VBox/Bottom"]
 unique_name_in_owner = true
 layout_mode = 2
