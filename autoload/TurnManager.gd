@@ -24,6 +24,26 @@ const TEAM_SLOTS := 4
 ## 队友死亡给全队英雄的压力（GDD 2.4：队伍成员死亡是压力来源）。
 const STRESS_ON_ALLY_DEATH := 10
 
+## 压力系统（GDD 2.4）：0~200，正常上限 100。
+const STRESS_RESOLVE_THRESHOLD := 100    # 压力达 100 触发精神判定
+const STRESS_DEATH_THRESHOLD := 200     # 受难崩溃下压力 >200 立即死亡
+const STRESS_VIRTUE_CHANCE := 25        # D100 ≤25 美德，否则受难
+
+## 美德（virtue）列表与效果。
+const VIRTUES := ["强化", "专注", "坚定", "暴怒"]
+const VIRTUE_STRENGTHEN_STAT_MULT := 0.20   # 强化：全属性 +20%
+const VIRTUE_FOCUSED_CRIT_BONUS := 0.30     # 专注：暴击 +30%
+const VIRTUE_STEADFAST_RELIEF := 3          # 坚定：每回合 −3 压力
+const VIRTUE_ENRAGED_DMG_MULT := 1.5        # 暴怒：伤害 ×1.5
+
+## 受难（affliction）列表与行为。
+const AFFLICTIONS := ["偏执", "自弃", "鲁莽", "怯懦", "自虐"]
+const AFFLICTION_PARANOID_ALLY_CHANCE := 50 # 偏执：50% 攻击随机队友
+const AFFLICTION_SELF_ABUSE_MOVE_STRESS := 2 # 自弃：移动时 +2 压力
+
+## 火把系统（GDD 2.5）：战斗每回合 −1。
+const TORCH_DECAY_PER_BATTLE_ROUND := 1
+
 ## 战斗事件日志（测试断言用）。
 var event_log: Array[Dictionary] = []
 
@@ -53,7 +73,7 @@ func _ready() -> void:
 # ------------------------------------------------------------------
 
 ## 按配置开启一场「英雄 vs 怪物」战斗。
-## opts: seed / hero_positions / monster_positions / hero_hp / monster_hp / script
+## opts: seed / hero_positions / monster_positions / hero_hp / monster_hp / hero_stress / monster_stress / script
 func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) -> Dictionary:
 	reset_battle()
 	if opts.has("seed"):
@@ -62,6 +82,8 @@ func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) ->
 	var monster_positions: Array = opts.get("monster_positions", [])
 	var hero_hp: Dictionary = opts.get("hero_hp", {})
 	var monster_hp: Dictionary = opts.get("monster_hp", {})
+	var hero_stress: Dictionary = opts.get("hero_stress", {})
+	var monster_stress: Dictionary = opts.get("monster_stress", {})
 	_script = opts.get("script", {})
 
 	for i in hero_ids.size():
@@ -72,6 +94,8 @@ func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) ->
 		var u := CombatUnit.from_hero(_uid_seq, hero_ids[i], pos)
 		if hero_hp.has(hero_ids[i]):
 			u.hp = int(hero_hp[hero_ids[i]])
+		if hero_stress.has(hero_ids[i]):
+			u.stress = int(hero_stress[hero_ids[i]])
 		heroes.append(u)
 	for i in monster_ids.size():
 		_uid_seq += 1
@@ -81,6 +105,8 @@ func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) ->
 		var u := CombatUnit.from_monster(_uid_seq, monster_ids[i], pos)
 		if monster_hp.has(monster_ids[i]):
 			u.hp = int(monster_hp[monster_ids[i]])
+		if monster_stress.has(monster_ids[i]):
+			u.stress = int(monster_stress[monster_ids[i]])
 		monsters.append(u)
 
 	battle_active = true
@@ -122,6 +148,7 @@ func run_round() -> Dictionary:
 		return get_battle_state()
 	round_num += 1
 	emit_signal("round_started", round_num)
+	_apply_torch_battle_decay()
 	_round_start_effects()
 	if not battle_active:
 		return get_battle_state()
@@ -166,9 +193,21 @@ func _unit_snapshots(list: Array) -> Array:
 			"alive": u.alive,
 			"death_struggling": u.death_struggling,
 			"stress": u.stress,
+			"resolution": u.resolution,
+			"crisis": u.crisis,
 			"statuses": u.statuses.duplicate(true),
 		})
 	return out
+
+## 火把系统（GDD 2.5）：战斗每回合 −1（团队共享，走 GameState）。
+func _apply_torch_battle_decay() -> void:
+	if GameState == null:
+		return
+	var decay := TORCH_DECAY_PER_BATTLE_ROUND
+	var cfg: Dictionary = GameState.get_torch_config()
+	if cfg.has("decay_per_battle_round"):
+		decay = int(cfg["decay_per_battle_round"])
+	GameState.add_torch(-decay)
 
 # ------------------------------------------------------------------
 # 回合开始：持续效果 / 状态计时 / 冷却 / 濒死（GDD 2.1）
@@ -187,10 +226,20 @@ func _round_start_effects() -> void:
 		# 恐惧：每回合 +2 压力（GDD 2.8）
 		if u.has_status("fear"):
 			_apply_stress(u, 2)
+		# 美德「坚定」：每回合 −3 压力（GDD 2.4）
+		if u.resolved and u.resolution == "virtue" and u.crisis == "坚定":
+			_apply_stress(u, -VIRTUE_STEADFAST_RELIEF)
 		# 时间型状态计时
 		u.tick_status_timers()
 		# 冷却递减
 		u.tick_cooldowns()
+	# 火把熄灭（低压氛围）：黑暗档每回合 +1 压力（GDD 2.4 压力来源）
+	if GameState != null:
+		var tier_stress := int(GameState.get_torch_tier().get("stress_per_round", 0))
+		if tier_stress > 0:
+			for h in heroes:
+				if h.alive:
+					_apply_stress(h, tier_stress)
 	# 濒死单位每回合 D100 判定（GDD 2.4），本回合已判定过的不再重复
 	for u in _all_units():
 		if u.alive and u.death_struggling and not _deathblow_rolled_round.has(u.uid):
@@ -242,14 +291,77 @@ func _perform_action(unit: CombatUnit) -> void:
 	_resolve_skill(unit, choice)
 	_current_actor = null
 
-## 选择行动：脚本优先，否则 AI。
+## 选择行动：脚本优先，否则受难行为覆盖，否则 AI。
 func _choose_action(unit: CombatUnit) -> Dictionary:
 	var plan: Dictionary = _script.get(round_num, {}).get(unit.uid, {})
 	if not plan.is_empty():
 		return {"skill_id": plan.get("skill", ""), "target_uid": int(plan.get("target_uid", -1))}
 	if unit.is_hero:
+		if unit.resolution == "affliction":
+			var crisis_choice := _crisis_choice(unit)
+			if not crisis_choice.is_empty():
+				_log("crisis_action", {"unit": unit.uid, "crisis": unit.crisis, "skill": crisis_choice.get("skill_id", ""), "target_uid": int(crisis_choice.get("target_uid", -1))})
+				return crisis_choice
 		return _hero_ai_choice(unit)
 	return _monster_ai_choice(unit)
+
+## 受难崩溃状态行为（GDD 2.4）：
+##   偏执：50% 攻击随机队友，否则空放；自弃：正常行动（不可治疗/移动施压单独处理）；
+##   鲁莽：强制攻击最前排；怯懦：不攻击（空放）；自虐：攻击自身。
+func _crisis_choice(unit: CombatUnit) -> Dictionary:
+	# 空放：skill_id 为空串，_resolve_skill 会直接跳过本次行动
+	var waste := {"skill_id": "", "target_uid": -1}
+	match unit.crisis:
+		"偏执":
+			if _roll(1, 100) <= AFFLICTION_PARANOID_ALLY_CHANCE:
+				var allies: Array = _team_units(unit.team).filter(func(a): return a.alive and a.uid != unit.uid)
+				if allies.is_empty():
+					return waste
+				var target: CombatUnit = allies[_roll(0, allies.size() - 1)]
+				var skill_id := _pick_crisis_skill(unit, target.position)
+				if skill_id != "":
+					return {"skill_id": skill_id, "target_uid": target.uid}
+			return waste
+		"鲁莽":
+			var front := _frontmost_opponent(unit)
+			if front == null:
+				return waste
+			var skill_id := _pick_crisis_skill(unit, front.position)
+			if skill_id != "":
+				return {"skill_id": skill_id, "target_uid": front.uid}
+			return waste
+		"自虐":
+			var skill_id := _pick_crisis_skill(unit, unit.position)
+			if skill_id != "":
+				return {"skill_id": skill_id, "target_uid": unit.uid}
+			return waste
+		"怯懦":
+			return waste
+		_:
+			return {}  # 自弃：正常行动
+
+## 受难行为选技能：优先伤害类且能命中指定站位；无则返回空。
+func _pick_crisis_skill(unit: CombatUnit, target_pos: int) -> String:
+	var fallback := ""
+	for skill_id: String in unit.skills.keys():
+		if not unit.can_use_from_position(skill_id) or not unit.is_skill_ready(skill_id):
+			continue
+		var skill: Dictionary = unit.skills[skill_id]
+		if not (target_pos in skill.get("target_pos", [1, 2, 3, 4])):
+			continue
+		if skill.get("type", "damage") == "damage":
+			return skill_id
+		if fallback == "":
+			fallback = skill_id
+	return fallback
+
+## 敌方最前排（位置号最小）存活单位。
+func _frontmost_opponent(unit: CombatUnit) -> CombatUnit:
+	var best: CombatUnit = null
+	for u in _opponents(unit):
+		if u.alive and (best == null or u.position < best.position):
+			best = u
+	return best
 
 # ------------------------------------------------------------------
 # 技能结算
@@ -268,6 +380,9 @@ func _resolve_skill(actor: CombatUnit, choice: Dictionary) -> void:
 	var cost: Dictionary = skill.get("cost", {})
 	if int(cost.get("stress", 0)) > 0:
 		_apply_stress(actor, int(cost["stress"]))
+		# 施压消耗可能触发精神判定/压力死亡，若已死亡则不再结算本次行动
+		if not actor.alive:
+			return
 
 	var targets: Array = _select_targets(actor, skill, int(choice.get("target_uid", -1)))
 	if targets.is_empty():
@@ -338,6 +453,9 @@ func _resolve_skill_vs_target(actor: CombatUnit, skill: Dictionary, target: Comb
 			var prot := target.prot
 			# 虚弱：造成伤害 −25%；狂暴：+40%；目标虚弱/诅咒额外受伤害
 			var dmg_mult := float(skill.get("dmg_mult", 1.0))
+			# 暴怒美德：伤害 ×1.5（GDD 2.4）
+			if actor.resolution == "virtue" and actor.crisis == "暴怒":
+				dmg_mult *= VIRTUE_ENRAGED_DMG_MULT
 			var vuln_mult := 1.0
 			if target.has_status("vulnerable"):
 				vuln_mult += float(target.get_status("vulnerable").get("value", 0.0))
@@ -345,11 +463,16 @@ func _resolve_skill_vs_target(actor: CombatUnit, skill: Dictionary, target: Comb
 			_apply_damage(actor, target, dmg, is_crit)
 			if is_crit:
 				_apply_stress(target, _roll(1, 3))
+				# 暴击减压：施法者 −2~−4 压力（GDD 2.4 减压来源）
+				_apply_stress(actor, -_roll(2, 4))
 		"heal":
 			var dmg_roll := _roll(actor.dmg_min, actor.dmg_max)
 			var heal := BattleRules.compute_heal(dmg_roll, float(skill.get("dmg_mult", 0.5)))
-			target.heal(heal)
-			_log("heal", {"target": target.uid, "amount": heal})
+			if _can_be_healed(target):
+				target.heal(heal)
+				_log("heal", {"target": target.uid, "amount": heal})
+			else:
+				_log("heal_blocked", {"target": target.uid, "crisis": target.crisis})
 		"stress_damage":
 			var v := int(_effect_value(skill, "stress_damage", 0))
 			# 恐惧：对施压技能伤害 +50%（GDD 2.8）
@@ -389,6 +512,9 @@ func _roll_hit(attacker: CombatUnit, target: CombatUnit, skill: Dictionary) -> D
 	# 仅伤害类技能掷暴击（GDD 2.3：命中掷出暴击时 ×1.5）
 	if hit and skill.get("type", "damage") == "damage":
 		var crit_chance := (attacker.crit + float(skill.get("crit_bonus", 0.0))) * 100.0
+		# 火把档位暴击修正（GDD 2.5：明亮 +5 / 黑暗 −10）
+		if GameState != null:
+			crit_chance += float(GameState.get_torch_tier().get("crit_bonus", 0))
 		if _roll(1, 100) <= int(crit_chance):
 			crit = true
 	return {"hit": hit, "crit": crit, "hit_chance": chance}
@@ -406,8 +532,11 @@ func _apply_effects(actor: CombatUnit, skill: Dictionary, target: CombatUnit) ->
 				if stype != "heal":
 					var dmg_roll := _roll(actor.dmg_min, actor.dmg_max)
 					var heal := BattleRules.compute_heal(dmg_roll, float(e.get("mult", 0.5)))
-					target.heal(heal)
-					_log("heal", {"target": target.uid, "amount": heal})
+					if _can_be_healed(target):
+						target.heal(heal)
+						_log("heal", {"target": target.uid, "amount": heal})
+					else:
+						_log("heal_blocked", {"target": target.uid, "crisis": target.crisis})
 			"stress_damage":
 				if stype != "stress_damage":
 					var v := int(e.get("value", 0))
@@ -555,6 +684,9 @@ func _do_move(unit: CombatUnit, dest: int, dir: int) -> void:
 	# 失位惩罚：下回合（round_num+1）起跳过行动（GDD 2.7）
 	unit.displaced_skip_round = round_num + 1
 	_log("displace", {"unit": unit.uid, "to": dest, "dir": dir})
+	# 自弃受难：移动时承受压力（GDD 2.4）
+	if unit.resolution == "affliction" and unit.crisis == "自弃":
+		_apply_stress(unit, AFFLICTION_SELF_ABUSE_MOVE_STRESS)
 
 ## 自身移动技能（movement）：向前移动 distance 格，受阻则向后；不产生失位惩罚。
 func _move_self(unit: CombatUnit, distance: int) -> void:
@@ -569,6 +701,9 @@ func _move_self(unit: CombatUnit, distance: int) -> void:
 		return
 	unit.position = dest
 	_log("move_self", {"unit": unit.uid, "to": dest})
+	# 自弃受难：移动时承受压力（GDD 2.4）
+	if unit.resolution == "affliction" and unit.crisis == "自弃":
+		_apply_stress(unit, AFFLICTION_SELF_ABUSE_MOVE_STRESS)
 
 # ------------------------------------------------------------------
 # AI（简单规则；正式战斗交互由 WS-8 UI 提供）
@@ -650,6 +785,8 @@ func _pick_ally_target(actor: CombatUnit, skill: Dictionary) -> CombatUnit:
 			if best == null or u.stress > best.stress:
 				best = u
 		else:
+			if not _can_be_healed(u):
+				continue
 			if u.hp >= u.max_hp:
 				continue
 			if best == null or float(u.hp) / float(u.max_hp) < float(best.hp) / float(best.max_hp):
@@ -666,11 +803,73 @@ func _roll(min_val: int, max_val: int) -> int:
 		return clampi(v, min_val, max_val)
 	return rng.randi_range(min_val, max_val)
 
+## 压力结算（GDD 2.4）：
+##   - 0~200 区间；未判定英雄以 100 为正常上限（达 100 即触发精神判定）。
+##   - 已受难（崩溃）英雄压力 >200 → 立即死亡。
+##   - 美德英雄不因压力死亡，压力在 0~200 内累积。
 func _apply_stress(unit: CombatUnit, amount: int) -> void:
 	if unit == null or not unit.alive:
 		return
-	unit.stress = clampi(unit.stress + amount, 0, unit.max_stress)
+	var new_stress := unit.stress + amount
+	# 已受难崩溃且压力 >200 → 立即死亡（GDD 2.4）
+	if unit.resolved and unit.resolution == "affliction" and new_stress > STRESS_DEATH_THRESHOLD:
+		unit.stress = STRESS_DEATH_THRESHOLD
+		_log("stress", {"unit": unit.uid, "delta": amount, "total": unit.stress})
+		_log("stress_death", {"unit": unit.uid})
+		_kill_unit(unit, "stress_death")
+		return
+	# 未判定英雄：正常上限 100，达到即触发精神判定（仅一次）
+	if unit.is_hero and not unit.resolved:
+		unit.stress = clampi(new_stress, 0, STRESS_RESOLVE_THRESHOLD)
+		_log("stress", {"unit": unit.uid, "delta": amount, "total": unit.stress})
+		if unit.stress >= STRESS_RESOLVE_THRESHOLD:
+			_resolve_mental(unit)
+		return
+	unit.stress = clampi(new_stress, 0, unit.max_stress)
 	_log("stress", {"unit": unit.uid, "delta": amount, "total": unit.stress})
+
+## 精神判定（GDD 2.4）：D100 ≤25 → 美德，否则受难崩溃；分支随机。
+func _resolve_mental(unit: CombatUnit) -> void:
+	if unit == null or not unit.is_hero or unit.resolved:
+		return
+	unit.resolved = true
+	var roll := _roll(1, 100)
+	if roll <= STRESS_VIRTUE_CHANCE:
+		unit.resolution = "virtue"
+		unit.crisis = VIRTUES[_roll(0, VIRTUES.size() - 1)]
+		_apply_virtue_effect(unit)
+	else:
+		unit.resolution = "affliction"
+		unit.crisis = AFFLICTIONS[_roll(0, AFFLICTIONS.size() - 1)]
+		_log("crisis", {"unit": unit.uid, "crisis": unit.crisis})
+	_log("mental_resolve", {"unit": unit.uid, "roll": roll, "resolution": unit.resolution, "crisis": unit.crisis})
+
+## 应用美德效果（GDD 2.4）。
+func _apply_virtue_effect(unit: CombatUnit) -> void:
+	match unit.crisis:
+		"强化":
+			unit.max_hp = maxi(1, roundi(unit.max_hp * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT)))
+			unit.spd = roundi(unit.spd * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT))
+			unit.acc = roundi(unit.acc * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT))
+			unit.dodge = roundi(unit.dodge * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT))
+			unit.crit = clampf(unit.crit * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT), 0.0, 0.4)
+			unit.dmg_min = roundi(unit.dmg_min * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT))
+			unit.dmg_max = roundi(unit.dmg_max * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT))
+			unit.prot = clampf(unit.prot * (1.0 + VIRTUE_STRENGTHEN_STAT_MULT), 0.0, 0.8)
+			unit.hp = mini(unit.hp, unit.max_hp)
+		"专注":
+			unit.crit = clampf(unit.crit + VIRTUE_FOCUSED_CRIT_BONUS, 0.0, 0.4)
+		"坚定":
+			pass  # 每回合 −3 压力在 _round_start_effects 处理
+		"暴怒":
+			pass  # 伤害 ×1.5 与不可治疗在结算处处理
+
+## 该单位是否可被治疗（GDD 2.4：暴怒/自弃不可被治疗）。
+func _can_be_healed(unit: CombatUnit) -> bool:
+	if unit == null or not unit.alive:
+		return false
+	return not (unit.resolution == "virtue" and unit.crisis == "暴怒") \
+		and not (unit.resolution == "affliction" and unit.crisis == "自弃")
 
 func _all_units() -> Array:
 	var out: Array = []

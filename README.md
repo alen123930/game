@@ -83,8 +83,11 @@ godot --headless --path . res://tests/test_main.tscn
 # WS-5 场景流转（城镇→地城→战斗→结算→城镇）
 godot --headless --path . res://tests/test_scene_flow.tscn
 
-# WS-4 战斗系统可复现测试
+# WS-4 回合制战斗（站位/命中/伤害/状态/位移/冷却/濒死/可复现）
 godot --headless --path . res://tests/combat_test.tscn
+
+# WS-7 压力 + 火把（精神判定/美德受难分支/崩溃行为/>200死亡/火把衰减与三档效果）
+godot --headless --path . res://tests/stress_test.tscn
 
 # WS-9 城镇经营（资源/8建筑三级/招募/养成/治疗减压/全闭环 + 城镇 UI 集成）
 godot --headless --path . res://tests/test_ws9.tscn

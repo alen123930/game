@@ -90,8 +90,19 @@ func _roster_line(units: Array) -> String:
 	var parts: Array[String] = []
 	for u in units:
 		var tag := "[color=#ff5555]濒死[/color]" if bool(u.get("death_struggling", false)) else ""
+		var crisis_tag := ""
+		if String(u.get("resolution", "")) == "virtue":
+			crisis_tag = "[color=#6ad07a]美德·%s[/color]" % u.get("crisis", "")
+		elif String(u.get("resolution", "")) == "affliction":
+			crisis_tag = "[color=#d06a6a]受难·%s[/color]" % u.get("crisis", "")
 		var dead := "" if bool(u.get("alive", true)) else "[color=#666](死亡)[/color]"
-		parts.append("%s(%d号位)HP%d%s%s" % [u.get("name", "?"), u.get("position", 0), u.get("hp", 0), tag, dead])
+		var tags := []
+		if tag != "":
+			tags.append(tag)
+		if crisis_tag != "":
+			tags.append(crisis_tag)
+		var suffix := ("·".join(tags)) if not tags.is_empty() else ""
+		parts.append("%s(%d号位)HP%d压%d%s%s" % [u.get("name", "?"), u.get("position", 0), u.get("hp", 0), u.get("stress", 0), suffix, dead])
 	return "、".join(parts)
 
 ## 追加 event_log 新增条目到日志面板（只追加自上次显示后的）。
@@ -135,6 +146,19 @@ func _format_event(entry: Dictionary) -> String:
 			return "第%s回合 召唤 %s" % [round, entry.get("monster", "")]
 		"stress":
 			return "第%s回合 %s 压力%+d" % [round, _un(entry.get("unit", -1)), entry.get("delta", 0)]
+		"mental_resolve":
+			return "第%s回合 %s 精神判定：%s（%s）" % [round, _un(entry.get("unit", -1)), ("美德" if entry.get("resolution", "") == "virtue" else "受难"), entry.get("crisis", "")]
+		"crisis_action":
+			var skill_name: String = String(entry.get("skill", ""))
+			if skill_name != "":
+				var sk := ConfigManager.get_entry("skills", skill_name)
+				skill_name = String(sk.get("name", skill_name))
+				return "第%s回合 %s[受难·%s] 行动：%s → %s" % [round, _un(entry.get("unit", -1)), entry.get("crisis", ""), skill_name, _un(int(entry.get("target_uid", -1)))]
+			return "第%s回合 %s[受难·%s] 空放（不行动）" % [round, _un(entry.get("unit", -1)), entry.get("crisis", "")]
+		"stress_death":
+			return "第%s回合 %s 压力崩溃，立即死亡！" % [round, _un(entry.get("unit", -1))]
+		"heal_blocked":
+			return "第%s回合 %s 无法被治疗（%s）" % [round, _un(entry.get("target", -1)), entry.get("crisis", "")]
 		"heal":
 			return "第%s回合 %s 恢复 %d" % [round, _un(entry.get("target", -1)), entry.get("amount", 0)]
 		_:
