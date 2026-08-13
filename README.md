@@ -10,14 +10,17 @@
 - 平台：Android 8.0+（API 26+），横屏锁定
 - 设计分辨率：1920×1080 横屏（`display/window/stretch` canvas_items + keep）
 
-## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-9）
+## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-7 + WS-8 + WS-9）
 
 已实现：
 
 - **工程脚手架 + 数据驱动配置层（WS-3）**：`ConfigManager` 加载 `data/` 下 10 个 JSON 实体配置并校验；`SaveManager` 提供 JSON 存档（槽位 1~3）+ ConfigFile 设置；`Main`（GameMain）状态机驱动 主菜单/城镇/探索/战斗/结算 五态闭环。
 - **遗迹地图 + 探索循环（WS-5）**：程序化网格地图生成（4×4~6×5，战斗/宝箱/事件/安全/起始/关底房），房间探索动作（侦查→探索→检查）、陷阱（铲子/徒手解除）与门锁（钥匙/铲子/盗贼撬锁）、团队火把（0~100，三档效果曲线）、遇敌切战斗、撤退/击破后结算回城。
 - **回合制战斗核心（WS-4）**：`TurnManager` 单例驱动回合流程（回合开始结算持续效果 → SPD+D100 行动顺序 → 依次行动 → 回合结束检查）、站位系统（1~4 号位、空缺自动前移）、技能结算（命中/伤害/PROT/暴击×1.5/治疗/DOT/状态/位移/召唤/冷却）、濒死判定与死亡结算、AI 与脚本化行动。
+- **压力 + 火把系统（WS-7）**：压力 0~200（来源/减压、100 触发精神判定：美德/受难随机分支、崩溃行为、>200 立即死亡）；火把 0~100 三档效果曲线（明亮/昏暗/黑暗），战斗外每房间 −5、战斗每回合 −1。
+- **战斗触屏 UI（WS-8，GDD 2.11 / 7.3）**：单指流交互（点英雄→底部技能栏→选技能→高亮可攻击目标→点目标执行；支持先选技能再选施法者）；技能不可用即时置灰；撤退/防御/道具/结束回合固定底部大热区（≥150px ≈ 54dp ≥44dp，间距 ≥24px ≈ 8dp）；长按任意单位显示详细属性；撤退二次确认；SafeArea 刘海/圆角避让 + Control anchors 自适应。`TurnManager` 负责回合推进，玩家指令经 `script_action` 入队。
 - **城镇经营系统（WS-9）**：`TownManager` 单例承载城镇经营（GDD 第三章）——资源管理（金币/传承物 4 种/补给/饰品）、8 栋建筑各 3 级升级（等级门控功能上限：候选人数、技能/武器/护甲上限、治疗折扣、减压活动、墓地永久增益）、每日英雄招募（4~8 名、白/蓝/紫/金稀有度与费用、2~4 怪癖）、养成（经验升级、技能装备与训练场升级、武器/护甲 5 级、饰品 2 槽）、伤病/疾病/怪癖处理与压力处理（教堂/酒馆/派遣休息）、补给商店（9 种物品）；结算把金币/经验/伤病回写城镇，完成「招募→培养→出发→返回→结算→治疗/减压」闭环。新增数据：`data/trinkets.json`、`data/injuries.json`。
+- 探索相关运行时配置在 `data/exploration.json`，由 `DataLoader` 加载；`GameState` 承载运行期状态（地图/火把/队伍/补给/战斗衔接）。
 
 > 待办：WS-8 战斗触屏 UI；WS-10 掉落与经济；WS-11 存档。WS-6 美术 V0.1 / WS-12 美术 V0.2 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
 
@@ -59,7 +62,7 @@ assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落
   manifest.json        素材清单与规格（GDD 6.4）
   SOURCES_AND_LICENSES.md  来源与许可证（game-icons.net CC-BY 3.0 + 程序化合成）
 theme/main_theme.tres  全局主题（CJK 字体回退）
-tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-9 城镇经营）
+tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-7 压力火把 + WS-8 战斗触屏 UI + WS-9 城镇经营）
 export_presets.cfg   Android 导出预设（minSdk 26 / targetSdk 35，arm64-v8a + armeabi-v7a）
 ```
 
@@ -88,6 +91,9 @@ godot --headless --path . res://tests/combat_test.tscn
 
 # WS-7 压力 + 火把（精神判定/美德受难分支/崩溃行为/>200死亡/火把衰减与三档效果）
 godot --headless --path . res://tests/stress_test.tscn
+
+# WS-8 战斗触屏 UI（单指流/置灰/高亮/先选技能/长按/撤退确认/完整战斗胜利+撤退）
+godot --headless --path . res://tests/battle_ui_test.tscn
 
 # WS-9 城镇经营（资源/8建筑三级/招募/养成/治疗减压/全闭环 + 城镇 UI 集成）
 godot --headless --path . res://tests/test_ws9.tscn
