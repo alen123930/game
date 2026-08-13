@@ -10,12 +10,13 @@
 - 平台：Android 8.0+（API 26+），横屏锁定
 - 设计分辨率：1920×1080 横屏（`display/window/stretch` canvas_items + keep）
 
-## 当前进度（V0.1 / WS-3 + WS-5）
+## 当前进度（V0.1 / WS-3 + WS-5 + WS-8）
 
 已实现：
 
 - **工程脚手架 + 数据驱动配置层（WS-3）**：`ConfigManager` 加载 `data/` 下 8 个 JSON 实体配置并校验；`SaveManager` 提供 JSON 存档（槽位 1~3）+ ConfigFile 设置；`Main`（GameMain）状态机驱动 主菜单/城镇/探索/战斗/结算 五态闭环。
 - **遗迹地图 + 探索循环（WS-5）**：程序化网格地图生成（4×4~6×5，战斗/宝箱/事件/安全/起始/关底房），房间探索动作（侦查→探索→检查）、陷阱（铲子/徒手解除）与门锁（钥匙/铲子/盗贼撬锁）、团队火把（0~100，三档效果曲线）、遇敌切战斗、撤退/击破后结算回城。
+- **战斗触屏 UI（WS-8，GDD 2.11 / 7.3）**：单指流交互（点英雄→底部技能栏→选技能→高亮可攻击目标→点目标执行；支持先选技能再选施法者）；技能不可用即时置灰；撤退/防御/道具/结束回合固定底部大热区（≥150px ≈ 54dp ≥44dp，间距 ≥24px ≈ 8dp）；长按任意单位显示详细属性；撤退二次确认；SafeArea 刘海/圆角避让 + Control anchors 自适应。`TurnManager` 负责回合推进，玩家指令经 `script_action` 入队。
 - 探索相关运行时配置在 `data/exploration.json`，由 `DataLoader` 加载；`GameState` 承载运行期状态（地图/火把/队伍/补给/战斗衔接）。
 
 > 待办：WS-6 美术 V0.1 / WS-12 美术 V0.2 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
@@ -54,7 +55,7 @@ assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落
   manifest.json        素材清单与规格（GDD 6.4）
   SOURCES_AND_LICENSES.md  来源与许可证（game-icons.net CC-BY 3.0 + 程序化合成）
 theme/main_theme.tres  全局主题（CJK 字体回退）
-tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转）
+tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-8 战斗触屏 UI）
 export_presets.cfg   Android 导出预设（minSdk 26 / targetSdk 35，arm64-v8a + armeabi-v7a）
 ```
 
@@ -77,6 +78,9 @@ godot --headless --path . res://tests/test_main.tscn
 
 # WS-5 场景流转（城镇→地城→战斗→结算→城镇）
 godot --headless --path . res://tests/test_scene_flow.tscn
+
+# WS-8 战斗触屏 UI（单指流/置灰/高亮/先选技能/长按/撤退确认/完整战斗胜利+撤退）
+godot --headless --path . res://tests/battle_ui_test.tscn
 ```
 
 ## 数据驱动约定

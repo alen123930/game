@@ -9,69 +9,175 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1_battle")
 
-[node name="Margin" type="MarginContainer" parent="."]
+[node name="SafeArea" type="Control" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 80.0
-offset_top = 80.0
-offset_right = -80.0
-offset_bottom = -80.0
 
-[node name="VBox" type="VBoxContainer" parent="Margin"]
+[node name="TopBar" type="HBoxContainer" parent="SafeArea"]
 layout_mode = 2
+offset_left = 40.0
+offset_top = 20.0
+offset_right = 800.0
+offset_bottom = 92.0
+theme_override_constants/separation = 44
 
-[node name="Title" type="Label" parent="Margin/VBox"]
-layout_mode = 2
-text = "⚔ 战斗（自动演示）"
-font_size = 48
-horizontal_alignment = 1
-
-[node name="InfoLabel" type="Label" parent="Margin/VBox"]
+[node name="RoundLabel" type="Label" parent="SafeArea/TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "敌人信息"
-font_size = 26
-horizontal_alignment = 1
+text = "回合 0"
+font_size = 30
 
-[node name="StatusLabel" type="Label" parent="Margin/VBox"]
+[node name="TorchLabel" type="Label" parent="SafeArea/TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "状态提示"
-font_size = 20
-horizontal_alignment = 1
+text = "火把 75"
+font_size = 30
 
-[node name="LogLabel" type="RichTextLabel" parent="Margin/VBox"]
+[node name="Field" type="Control" parent="SafeArea"]
 unique_name_in_owner = true
-layout_mode = 2
-custom_minimum_size = Vector2(0, 300)
-size_flags_vertical = 3
-font_size = 15
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -420.0
+
+[node name="LogLabel" type="RichTextLabel" parent="SafeArea"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 0
+offset_left = 430.0
+offset_top = 396.0
+offset_right = 1490.0
+offset_bottom = 648.0
 bbcode_enabled = true
 scroll_active = true
+font_size = 18
 
-[node name="Spacer" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 8)
+[node name="BottomBar" type="PanelContainer" parent="SafeArea"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -420.0
+
+[node name="BarHBox" type="HBoxContainer" parent="SafeArea/BottomBar"]
 layout_mode = 2
+theme_override_constants/separation = 28
 
-[node name="Buttons" type="HBoxContainer" parent="Margin/VBox"]
+[node name="CommandArea" type="VBoxContainer" parent="SafeArea/BottomBar/BarHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="HeroRow" type="HBoxContainer" parent="SafeArea/BottomBar/BarHBox/CommandArea"]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
+theme_override_constants/separation = 24
 
-[node name="ReturnBtn" type="Button" parent="Margin/VBox/Buttons"]
+[node name="SkillRow" type="HBoxContainer" parent="SafeArea/BottomBar/BarHBox/CommandArea"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 72)
 layout_mode = 2
-text = "返回探索"
-font_size = 24
+alignment = 1
+theme_override_constants/separation = 24
 
-[node name="RetreatBtn" type="Button" parent="Margin/VBox/Buttons"]
+[node name="ActionGrid" type="GridContainer" parent="SafeArea/BottomBar/BarHBox"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 24
+theme_override_constants/v_separation = 24
+
+[node name="DefendBtn" type="Button" parent="SafeArea/BottomBar/BarHBox/ActionGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 72)
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
+text = "防御"
+font_size = 30
+
+[node name="ItemBtn" type="Button" parent="SafeArea/BottomBar/BarHBox/ActionGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
+text = "道具"
+font_size = 30
+
+[node name="EndTurnBtn" type="Button" parent="SafeArea/BottomBar/BarHBox/ActionGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 150)
+layout_mode = 2
+text = "结束回合"
+font_size = 30
+
+[node name="RetreatBtn" type="Button" parent="SafeArea/BottomBar/BarHBox/ActionGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 150)
 layout_mode = 2
 text = "撤退"
-font_size = 24
+font_size = 30
 
-[connection signal="pressed" from="Margin/VBox/Buttons/ReturnBtn" to="." method="_on_return_pressed"]
-[connection signal="pressed" from="Margin/VBox/Buttons/RetreatBtn" to="." method="_on_retreat_pressed"]
+[node name="DetailPanel" type="PanelContainer" parent="SafeArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -240.0
+offset_right = 320.0
+offset_bottom = 240.0
+
+[node name="DetailVBox" type="VBoxContainer" parent="SafeArea/DetailPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ItemPanel" type="PanelContainer" parent="SafeArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -220.0
+offset_right = 280.0
+offset_bottom = 220.0
+
+[node name="ItemVBox" type="VBoxContainer" parent="SafeArea/ItemPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RetreatPanel" type="PanelContainer" parent="SafeArea"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = 180.0
+
+[node name="RetreatVBox" type="VBoxContainer" parent="SafeArea/RetreatPanel"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[connection signal="pressed" from="SafeArea/BottomBar/BarHBox/ActionGrid/DefendBtn" to="." method="_on_defend_pressed"]
+[connection signal="pressed" from="SafeArea/BottomBar/BarHBox/ActionGrid/ItemBtn" to="." method="_on_item_pressed"]
+[connection signal="pressed" from="SafeArea/BottomBar/BarHBox/ActionGrid/EndTurnBtn" to="." method="_on_end_turn_pressed"]
+[connection signal="pressed" from="SafeArea/BottomBar/BarHBox/ActionGrid/RetreatBtn" to="." method="_on_retreat_pressed"]
