@@ -58,9 +58,12 @@ func start_run(length: String) -> void:
 	battle_result = {}
 	result_payload = {}
 	party = []
-	for hero in PLACEHOLDER_PARTY:
-		party.append(hero.duplicate(true))
-	supplies = {"torch": 4, "key": 2, "shovel": 2, "bandage": 2}
+	if TownManager.has_selected_party():
+		party = TownManager.get_selected_party()
+	if party.is_empty():
+		for hero in PLACEHOLDER_PARTY:
+			party.append(hero.duplicate(true))
+	supplies = TownManager.supplies
 	run_started.emit()
 
 

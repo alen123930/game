@@ -23,6 +23,7 @@ SaveManager="*res://autoload/SaveManager.gd"
 DataLoader="*res://autoload/DataLoader.gd"
 GameState="*res://autoload/GameState.gd"
 TurnManager="*res://autoload/TurnManager.gd"
+TownManager="*res://autoload/TownManager.gd"
 
 [display]
 

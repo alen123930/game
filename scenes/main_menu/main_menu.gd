@@ -10,11 +10,12 @@ func _ready() -> void:
 	print("[MainMenu] 主菜单已加载")
 
 func _on_new_game_pressed() -> void:
+	TownManager.reset_game()
 	var data := {
-		"gold": 0,
-		"heirlooms": {"statue": 0, "scroll": 0, "badge": 0, "tablet": 0},
-		"roster": [],
-		"buildings": {},
+		"gold": TownManager.gold,
+		"heirlooms": TownManager.heirlooms,
+		"roster": TownManager.roster,
+		"buildings": TownManager.building_levels,
 		"quest_progress": {},
 	}
 	if SaveManager.save_game(1, data):

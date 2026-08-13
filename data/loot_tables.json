@@ -2,6 +2,7 @@
 	"_meta": {
 		"description": "掉落与经济（GDD 4.5 / 4.6）",
 		"exp_formula": { "base": 300, "star_coef": 0.6, "length_coef": { "short": 1.0, "medium": 1.5, "long": 2.0 } },
+		"exp_level": { "base": 1500, "mult": 1.6 },
 		"retreat_settle_mult": 0.7,
 		"heirloom_types": ["statue", "scroll", "badge", "tablet"],
 		"trinket_rarities": ["white", "blue", "purple", "gold"]

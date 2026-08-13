@@ -10,6 +10,7 @@ const DATA_DIR := "res://data"
 const CONFIG_FILES: Array[String] = [
 	"heroes", "skills", "monsters", "dungeons",
 	"buildings", "loot_tables", "quirks", "items",
+	"trinkets", "injuries",
 ]
 
 ## 各配置节必填字段（启动校验用；缺失时打印告警，不阻断加载）。
@@ -22,6 +23,8 @@ const REQUIRED_FIELDS := {
 	"loot_tables": ["star", "gold_min", "gold_max", "heirloom_min", "heirloom_max"],
 	"quirks": ["id", "name", "type", "effects"],
 	"items": ["id", "name", "price", "effect"],
+	"trinkets": ["id", "name", "rarity", "effects"],
+	"injuries": ["id", "name", "type", "cure_cost", "effects"],
 }
 
 ## 只读缓存：key = 配置节名，value = 该节字典（key = 实体 id）。

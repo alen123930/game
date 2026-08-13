@@ -29,12 +29,13 @@ func _test_config() -> void:
 	var expected := {
 		"heroes": 8, "skills": 32, "monsters": 24, "dungeons": 4,
 		"buildings": 8, "loot_tables": 5, "quirks": 12, "items": 9,
+		"trinkets": 12, "injuries": 5,
 	}
 	for section: String in expected:
 		var dict: Dictionary = ConfigManager.get_section(section)
 		var entity_count := dict.size() - (1 if dict.has("_meta") else 0)
 		_check(entity_count == expected[section], "%s 实体数 = %d（期望 %d）" % [section, entity_count, expected[section]])
-	_check(ConfigManager.get_entry_total() == 110, "全部配置实体总数 = 110")
+	_check(ConfigManager.get_entry_total() == 129, "全部配置实体总数 = 129")
 	_check(ConfigManager.get_section("loot_tables").has("_meta"), "loot_tables 含 _meta（exp_formula 等）")
 	_check(ConfigManager.get_entry("heroes", "knight").get("name", "") == "圣骑士", "heroes.knight.name = 圣骑士")
 	_check(ConfigManager.get_entry("monsters", "boss_stone_skull").get("phases", 0) == 2, "boss_stone_skull.phases = 2")

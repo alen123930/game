@@ -21,80 +21,173 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 60.0
-offset_top = 60.0
-offset_right = -60.0
-offset_bottom = -60.0
+offset_left = 40.0
+offset_top = 24.0
+offset_right = -40.0
+offset_bottom = -24.0
 
 [node name="VBox" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
 
-[node name="Title" type="Label" parent="Margin/VBox"]
+[node name="Header" type="HBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Margin/VBox/Header"]
 layout_mode = 2
 text = "晨昏庄园 · 城镇"
-font_size = 48
+font_size = 40
 
-[node name="Subtitle" type="Label" parent="Margin/VBox"]
+[node name="SpacerH" type="Control" parent="Margin/VBox/Header"]
+custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
-text = "准备出发 · 废墟遗迹"
-font_size = 28
+size_flags_horizontal = 3
 
-[node name="Spacer1" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-
-[node name="LengthLabel" type="Label" parent="Margin/VBox"]
+[node name="ResourceLabel" type="Label" parent="Margin/VBox/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-font_size = 26
-
-[node name="LengthButtons" type="HBoxContainer" parent="Margin/VBox"]
-layout_mode = 2
-
-[node name="ShortBtn" type="Button" parent="Margin/VBox/LengthButtons"]
-custom_minimum_size = Vector2(260, 64)
-layout_mode = 2
-text = "短任务"
-
-[node name="MediumBtn" type="Button" parent="Margin/VBox/LengthButtons"]
-custom_minimum_size = Vector2(260, 64)
-layout_mode = 2
-text = "中任务"
-
-[node name="LongBtn" type="Button" parent="Margin/VBox/LengthButtons"]
-custom_minimum_size = Vector2(260, 64)
-layout_mode = 2
-text = "长任务"
-
-[node name="Spacer2" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-
-[node name="PartyLabel" type="Label" parent="Margin/VBox"]
-layout_mode = 2
-text = "队伍（占位）"
-font_size = 26
-
-[node name="PartyList" type="VBoxContainer" parent="Margin/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="Spacer3" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-
-[node name="TorchLabel" type="Label" parent="Margin/VBox"]
-unique_name_in_owner = true
-layout_mode = 2
+text = "金币 0 ｜ 雕像 0 卷轴 0 徽章 0 铭牌 0"
 font_size = 22
 
-[node name="StartBtn" type="Button" parent="Margin/VBox"]
-custom_minimum_size = Vector2(420, 80)
+[node name="Tabs" type="TabContainer" parent="Margin/VBox"]
+custom_minimum_size = Vector2(0, 640)
 layout_mode = 2
-text = "出发 · 进入遗迹"
-font_size = 28
+size_flags_vertical = 3
+current_tab = 0
 
-[connection signal="pressed" from="Margin/VBox/LengthButtons/ShortBtn" to="." method="_on_short_pressed"]
-[connection signal="pressed" from="Margin/VBox/LengthButtons/MediumBtn" to="." method="_on_medium_pressed"]
-[connection signal="pressed" from="Margin/VBox/LengthButtons/LongBtn" to="." method="_on_long_pressed"]
-[connection signal="pressed" from="Margin/VBox/StartBtn" to="." method="_on_start_pressed"]
+[node name="BuildingsTab" type="VBoxContainer" parent="Margin/VBox/Tabs"]
+layout_mode = 2
+
+[node name="BuildingsScroll" type="ScrollContainer" parent="Margin/VBox/Tabs/BuildingsTab"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BuildingsList" type="VBoxContainer" parent="Margin/VBox/Tabs/BuildingsTab/BuildingsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RecruitTab" type="VBoxContainer" parent="Margin/VBox/Tabs"]
+layout_mode = 2
+
+[node name="RecruitHeader" type="HBoxContainer" parent="Margin/VBox/Tabs/RecruitTab"]
+layout_mode = 2
+
+[node name="RecruitTitle" type="Label" parent="Margin/VBox/Tabs/RecruitTab/RecruitHeader"]
+layout_mode = 2
+text = "今日候选"
+font_size = 26
+
+[node name="RefreshBtn" type="Button" parent="Margin/VBox/Tabs/RecruitTab/RecruitHeader"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "刷新（0）"
+
+[node name="CandidatesList" type="VBoxContainer" parent="Margin/VBox/Tabs/RecruitTab"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RosterTab" type="VBoxContainer" parent="Margin/VBox/Tabs"]
+layout_mode = 2
+
+[node name="RosterSplit" type="HSplitContainer" parent="Margin/VBox/Tabs/RosterTab"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RosterList" type="ScrollContainer" parent="Margin/VBox/Tabs/RosterTab/RosterSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RosterListV" type="VBoxContainer" parent="Margin/VBox/Tabs/RosterTab/RosterSplit/RosterList"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RosterDetail" type="PanelContainer" parent="Margin/VBox/Tabs/RosterTab/RosterSplit"]
+custom_minimum_size = Vector2(760, 0)
+layout_mode = 2
+
+[node name="RosterDetailV" type="VBoxContainer" parent="Margin/VBox/Tabs/RosterTab/RosterSplit/RosterDetail"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ShopTab" type="VBoxContainer" parent="Margin/VBox/Tabs"]
+layout_mode = 2
+
+[node name="ShopScroll" type="ScrollContainer" parent="Margin/VBox/Tabs/ShopTab"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ShopList" type="VBoxContainer" parent="Margin/VBox/Tabs/ShopTab/ShopScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TreatmentTab" type="VBoxContainer" parent="Margin/VBox/Tabs"]
+layout_mode = 2
+
+[node name="TreatScroll" type="ScrollContainer" parent="Margin/VBox/Tabs/TreatmentTab"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TreatList" type="VBoxContainer" parent="Margin/VBox/Tabs/TreatmentTab/TreatScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Bottom" type="VBoxContainer" parent="Margin/VBox"]
+layout_mode = 2
+
+[node name="DepartRow" type="HBoxContainer" parent="Margin/VBox/Bottom"]
+layout_mode = 2
+
+[node name="LengthLabel" type="Label" parent="Margin/VBox/Bottom/DepartRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "任务长度：短"
+font_size = 22
+
+[node name="LengthBtns" type="HBoxContainer" parent="Margin/VBox/Bottom/DepartRow"]
+layout_mode = 2
+
+[node name="ShortBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/LengthBtns"]
+layout_mode = 2
+text = "短"
+
+[node name="MediumBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/LengthBtns"]
+layout_mode = 2
+text = "中"
+
+[node name="LongBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/LengthBtns"]
+layout_mode = 2
+text = "长"
+
+[node name="PartyLabel" type="Label" parent="Margin/VBox/Bottom/DepartRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "队伍：未选择"
+font_size = 22
+size_flags_horizontal = 3
+
+[node name="StartBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow"]
+custom_minimum_size = Vector2(300, 64)
+layout_mode = 2
+text = "出发"
+font_size = 26
+
+[node name="PartySelectHint" type="Label" parent="Margin/VBox/Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "提示：在「英雄」页选择最多 4 名英雄组成队伍，再在「商店」页购买补给。"
+font_size = 18
+modulate = Color(0.75, 0.68, 0.55, 1)
+
+[node name="PartyList" type="HBoxContainer" parent="Margin/VBox/Bottom"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/ShortBtn" to="." method="_on_short_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/MediumBtn" to="." method="_on_medium_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/LongBtn" to="." method="_on_long_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/StartBtn" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Margin/VBox/Tabs/RecruitTab/RecruitHeader/RefreshBtn" to="." method="_on_refresh_pressed"]

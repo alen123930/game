@@ -1,0 +1,10 @@
+{
+	"_meta": {
+		"description": "伤病/疾病（GDD 3.5）。type: injury/disease；injury 诊疗室 1 级可治，disease 需 2 级；cure_cost 基准费用（乘以诊疗室 fee_mult）"
+	},
+	"bruise": { "id": "bruise", "name": "淤伤", "type": "injury", "cure_cost": 300, "effects": [{ "status": "max_hp_pct", "value": -0.1 }] },
+	"rib_fracture": { "id": "rib_fracture", "name": "肋骨裂", "type": "injury", "cure_cost": 500, "effects": [{ "status": "spd", "value": -1 }] },
+	"deep_wound": { "id": "deep_wound", "name": "深创", "type": "injury", "cure_cost": 700, "effects": [{ "status": "max_hp_pct", "value": -0.2 }, { "status": "acc", "value": -3 }] },
+	"plague": { "id": "plague", "name": "瘟疫", "type": "disease", "cure_cost": 800, "effects": [{ "status": "max_hp_pct", "value": -0.15 }, { "status": "acc", "value": -2 }] },
+	"madness": { "id": "madness", "name": "疯病", "type": "disease", "cure_cost": 1000, "effects": [{ "status": "spd", "value": -2 }, { "status": "stress_gain", "value": 2 }] }
+}

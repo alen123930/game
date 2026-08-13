@@ -2,7 +2,11 @@
 	"_meta": {
 		"description": "英雄职业基础数值与成长（GDD 2.10）",
 		"recruit_cost_by_rarity": { "white": 2500, "blue": 5000, "purple": 9000, "gold": 15000 },
-		"quirks_per_hero": [2, 4]
+		"quirks_per_hero": [2, 4],
+		"rarity_stat_bonus": { "white": 0.0, "blue": 0.05, "purple": 0.10, "gold": 0.15 },
+		"rarity_weights": { "white": 55, "blue": 30, "purple": 12, "gold": 3 },
+		"starting_gold": 8000,
+		"start_heirlooms": { "statue": 6, "scroll": 8, "badge": 10, "tablet": 8 }
 	},
 	"knight": {
 		"id": "knight",
