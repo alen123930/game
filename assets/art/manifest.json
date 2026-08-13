@@ -1,0 +1,1242 @@
+{
+  "project": "晨昏之下 (类暗黑地牢)",
+  "gdd": "v1.0 第六章 6.3 清单 V0.2 子集",
+  "scope": "V0.2 垂直切片美术：城镇建筑 + UI 全套",
+  "style": "黑暗哥特铅笔/墨水手绘、低饱和暖冷对冲、高对比光影、粗颗粒",
+  "palette": {
+    "bg": "#1A1510",
+    "blood": "#5C2E2E",
+    "cold": "#2E3A4A",
+    "hero": "#E8A94A",
+    "gold": "#8A6A2F",
+    "enemy": "#3A4A5A",
+    "eGreen": "#4A5C3A",
+    "ePurple": "#5A3A5C",
+    "uiLeather": "#3A2A1A",
+    "uiBrass": "#B89A5A",
+    "uiBlood": "#8A2A2A"
+  },
+  "spec": {
+    "building_exterior": "1024x768 PNG",
+    "panel": "1024x768 PNG",
+    "building_icon": "256x256",
+    "town_background": "1920x1080",
+    "ui_nineslice": "512x512",
+    "item_icon": "256x256",
+    "naming": "type_class_xxx"
+  },
+  "status": "程序化合成占位图 (programmatic placeholder) - 供管线先行接入，风格按 GDD 6.1/6.2；正式手绘终稿可替换同名文件。",
+  "asset_count": 121,
+  "assets": [
+    {
+      "file": "buildings/building_recruitment_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "雇佣厅 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 雇佣厅 (招募英雄) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_recruitment_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "雇佣厅 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 雇佣厅 (招募英雄) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_recruitment_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "雇佣厅 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 雇佣厅 (招募英雄) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_recruitment_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "雇佣厅 交互面板背景",
+      "kind": "dark gothic interior background for 雇佣厅 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_recruitment_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "雇佣厅 图标",
+      "kind": "icon of 雇佣厅, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_clinic_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "诊疗室 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 诊疗室 (治疗伤病/疾病) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_clinic_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "诊疗室 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 诊疗室 (治疗伤病/疾病) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_clinic_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "诊疗室 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 诊疗室 (治疗伤病/疾病) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_clinic_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "诊疗室 交互面板背景",
+      "kind": "dark gothic interior background for 诊疗室 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_clinic_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "诊疗室 图标",
+      "kind": "icon of 诊疗室, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_training_ground_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "训练场 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 训练场 (升级技能) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_training_ground_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "训练场 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 训练场 (升级技能) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_training_ground_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "训练场 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 训练场 (升级技能) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_training_ground_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "训练场 交互面板背景",
+      "kind": "dark gothic interior background for 训练场 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_training_ground_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "训练场 图标",
+      "kind": "icon of 训练场, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_blacksmith_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "铁匠铺 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 铁匠铺 (升级武器) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_blacksmith_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "铁匠铺 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 铁匠铺 (升级武器) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_blacksmith_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "铁匠铺 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 铁匠铺 (升级武器) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_blacksmith_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "铁匠铺 交互面板背景",
+      "kind": "dark gothic interior background for 铁匠铺 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_blacksmith_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "铁匠铺 图标",
+      "kind": "icon of 铁匠铺, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_armory_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "护甲坊 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 护甲坊 (升级护甲) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_armory_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "护甲坊 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 护甲坊 (升级护甲) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_armory_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "护甲坊 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 护甲坊 (升级护甲) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_armory_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "护甲坊 交互面板背景",
+      "kind": "dark gothic interior background for 护甲坊 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_armory_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "护甲坊 图标",
+      "kind": "icon of 护甲坊, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_church_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "教堂 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 教堂 (减压) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_church_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "教堂 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 教堂 (减压) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_church_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "教堂 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 教堂 (减压) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_church_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "教堂 交互面板背景",
+      "kind": "dark gothic interior background for 教堂 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_church_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "教堂 图标",
+      "kind": "icon of 教堂, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_tavern_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "酒馆 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 酒馆 (减压（带风险）) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_tavern_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "酒馆 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 酒馆 (减压（带风险）) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_tavern_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "酒馆 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 酒馆 (减压（带风险）) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_tavern_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "酒馆 交互面板背景",
+      "kind": "dark gothic interior background for 酒馆 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_tavern_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "酒馆 图标",
+      "kind": "icon of 酒馆, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "buildings/building_graveyard_ext_lv1.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "墓地 外景 Lv1",
+      "kind": "dark gothic hand-drawn exterior of a 墓地 (永久增益) at level 1, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_graveyard_ext_lv2.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "墓地 外景 Lv2",
+      "kind": "dark gothic hand-drawn exterior of a 墓地 (永久增益) at level 2, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_graveyard_ext_lv3.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building",
+      "subject": "墓地 外景 Lv3",
+      "kind": "dark gothic hand-drawn exterior of a 墓地 (永久增益) at level 3, stone masonry, steep gothic roofs, arched windows with warm torchlight, heavy crosshatching, ink sketch, low saturation warm-cold contrast, dramatic high-contrast lighting, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_graveyard_panel.png",
+      "size": [
+        1024,
+        768
+      ],
+      "type": "building_panel",
+      "subject": "墓地 交互面板背景",
+      "kind": "dark gothic interior background for 墓地 interaction panel, stone walls, warm torchlight, hearth glow, wooden counter, hanging emblem, hand-drawn charcoal and ink, film grain, 1024x768"
+    },
+    {
+      "file": "buildings/building_graveyard_icon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "building_icon",
+      "subject": "墓地 图标",
+      "kind": "icon of 墓地, brass line engraving on dark leather plate, dark gothic style, 256x256"
+    },
+    {
+      "file": "town/bg_town_overview.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "城镇全貌背景",
+      "kind": "wide dark gothic town panorama at dusk, rows of gothic buildings silhouettes, moonlit fog, scattered warm window lights, hand-drawn ink and charcoal, film grain, 1920x1080"
+    },
+    {
+      "file": "ui/ui_panel_9patch.png",
+      "size": [
+        512,
+        512
+      ],
+      "type": "ui_panel",
+      "subject": "面板九宫格 9-slice",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_btn_default.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui_button",
+      "subject": "按钮默认态",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_btn_pressed.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui_button",
+      "subject": "按钮按下态",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_btn_disabled.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui_button",
+      "subject": "按钮禁用态",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_bar_hp.png",
+      "size": [
+        256,
+        32
+      ],
+      "type": "ui_bar",
+      "subject": "HP 条",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_bar_stress.png",
+      "size": [
+        256,
+        32
+      ],
+      "type": "ui_bar",
+      "subject": "压力条",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_bar_torch.png",
+      "size": [
+        256,
+        32
+      ],
+      "type": "ui_bar",
+      "subject": "火把条",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_slot_position.png",
+      "size": [
+        128,
+        128
+      ],
+      "type": "ui_slot",
+      "subject": "站位格",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_skillbar.png",
+      "size": [
+        1024,
+        128
+      ],
+      "type": "ui_skillbar",
+      "subject": "技能栏（4 槽）",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_loading.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "ui_screen",
+      "subject": "加载页",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "ui/ui_settlement.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "ui_screen",
+      "subject": "结算页",
+      "kind": "dark gothic UI, leather and brass, hand-drawn ink texture"
+    },
+    {
+      "file": "items/item_supply_food.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 food",
+      "kind": "supply item food icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_torch.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 torch",
+      "kind": "supply item torch icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_bandage.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 bandage",
+      "kind": "supply item bandage icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_herb.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 herb",
+      "kind": "supply item herb icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_antidote.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 antidote",
+      "kind": "supply item antidote icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_holy_water.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 holy_water",
+      "kind": "supply item holy_water icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_key.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 key",
+      "kind": "supply item key icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_shovel.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 shovel",
+      "kind": "supply item shovel icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_supply_charm.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "补给品 charm",
+      "kind": "supply item charm icon, brass line on leather plate"
+    },
+    {
+      "file": "items/item_loot_gold.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 gold",
+      "kind": "loot item gold icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_statue.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 statue",
+      "kind": "loot item statue icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_scroll.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 scroll",
+      "kind": "loot item scroll icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_badge.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 badge",
+      "kind": "loot item badge icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_tablet.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 tablet",
+      "kind": "loot item tablet icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_emerald.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 emerald",
+      "kind": "loot item emerald icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_fire_gem.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 fire_gem",
+      "kind": "loot item fire_gem icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_cut_diamond.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 cut_diamond",
+      "kind": "loot item cut_diamond icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_gems.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 gems",
+      "kind": "loot item gems icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_amphora.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 amphora",
+      "kind": "loot item amphora icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_skull.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 skull",
+      "kind": "loot item skull icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_bones.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 bones",
+      "kind": "loot item bones icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_candle.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 candle",
+      "kind": "loot item candle icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_blood_vial.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 blood_vial",
+      "kind": "loot item blood_vial icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_boss_key.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 boss_key",
+      "kind": "loot item boss_key icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_ancient_key.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 ancient_key",
+      "kind": "loot item ancient_key icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_relic_urn.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 relic_urn",
+      "kind": "loot item relic_urn icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_hunting_horn.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 hunting_horn",
+      "kind": "loot item hunting_horn icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_saber_tooth.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 saber_tooth",
+      "kind": "loot item saber_tooth icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_loot_feather.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "战利品 feather",
+      "kind": "loot item feather icon, gold line on leather plate"
+    },
+    {
+      "file": "items/item_trinket_ring.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 ring (white)",
+      "kind": "trinket ring icon, white rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_diamond_ring.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 diamond_ring (gold)",
+      "kind": "trinket diamond_ring icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_skull_ring.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 skull_ring (gold)",
+      "kind": "trinket skull_ring icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_power_ring.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 power_ring (purple)",
+      "kind": "trinket power_ring icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_gothic_cross.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 gothic_cross (white)",
+      "kind": "trinket gothic_cross icon, white rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_holy_symbol.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 holy_symbol (purple)",
+      "kind": "trinket holy_symbol icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_all_seeing_eye.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 all_seeing_eye (blue)",
+      "kind": "trinket all_seeing_eye icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_pearl_necklace.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 pearl_necklace (purple)",
+      "kind": "trinket pearl_necklace icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_primitive_necklace.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 primitive_necklace (gold)",
+      "kind": "trinket primitive_necklace icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_emerald_necklace.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 emerald_necklace (white)",
+      "kind": "trinket emerald_necklace icon, white rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_gem_chain.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 gem_chain (gold)",
+      "kind": "trinket gem_chain icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_feather_necklace.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 feather_necklace (blue)",
+      "kind": "trinket feather_necklace icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_drop_earrings.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 drop_earrings (gold)",
+      "kind": "trinket drop_earrings icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_pearl_earring.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 pearl_earring (blue)",
+      "kind": "trinket pearl_earring icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_crystal_earrings.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 crystal_earrings (gold)",
+      "kind": "trinket crystal_earrings icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_claw_charm.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 claw_charm (blue)",
+      "kind": "trinket claw_charm icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_fangs_charm.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 fangs_charm (purple)",
+      "kind": "trinket fangs_charm icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_bone_charm.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 bone_charm (blue)",
+      "kind": "trinket bone_charm icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_evil_moon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 evil_moon (gold)",
+      "kind": "trinket evil_moon icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_heraldic_sun.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 heraldic_sun (gold)",
+      "kind": "trinket heraldic_sun icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_medal.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 medal (purple)",
+      "kind": "trinket medal icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_star.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 star (white)",
+      "kind": "trinket star icon, white rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_rune_stone.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 rune_stone (purple)",
+      "kind": "trinket rune_stone icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_iron_mask.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 iron_mask (purple)",
+      "kind": "trinket iron_mask icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_tribal_mask.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 tribal_mask (purple)",
+      "kind": "trinket tribal_mask icon, purple rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_belt_buckles.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 belt_buckles (gold)",
+      "kind": "trinket belt_buckles icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_boots.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 boots (white)",
+      "kind": "trinket boots icon, white rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_gloves.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 gloves (gold)",
+      "kind": "trinket gloves icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_cape.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 cape (blue)",
+      "kind": "trinket cape icon, blue rarity color on leather plate"
+    },
+    {
+      "file": "items/item_trinket_pocket_watch.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "item",
+      "subject": "饰品 pocket_watch (gold)",
+      "kind": "trinket pocket_watch icon, gold rarity color on leather plate"
+    },
+    {
+      "file": "fx/fx_slash.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "挥砍",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_arrow.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "箭矢",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_magic_circle.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "法阵",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_heal.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "治疗",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_crit.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "暴击",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_particle_bleed.png",
+      "size": [
+        128,
+        128
+      ],
+      "type": "fx",
+      "subject": "流血粒子",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_particle_poison.png",
+      "size": [
+        128,
+        128
+      ],
+      "type": "fx",
+      "subject": "中毒粒子",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_particle_burn.png",
+      "size": [
+        128,
+        128
+      ],
+      "type": "fx",
+      "subject": "燃烧粒子",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_black_fog.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "黑雾",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "fx/fx_purify_halo.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "净化光环",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    }
+  ]
+}

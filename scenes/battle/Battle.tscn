@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/battle/battle.gd" id="1_battle"]
 
-[node name="BattlePlaceholder" type="Control"]
+[node name="Battle" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +24,7 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="Margin/VBox"]
 layout_mode = 2
-text = "⚔ 战斗"
+text = "⚔ 战斗（自动演示）"
 font_size = 48
 horizontal_alignment = 1
 
@@ -32,35 +32,46 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "敌人信息"
-font_size = 30
+font_size = 26
 horizontal_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "占位提示"
-font_size = 22
+text = "状态提示"
+font_size = 20
 horizontal_alignment = 1
 
+[node name="LogLabel" type="RichTextLabel" parent="Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 300)
+size_flags_vertical = 3
+font_size = 15
+bbcode_enabled = true
+scroll_active = true
+
 [node name="Spacer" type="Control" parent="Margin/VBox"]
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 
 [node name="Buttons" type="HBoxContainer" parent="Margin/VBox"]
 layout_mode = 2
 alignment = 1
 
-[node name="WinBtn" type="Button" parent="Margin/VBox/Buttons"]
-custom_minimum_size = Vector2(320, 88)
+[node name="ReturnBtn" type="Button" parent="Margin/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 72)
 layout_mode = 2
-text = "战斗胜利（占位）"
-font_size = 26
+text = "返回探索"
+font_size = 24
 
 [node name="RetreatBtn" type="Button" parent="Margin/VBox/Buttons"]
-custom_minimum_size = Vector2(320, 88)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 72)
 layout_mode = 2
 text = "撤退"
-font_size = 26
+font_size = 24
 
-[connection signal="pressed" from="Margin/VBox/Buttons/WinBtn" to="." method="_on_win_pressed"]
+[connection signal="pressed" from="Margin/VBox/Buttons/ReturnBtn" to="." method="_on_return_pressed"]
 [connection signal="pressed" from="Margin/VBox/Buttons/RetreatBtn" to="." method="_on_retreat_pressed"]
