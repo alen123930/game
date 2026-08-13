@@ -10,7 +10,7 @@
 - 平台：Android 8.0+（API 26+），横屏锁定
 - 设计分辨率：1920×1080 横屏（`display/window/stretch` canvas_items + keep）
 
-## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-7 + WS-8 + WS-9）
+## 当前进度（V0.1 / WS-3 + WS-5 + WS-4 + WS-7 + WS-8 + WS-9 + WS-14）
 
 已实现：
 
@@ -22,8 +22,9 @@
 - **城镇经营系统（WS-9）**：`TownManager` 单例承载城镇经营（GDD 第三章）——资源管理（金币/传承物 4 种/补给/饰品）、8 栋建筑各 3 级升级（等级门控功能上限：候选人数、技能/武器/护甲上限、治疗折扣、减压活动、墓地永久增益）、每日英雄招募（4~8 名、白/蓝/紫/金稀有度与费用、2~4 怪癖）、养成（经验升级、技能装备与训练场升级、武器/护甲 5 级、饰品 2 槽）、伤病/疾病/怪癖处理与压力处理（教堂/酒馆/派遣休息）、补给商店（9 种物品）；结算把金币/经验/伤病回写城镇，完成「招募→培养→出发→返回→结算→治疗/减压」闭环。新增数据：`data/trinkets.json`、`data/injuries.json`。
 - 探索相关运行时配置在 `data/exploration.json`，由 `DataLoader` 加载；`GameState` 承载运行期状态（地图/火把/队伍/补给/战斗衔接）。
 - **剧情章节 + 旁白文案（WS-15）**：新增 `data/narrative.json`（GDD 第五章全部文本）+ `Narrative` 自动加载单例。覆盖：世界观背景「晨昏庄园」叙事结构（序章/第一幕/第二幕）、5 势力设定（圣烛会/低语者教团/偷渡者公会/无面低语/被遗忘的先祖）、8 职业背景文案、4 区域进入开场白、事件文案（宝箱/遗物/祭坛/低语/塌陷/安全/陷阱/遭遇/关底）、结算文案（胜利/击破关底撤退/撤退）。语气规则（GDD 5.5：第二人称、短句压抑、悲剧底色）写入 `_meta.tone_rules`。嵌入点：探索场景首次出发显示序章 + 区域开场白（`GameState.story_prologue_shown` 仅一次）、事件房/宝箱/陷阱/安全房/遇敌与关底写入叙事行、结算页显示叙事结语、城镇英雄详情显示职业背景。
+- **怪癖/伤病/疾病系统（WS-14，GDD 3.5）**：数据扩展全部走 JSON 配置——`data/quirks.json` 增加 `_meta.purge.base_cost`（教堂净化费用）、`_meta.max_quirks`（上限 5）与 `_meta.gain`（任务/事件获取概率与方向）；`data/injuries.json` 增加 `_meta.injury_trigger`（按伤害量触发伤病：最低伤害/每 10 伤害概率/单英雄上限）与 `_meta.disease.region_pools`（区域疾病池，废墟→瘟疫/林地→疯病等）；`data/exploration.json` 增加 `afflictions`（事件怪癖改变、事件/关底疾病感染概率）。实现：招募英雄 2~4 怪癖（去重保证数量）、任务中获取/改变怪癖（满上限替换）、教堂净化（配置费用）、伤病按任务累计伤害量触发且受上限约束、疾病按区域池/事件/关底感染、诊疗室 1 级治伤病 / 2 级治疾病、长期属性影响（`get_hero_stats` 汇总怪癖/伤病/疾病/饰品）。流程集成：`GameState.run_damage` 累计战斗+陷阱伤害（战斗结束 `battle.gd` 回写 HP/压力/伤害），结算页显示伤病/疾病/怪癖变化清单，城镇治疗页显示净化配置费用。
 
-> 待办：WS-8 战斗触屏 UI；WS-10 掉落与经济；WS-11 存档。WS-6 美术 V0.1 / WS-12 美术 V0.2 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
+> 待办：WS-10 掉落与经济；WS-11 存档。WS-6 美术 V0.1 / WS-12 美术 V0.2 素材已入库（`assets/art/`，供 V0.2 城镇经营等任务按 GDD 6.3 引用）。
 
 ## 工程结构
 
@@ -50,10 +51,10 @@ data/                全部数值配置（JSON，改动数值不改代码）
   dungeons.json      区域与关卡结构（GDD 4.1 / 4.2）
   buildings.json     城镇建筑（GDD 3.2）
   loot_tables.json   掉落与经济（GDD 4.5 / 4.6）
-  quirks.json        怪癖（GDD 3.5）
+  quirks.json        怪癖（GDD 3.5，含净化费用/上限/获取概率 _meta）
   items.json         补给品商店（GDD 3.7）
   trinkets.json      饰品（GDD 3.4，白/蓝/紫/金）
-  injuries.json      伤病与疾病（GDD 3.5）
+  injuries.json      伤病与疾病（GDD 3.5，含按伤害触发/区域疾病池 _meta）
   narrative.json     剧情章节与旁白文案（GDD 第五章）：世界观/章节/势力/职业背景/区域开场白/事件/结算文案 + 语气规则
   exploration.json   遗迹探索运行时配置（地图尺寸/火把档位/陷阱/门锁/掉落/遇敌）
 assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落地）
@@ -65,7 +66,7 @@ assets/art/          美术素材（GDD 6.3 分类目录，WS-12 美术 V0.2 落
   manifest.json        素材清单与规格（GDD 6.4）
   SOURCES_AND_LICENSES.md  来源与许可证（game-icons.net CC-BY 3.0 + 程序化合成）
 theme/main_theme.tres  全局主题（CJK 字体回退）
-tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-7 压力火把 + WS-8 战斗触屏 UI + WS-9 城镇经营）
+tests/               无头自检（WS-3 冒烟 + WS-5 生成器/全流程/场景流转 + WS-4 战斗 + WS-7 压力火把 + WS-8 战斗触屏 UI + WS-9 城镇经营 + WS-14 怪癖/伤病/疾病）
 export_presets.cfg   Android 导出预设（minSdk 26 / targetSdk 35，arm64-v8a + armeabi-v7a）
 ```
 
@@ -103,6 +104,9 @@ godot --headless --path . res://tests/test_ws9.tscn
 
 # WS-15 剧情章节 + 旁白文案（文案数据完整性 + 探索/结算/城镇嵌入）
 godot --headless --path . res://tests/test_ws15.tscn
+
+# WS-14 怪癖/伤病/疾病（配置元数据/获取与改变/净化/按伤害触发/区域感染/跨局治疗）
+godot --headless --path . res://tests/test_ws14.tscn
 ```
 
 ## 数据驱动约定

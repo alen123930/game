@@ -1,6 +1,21 @@
 {
 	"_meta": {
-		"description": "伤病/疾病（GDD 3.5）。type: injury/disease；injury 诊疗室 1 级可治，disease 需 2 级；cure_cost 基准费用（乘以诊疗室 fee_mult）"
+		"description": "伤病/疾病（GDD 3.5）。type: injury/disease；injury 诊疗室 1 级可治，disease 需 2 级；cure_cost 基准费用（乘以诊疗室 fee_mult）",
+		"injury_trigger": {
+			"min_damage": 10,
+			"chance_per_10_damage": 0.35,
+			"max_per_hero": 2
+		},
+		"disease": {
+			"event_chance": 0.12,
+			"boss_chance": 0.3,
+			"region_pools": {
+				"ruins": ["plague"],
+				"forest": ["madness"],
+				"moor": ["plague", "madness"],
+				"warrens": ["madness"]
+			}
+		}
 	},
 	"bruise": { "id": "bruise", "name": "淤伤", "type": "injury", "cure_cost": 300, "effects": [{ "status": "max_hp_pct", "value": -0.1 }] },
 	"rib_fracture": { "id": "rib_fracture", "name": "肋骨裂", "type": "injury", "cure_cost": 500, "effects": [{ "status": "spd", "value": -1 }] },

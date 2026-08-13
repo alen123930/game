@@ -1,7 +1,14 @@
 {
 	"_meta": {
 		"description": "怪癖系统（GDD 3.5）。type: positive/negative",
-		"purge": { "location": "church", "cost_mult": 1.0 }
+		"purge": { "location": "church", "base_cost": 800, "cost_mult": 1.0 },
+		"max_quirks": 5,
+		"gain": {
+			"event_chance": 0.15,
+			"event_positive_chance": 0.5,
+			"mission_chance": 0.1,
+			"mission_positive_chance": 0.5
+		}
 	},
 	"fearless": { "id": "fearless", "name": "无畏", "type": "positive", "effects": [{ "status": "immune_fear" }] },
 	"steadfast": { "id": "steadfast", "name": "坚毅", "type": "positive", "effects": [{ "status": "stress_reduction", "value": 0.2 }] },

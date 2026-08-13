@@ -72,5 +72,11 @@
     "group_min": 1,
     "group_max": 3,
     "dark_bonus_chance": 0.15
+  },
+  "afflictions": {
+    "event_quirk_chance": 0.15,
+    "event_quirk_positive_chance": 0.5,
+    "event_disease_chance": 0.12,
+    "boss_disease_chance": 0.3
   }
 }

@@ -248,7 +248,10 @@ func _roll_quirks() -> Array:
 			continue
 		all.append(key)
 	var picked: Array = []
-	for i in n:
+	# 抽满 n 个且不重复（重掷避免重复导致数量不足，GDD 3.5：每位英雄 2~4 怪癖）
+	var guard := 0
+	while picked.size() < n and guard < 50:
+		guard += 1
 		if all.is_empty():
 			break
 		var q := String(all[_roll(0, all.size() - 1)])
@@ -514,20 +517,7 @@ func tavern_activity(hero: Dictionary, action_id: String) -> Dictionary:
 	return {"ok": false, "reason": "no_action"}
 
 func _add_random_quirk(hero: Dictionary, quirk_type: String) -> void:
-	var pool: Array = []
-	for key in ConfigManager.get_section("quirks"):
-		if key.begins_with("_"):
-			continue
-		if ConfigManager.get_entry("quirks", key).get("type", "") == quirk_type:
-			pool.append(key)
-	if pool.is_empty():
-		return
-	var pick := String(pool[_roll(0, pool.size() - 1)])
-	for q in hero["quirks"]:
-		if q.get("id", "") == pick:
-			return
-	var cfg: Dictionary = ConfigManager.get_entry("quirks", pick)
-	hero["quirks"].append({"id": pick, "name": cfg.get("name", pick), "type": quirk_type})
+	gain_quirk(hero, quirk_type)
 
 ## 随机施加一处伤病（GDD 3.5：任务结束按伤害量触发）。
 func apply_random_injury(hero: Dictionary) -> Dictionary:
@@ -542,7 +532,80 @@ func apply_random_injury(hero: Dictionary) -> Dictionary:
 	var pick := String(pool[_roll(0, pool.size() - 1)])
 	if not hero["injuries"].has(pick):
 		hero["injuries"].append(pick)
+		_refresh_hp(hero)
 	return {"id": pick, "name": ConfigManager.get_entry("injuries", pick).get("name", pick)}
+
+## 任务结束按伤害量触发伤病（GDD 3.5）：
+##   伤害越高触发概率越高（injuries.json `_meta.injury_trigger`），且受上限约束。
+## damage 为本次任务累计承受伤害；触发时按权重（由配置各伤病 chance 决定）抽取。
+## 返回本次新增的伤病 id 列表。
+func apply_injuries_by_damage(hero: Dictionary, damage: int) -> Array:
+	var trigger: Dictionary = ConfigManager.get_entry("injuries", "_meta").get("injury_trigger", {})
+	var min_damage := int(trigger.get("min_damage", 10))
+	var chance_per_10 := float(trigger.get("chance_per_10_damage", 0.35))
+	var max_per_hero := int(trigger.get("max_per_hero", 2))
+	if damage < min_damage:
+		return []
+	var granted: Array = []
+	var guard := 0
+	# 按伤害量滚动机会：伤害/10 × 单次概率（上限封顶 1.0）。
+	var chance := clampf(chance_per_10 * (float(damage) / 10.0), 0.0, 1.0)
+	while guard < max_per_hero and int(hero["injuries"].size()) < max_per_hero:
+		guard += 1
+		if _roll(1, 100) > int(chance * 100.0):
+			break
+		var res := apply_random_injury(hero)
+		if res.is_empty() or res.get("id", "") in granted:
+			break
+		granted.append(res["id"])
+	return granted
+
+## 随机感染一种疾病（GDD 3.5：特定区域/事件感染）。
+## region 提供区域疾病池（injuries.json `_meta.disease.region_pools`），为空则取全部疾病。
+func apply_random_disease(hero: Dictionary, region: String = "") -> Dictionary:
+	var pool: Array = _disease_pool(region)
+	if pool.is_empty():
+		return {}
+	var pick := String(pool[_roll(0, pool.size() - 1)])
+	if not hero["diseases"].has(pick):
+		hero["diseases"].append(pick)
+		_refresh_hp(hero)
+	return {"id": pick, "name": ConfigManager.get_entry("injuries", pick).get("name", pick)}
+
+## 区域疾病池：优先 injuries.json `_meta.disease.region_pools[region]`，回退全部疾病。
+func _disease_pool(region: String) -> Array:
+	var pools: Dictionary = ConfigManager.get_entry("injuries", "_meta").get("disease", {}).get("region_pools", {})
+	if region != "" and pools.has(region):
+		return pools[region]
+	var all: Array = []
+	for key in ConfigManager.get_section("injuries"):
+		if key.begins_with("_"):
+			continue
+		if ConfigManager.get_entry("injuries", key).get("type", "") == "disease":
+			all.append(key)
+	return all
+
+## 事件房疾病感染判定概率（exploration.json `afflictions.event_disease_chance`）。
+func get_event_disease_chance() -> float:
+	return float(DataLoader.get_config("exploration.json").get("afflictions", {}).get("event_disease_chance", 0.12))
+
+## 关底 Boss 疾病感染判定概率（exploration.json `afflictions.boss_disease_chance`）。
+func get_boss_disease_chance() -> float:
+	return float(DataLoader.get_config("exploration.json").get("afflictions", {}).get("boss_disease_chance", 0.3))
+
+## 事件怪癖获取/改变概率与方向（exploration.json `afflictions`）。
+func get_event_quirk_chance() -> float:
+	return float(DataLoader.get_config("exploration.json").get("afflictions", {}).get("event_quirk_chance", 0.15))
+
+func get_event_quirk_positive_chance() -> float:
+	return float(DataLoader.get_config("exploration.json").get("afflictions", {}).get("event_quirk_positive_chance", 0.5))
+
+## 任务结束怪癖获取概率与方向（quirks.json `_meta.gain`）。
+func get_mission_quirk_chance() -> float:
+	return float(ConfigManager.get_entry("quirks", "_meta").get("gain", {}).get("mission_chance", 0.1))
+
+func get_mission_quirk_positive_chance() -> float:
+	return float(ConfigManager.get_entry("quirks", "_meta").get("gain", {}).get("mission_positive_chance", 0.5))
 
 ## 诊疗室治疗伤病（1 级可治）。
 func cure_injury(hero: Dictionary, injury_id: String) -> Dictionary:
@@ -569,16 +632,75 @@ func cure_disease(hero: Dictionary, disease_id: String) -> Dictionary:
 	hero["diseases"].erase(disease_id)
 	return {"ok": true}
 
+## 教堂净化怪癖费用（GDD 3.5）：quirks.json `_meta.purge.base_cost × cost_mult`。
+func get_purge_cost() -> int:
+	var purge: Dictionary = ConfigManager.get_entry("quirks", "_meta").get("purge", {})
+	return roundi(int(purge.get("base_cost", 800)) * float(purge.get("cost_mult", 1.0)))
+
+## 英雄怪癖数量上限（GDD 3.5）：quirks.json `_meta.max_quirks`。
+func get_max_quirks() -> int:
+	return int(ConfigManager.get_entry("quirks", "_meta").get("max_quirks", 5))
+
 ## 教堂净化怪癖（费用高，GDD 3.5）。
 func purge_quirk(hero: Dictionary, quirk_id: String) -> Dictionary:
-	var cost := 800
+	var cost := get_purge_cost()
 	if not spend_gold(cost):
 		return {"ok": false, "reason": "funds"}
 	for i in range(hero["quirks"].size() - 1, -1, -1):
 		if String(hero["quirks"][i].get("id", "")) == quirk_id:
 			hero["quirks"].remove_at(i)
+			_refresh_hp(hero)
 			return {"ok": true}
 	return {"ok": false, "reason": "no_quirk"}
+
+## 任务中获取/改变怪癖（GDD 3.5）：按 quirk_type（""=随机正负）抽一个未拥有的怪癖。
+## 已满 max_quirks 时替换一个随机已有怪癖（改变机制），返回操作结果。
+func gain_quirk(hero: Dictionary, quirk_type: String = "") -> Dictionary:
+	var t := quirk_type
+	if t == "":
+		t = "positive" if _roll(1, 100) <= 50 else "negative"
+	var pool: Array = []
+	for key in ConfigManager.get_section("quirks"):
+		if key.begins_with("_"):
+			continue
+		if ConfigManager.get_entry("quirks", key).get("type", "") != t:
+			continue
+		if not _has_quirk(hero, String(key)):
+			pool.append(key)
+	if pool.is_empty():
+		return {"ok": false, "reason": "no_available"}
+	var pick := String(pool[_roll(0, pool.size() - 1)])
+	var cfg: Dictionary = ConfigManager.get_entry("quirks", pick)
+	var entry := {"id": pick, "name": cfg.get("name", pick), "type": t}
+	var replaced := ""
+	if hero["quirks"].size() >= get_max_quirks():
+		var old_idx := _roll(0, hero["quirks"].size() - 1)
+		replaced = String(hero["quirks"][old_idx].get("id", ""))
+		hero["quirks"][old_idx] = entry
+	else:
+		hero["quirks"].append(entry)
+	_refresh_hp(hero)
+	return {"ok": true, "quirk": entry, "replaced": replaced}
+
+## 事件改变怪癖：随机移除一个已有怪癖再获取一个新怪癖（GDD 3.5）。
+func change_quirk(hero: Dictionary) -> Dictionary:
+	if hero["quirks"].is_empty():
+		return gain_quirk(hero, "")
+	var old_idx := _roll(0, hero["quirks"].size() - 1)
+	var old_id := String(hero["quirks"][old_idx].get("id", ""))
+	hero["quirks"].remove_at(old_idx)
+	var res := gain_quirk(hero, "")
+	if not res.get("ok", false):
+		# 无可用怪癖时保留原样
+		return {"ok": false, "reason": "no_available", "removed": old_id}
+	_refresh_hp(hero)
+	return {"ok": true, "removed": old_id, "quirk": res["quirk"]}
+
+func _has_quirk(hero: Dictionary, quirk_id: String) -> bool:
+	for q in hero.get("quirks", []):
+		if String(q.get("id", "")) == quirk_id:
+			return true
+	return false
 
 
 # ------------------------------------------------------------------
@@ -620,22 +742,42 @@ func prepare_run(length: String) -> Dictionary:
 	GameState.start_run(length)
 	return {"ok": true}
 
-## 结算：金币/经验/伤病回写名册，任务收益进城镇（GDD 4.5 子集，完整经济由 WS-10）。
+## 结算：金币/经验/伤病/怪癖回写名册，任务收益进城镇（GDD 3.5 / 4.5 子集，完整经济由 WS-10）。
+## 伤病按本次任务累计伤害量触发（run_damage）；任务结束有概率获取/改变怪癖。
 func settle_run(payload: Dictionary) -> Dictionary:
 	var run_gold := int(payload.get("gold", 0))
 	var length := String(GameState.quest_length)
 	add_gold(run_gold)
 	var exp_each := _compute_exp(length)
 	var exp_total := 0
+	var injury_report: Array = []
+	var quirk_report: Array = []
+	var disease_report: Array = []
 	for ph in payload.get("party", []):
 		var hero := _find_hero(String(ph.get("id", "")))
 		if hero.is_empty():
 			continue
 		hero["hp"] = int(ph.get("hp", hero["max_hp"]))
 		hero["stress"] = clampi(int(ph.get("stress", hero.get("stress", 0))), 0, 200)
-		# 受伤过重 → 触发伤病
-		if int(hero["hp"]) < int(hero["max_hp"]) * 0.5:
-			apply_random_injury(hero)
+		# 按伤害量触发伤病（GDD 3.5）
+		var run_damage := int(hero.get("run_damage", 0))
+		var new_injuries := apply_injuries_by_damage(hero, run_damage)
+		if not new_injuries.is_empty():
+			injury_report.append({"name": hero["name"], "ids": new_injuries})
+		# 疾病：结算时按区域感染概率补充（exploration afflictions 已在任务中判定，这里兜底）
+		var disease_region := String(payload.get("region", GameState.current_dungeon.get("map_type", "ruins")))
+		var disease_pool: Array = _disease_pool(disease_region)
+		if not disease_pool.is_empty() and _roll(1, 100) <= int(get_event_disease_chance() * 100.0):
+			var d := apply_random_disease(hero, disease_region)
+			if not d.is_empty():
+				disease_report.append({"name": hero["name"], "id": d["id"]})
+		# 任务结束怪癖获取/改变（GDD 3.5）
+		if _roll(1, 100) <= int(get_mission_quirk_chance() * 100.0):
+			var qtype := "positive" if _roll(1, 100) <= int(get_mission_quirk_positive_chance() * 100.0) else "negative"
+			var q := gain_quirk(hero, qtype)
+			if q.get("ok", false):
+				quirk_report.append({"name": hero["name"], "quirk": q["quirk"], "replaced": q.get("replaced", "")})
+		hero["run_damage"] = 0
 		var r := add_exp(hero, exp_each)
 		exp_total += exp_each
 	# 解除所有派遣休息标记（已完成一次任务间隔）
@@ -645,6 +787,9 @@ func settle_run(payload: Dictionary) -> Dictionary:
 		"ok": true,
 		"gold_awarded": run_gold,
 		"exp_awarded": exp_total,
+		"injuries": injury_report,
+		"quirks": quirk_report,
+		"diseases": disease_report,
 	}
 
 ## 经验公式（GDD 4.5）：300 × 长度系数（默认 1 星）。

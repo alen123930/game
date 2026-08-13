@@ -233,8 +233,12 @@ func is_in_target_pos(skill_id: String, target_pos: int) -> bool:
 	var target_pos_list: Array = skill.get("target_pos", [1, 2, 3, 4])
 	return target_pos in target_pos_list
 
+## 本次战斗累计受到的伤害（战斗结束写回任务累计 run_damage，GDD 3.5）。
+var damage_taken: int = 0
+
 func take_damage(amount: int) -> void:
 	hp = maxi(hp - amount, 0)
+	damage_taken += amount
 
 func heal(amount: int) -> void:
 	if not alive:
