@@ -1,7 +1,7 @@
 {
   "project": "晨昏之下 (类暗黑地牢)",
-  "gdd": "v1.0 第六章 6.3 清单 V0.2 子集",
-  "scope": "V0.2 垂直切片美术：城镇建筑 + UI 全套",
+  "gdd": "v1.0 第六章 6.1-6.4",
+  "scope": "V0.1-V0.3 全量美术：英雄/怪物/Boss/背景/城镇/UI/物品/特效",
   "style": "黑暗哥特铅笔/墨水手绘、低饱和暖冷对冲、高对比光影、粗颗粒",
   "palette": {
     "bg": "#1A1510",
@@ -23,10 +23,13 @@
     "town_background": "1920x1080",
     "ui_nineslice": "512x512",
     "item_icon": "256x256",
-    "naming": "type_class_xxx"
+    "naming": "type_class_xxx",
+    "portrait": "1024x1024 PNG 32bit 透明",
+    "avatar_icon": "256x256",
+    "background": "1920x1080"
   },
-  "status": "程序化合成占位图 (programmatic placeholder) - 供管线先行接入，风格按 GDD 6.1/6.2；正式手绘终稿可替换同名文件。",
-  "asset_count": 121,
+  "status": "程序化合成占位图 (programmatic placeholder) - 供管线先行接入；风格按 GDD 6.1/6.2；正式手绘终稿可替换同名文件。图标/头像类为 game-icons.net CC-BY 3.0 素材渲染。",
+  "asset_count": 364,
   "assets": [
     {
       "file": "buildings/building_recruitment_ext_lv1.png",
@@ -1237,6 +1240,3228 @@
       "type": "fx",
       "subject": "净化光环",
       "kind": "dark gothic particle/effect sprite, translucent, hand-drawn"
+    },
+    {
+      "file": "heroes/hero_knight_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "圣骑士 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 圣骑士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_knight_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "圣骑士 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_knight_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "圣骑士 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_knight_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "圣骑士 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a gaunt knight in battered heavy plate armor and worn tabard, holding a large kite shield before chest, tired determined eyes, pale scarred face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm torchlight from one side vs cold blue-violet ambient shadow, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_shieldguard_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盾卫 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盾卫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_shieldguard_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盾卫 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_shieldguard_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盾卫 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_shieldguard_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盾卫 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a silent northern mercenary in riveted heavy plate and banded tower shield across the body, square jaw, weathered face with old scar, shaved head, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold steel ambient with faint torch rim light, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_berserker_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "狂战士 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 狂战士 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_berserker_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "狂战士 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_berserker_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "狂战士 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_berserker_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "狂战士 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a feral berserker with wild unkempt hair, blood-smeared face, gripping a huge war axe, torn furs and hide armor, rage-lit eyes, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, hot orange torchlight vs cold shadow, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_rogue_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "盗贼 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 single skill icon, 盗贼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_rogue_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盗贼 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_rogue_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盗贼 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_rogue_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "盗贼 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a lean hooded rogue with half-shadowed face, twin daggers crossed, leather and cloth, sharp cunning eyes, smirk, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, cold blue moonlight with warm candle rim, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_hunter_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "猎人 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 single skill icon, 猎人 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_hunter_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "猎人 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_hunter_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "猎人 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_hunter_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "猎人 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weathered woodsman ranger with fur collar, braided hair, drawn bow at side, eyes narrowed under hood, feather fetish on strap, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, green-grey forest ambient with warm lantern light, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_physician_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "医师 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 医师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_physician_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "医师 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_physician_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "医师 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_physician_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "医师 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a weary exiled physician with plague-doctor mask pulled aside, leather apron and satchel, gentle sad eyes, carrying herbs and bandages, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, warm hearth light vs cold green-tinged shadow, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_occultist_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "神秘学家 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 神秘学家 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_occultist_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "神秘学家 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_occultist_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "神秘学家 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_occultist_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "神秘学家 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a half-mad former temple scholar in tattered dark robes and cowl, glowing ritual marks on face, feverish eyes, one hand raised with eldritch sigil, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, sickly violet glow vs deep shadow, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_runecrafter_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 头像",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 1",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 2",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 3",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 4",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_05.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 5",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_06.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 6",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_skill_07.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "hero",
+      "subject": "符文师 技能图标 7",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 single skill icon, 符文师 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "heroes/hero_runecrafter_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "符文师 立绘",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_runecrafter_injured.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "符文师 受伤姿态",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 injured pose, bloodied wounds, battered armor, grimace",
+      "source_status": "待原创"
+    },
+    {
+      "file": "heroes/hero_runecrafter_death.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "hero",
+      "subject": "符文师 死亡剪影",
+      "kind": "dark gothic hand-drawn half-body bust portrait of a down-at-heel runecarver craftsman in ink-stained smock, carving chisel and glowing rune tablet, lined focused face, chest-up, heavy crosshatching, ink splatter, dry brush, low saturation warm-cold contrast, golden rune glow vs cool stone shadow, film grain, Chris Bourassa style, 1024x1024 death silhouette, dark fallen figure, ash, faint white outline",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_soldier_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅士兵 头像",
+      "kind": "dark gothic hand-drawn bust of an animated skeletal soldier in rusted chainmail and cracked helm, bone sword raised, hollow sockets with faint blue flame, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_soldier_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅士兵 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of an animated skeletal soldier in rusted chainmail and cracked helm, bone sword raised, hollow sockets with faint blue flame, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅士兵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_soldier_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅士兵 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of an animated skeletal soldier in rusted chainmail and cracked helm, bone sword raised, hollow sockets with faint blue flame, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅士兵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_soldier_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅士兵 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of an animated skeletal soldier in rusted chainmail and cracked helm, bone sword raised, hollow sockets with faint blue flame, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅士兵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_soldier_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "骷髅士兵 立绘",
+      "kind": "dark gothic hand-drawn bust of an animated skeletal soldier in rusted chainmail and cracked helm, bone sword raised, hollow sockets with faint blue flame, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_archer_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅弓手 头像",
+      "kind": "dark gothic hand-drawn bust of a skeletal archer in tattered hood, bone bow drawn with ghost arrow, grinning skull, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_archer_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅弓手 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a skeletal archer in tattered hood, bone bow drawn with ghost arrow, grinning skull, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅弓手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_archer_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅弓手 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a skeletal archer in tattered hood, bone bow drawn with ghost arrow, grinning skull, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅弓手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_archer_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骷髅弓手 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a skeletal archer in tattered hood, bone bow drawn with ghost arrow, grinning skull, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骷髅弓手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_archer_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "骷髅弓手 立绘",
+      "kind": "dark gothic hand-drawn bust of a skeletal archer in tattered hood, bone bow drawn with ghost arrow, grinning skull, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_priest_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骸骨祭司 头像",
+      "kind": "dark gothic hand-drawn bust of a skeletal priest in faded holy vestments, holding a skull-topped staff, ritual candles, glowing sigils, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_priest_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骸骨祭司 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a skeletal priest in faded holy vestments, holding a skull-topped staff, ritual candles, glowing sigils, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骸骨祭司 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_priest_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骸骨祭司 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a skeletal priest in faded holy vestments, holding a skull-topped staff, ritual candles, glowing sigils, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骸骨祭司 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_priest_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "骸骨祭司 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a skeletal priest in faded holy vestments, holding a skull-topped staff, ritual candles, glowing sigils, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 骸骨祭司 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_skel_priest_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "骸骨祭司 立绘",
+      "kind": "dark gothic hand-drawn bust of a skeletal priest in faded holy vestments, holding a skull-topped staff, ritual candles, glowing sigils, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_ruins_ghoul_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "食尸鬼 头像",
+      "kind": "dark gothic hand-drawn bust of a hunched ravenous ghoul with elongated jaw and bare fangs, tattered skin, bloodied claws, sunken eyes, chest-up, heavy crosshatching, ink splatter, dry brush, rotting flesh palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghoul_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "食尸鬼 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a hunched ravenous ghoul with elongated jaw and bare fangs, tattered skin, bloodied claws, sunken eyes, chest-up, heavy crosshatching, ink splatter, dry brush, rotting flesh palette, film grain, 1024x1024 single skill icon, 食尸鬼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghoul_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "食尸鬼 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a hunched ravenous ghoul with elongated jaw and bare fangs, tattered skin, bloodied claws, sunken eyes, chest-up, heavy crosshatching, ink splatter, dry brush, rotting flesh palette, film grain, 1024x1024 single skill icon, 食尸鬼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghoul_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "食尸鬼 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a hunched ravenous ghoul with elongated jaw and bare fangs, tattered skin, bloodied claws, sunken eyes, chest-up, heavy crosshatching, ink splatter, dry brush, rotting flesh palette, film grain, 1024x1024 single skill icon, 食尸鬼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghoul_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "食尸鬼 立绘",
+      "kind": "dark gothic hand-drawn bust of a hunched ravenous ghoul with elongated jaw and bare fangs, tattered skin, bloodied claws, sunken eyes, chest-up, heavy crosshatching, ink splatter, dry brush, rotting flesh palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_ruins_ghost_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "幽灵 头像",
+      "kind": "dark gothic hand-drawn bust of a translucent wailing ghost with hollow eye sockets and trailing ectoplasm, spectral pale form fading into shadow, chest-up, heavy crosshatching, ink splatter, dry brush, cold blue-white palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghost_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "幽灵 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a translucent wailing ghost with hollow eye sockets and trailing ectoplasm, spectral pale form fading into shadow, chest-up, heavy crosshatching, ink splatter, dry brush, cold blue-white palette, film grain, 1024x1024 single skill icon, 幽灵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghost_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "幽灵 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a translucent wailing ghost with hollow eye sockets and trailing ectoplasm, spectral pale form fading into shadow, chest-up, heavy crosshatching, ink splatter, dry brush, cold blue-white palette, film grain, 1024x1024 single skill icon, 幽灵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghost_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "幽灵 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a translucent wailing ghost with hollow eye sockets and trailing ectoplasm, spectral pale form fading into shadow, chest-up, heavy crosshatching, ink splatter, dry brush, cold blue-white palette, film grain, 1024x1024 single skill icon, 幽灵 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_ruins_ghost_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "幽灵 立绘",
+      "kind": "dark gothic hand-drawn bust of a translucent wailing ghost with hollow eye sockets and trailing ectoplasm, spectral pale form fading into shadow, chest-up, heavy crosshatching, ink splatter, dry brush, cold blue-white palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_forest_wolf_member_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "狼群成员 头像",
+      "kind": "dark gothic hand-drawn bust of a lean corrupted forest wolf, matted fur, bared fangs, glowing amber eyes in darkness, chest-up, heavy crosshatching, ink splatter, dry brush, rotting green-brown palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_wolf_member_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "狼群成员 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a lean corrupted forest wolf, matted fur, bared fangs, glowing amber eyes in darkness, chest-up, heavy crosshatching, ink splatter, dry brush, rotting green-brown palette, film grain, 1024x1024 single skill icon, 狼群成员 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_wolf_member_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "狼群成员 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a lean corrupted forest wolf, matted fur, bared fangs, glowing amber eyes in darkness, chest-up, heavy crosshatching, ink splatter, dry brush, rotting green-brown palette, film grain, 1024x1024 single skill icon, 狼群成员 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_wolf_member_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "狼群成员 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a lean corrupted forest wolf, matted fur, bared fangs, glowing amber eyes in darkness, chest-up, heavy crosshatching, ink splatter, dry brush, rotting green-brown palette, film grain, 1024x1024 single skill icon, 狼群成员 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_wolf_member_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "狼群成员 立绘",
+      "kind": "dark gothic hand-drawn bust of a lean corrupted forest wolf, matted fur, bared fangs, glowing amber eyes in darkness, chest-up, heavy crosshatching, ink splatter, dry brush, rotting green-brown palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_forest_dire_wolf_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨狼 头像",
+      "kind": "dark gothic hand-drawn bust of an enormous dire wolf with scarred black fur, huge fanged maw, red-veined eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dire_wolf_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨狼 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of an enormous dire wolf with scarred black fur, huge fanged maw, red-veined eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨狼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dire_wolf_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨狼 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of an enormous dire wolf with scarred black fur, huge fanged maw, red-veined eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨狼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dire_wolf_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨狼 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of an enormous dire wolf with scarred black fur, huge fanged maw, red-veined eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨狼 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dire_wolf_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "巨狼 立绘",
+      "kind": "dark gothic hand-drawn bust of an enormous dire wolf with scarred black fur, huge fanged maw, red-veined eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_forest_rot_shooter_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐藤射手 头像",
+      "kind": "dark gothic hand-drawn bust of a sentient rotting vine creature with a thorny bulb head, spores dripping, grasping tendrils, chest-up, heavy crosshatching, ink splatter, dry brush, corrupt green palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_rot_shooter_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐藤射手 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a sentient rotting vine creature with a thorny bulb head, spores dripping, grasping tendrils, chest-up, heavy crosshatching, ink splatter, dry brush, corrupt green palette, film grain, 1024x1024 single skill icon, 腐藤射手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_rot_shooter_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐藤射手 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a sentient rotting vine creature with a thorny bulb head, spores dripping, grasping tendrils, chest-up, heavy crosshatching, ink splatter, dry brush, corrupt green palette, film grain, 1024x1024 single skill icon, 腐藤射手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_rot_shooter_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐藤射手 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a sentient rotting vine creature with a thorny bulb head, spores dripping, grasping tendrils, chest-up, heavy crosshatching, ink splatter, dry brush, corrupt green palette, film grain, 1024x1024 single skill icon, 腐藤射手 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_rot_shooter_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "腐藤射手 立绘",
+      "kind": "dark gothic hand-drawn bust of a sentient rotting vine creature with a thorny bulb head, spores dripping, grasping tendrils, chest-up, heavy crosshatching, ink splatter, dry brush, corrupt green palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_forest_dryad_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "树妖 头像",
+      "kind": "dark gothic hand-drawn bust of a female tree spirit fused with gnarled bark, weeping dark moss hair, glowing eye within wood grain, chest-up, heavy crosshatching, ink splatter, dry brush, green-violet palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dryad_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "树妖 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a female tree spirit fused with gnarled bark, weeping dark moss hair, glowing eye within wood grain, chest-up, heavy crosshatching, ink splatter, dry brush, green-violet palette, film grain, 1024x1024 single skill icon, 树妖 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dryad_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "树妖 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a female tree spirit fused with gnarled bark, weeping dark moss hair, glowing eye within wood grain, chest-up, heavy crosshatching, ink splatter, dry brush, green-violet palette, film grain, 1024x1024 single skill icon, 树妖 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dryad_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "树妖 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a female tree spirit fused with gnarled bark, weeping dark moss hair, glowing eye within wood grain, chest-up, heavy crosshatching, ink splatter, dry brush, green-violet palette, film grain, 1024x1024 single skill icon, 树妖 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_dryad_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "树妖 立绘",
+      "kind": "dark gothic hand-drawn bust of a female tree spirit fused with gnarled bark, weeping dark moss hair, glowing eye within wood grain, chest-up, heavy crosshatching, ink splatter, dry brush, green-violet palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_forest_giant_spider_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨型蜘蛛 头像",
+      "kind": "dark gothic hand-drawn bust of a colossal hairy spider, multiple glossy eyes, dripping venom fangs, bristling legs in foreground, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_giant_spider_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨型蜘蛛 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a colossal hairy spider, multiple glossy eyes, dripping venom fangs, bristling legs in foreground, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨型蜘蛛 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_giant_spider_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨型蜘蛛 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a colossal hairy spider, multiple glossy eyes, dripping venom fangs, bristling legs in foreground, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨型蜘蛛 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_giant_spider_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨型蜘蛛 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a colossal hairy spider, multiple glossy eyes, dripping venom fangs, bristling legs in foreground, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 巨型蜘蛛 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_forest_giant_spider_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "巨型蜘蛛 立绘",
+      "kind": "dark gothic hand-drawn bust of a colossal hairy spider, multiple glossy eyes, dripping venom fangs, bristling legs in foreground, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_moor_fanatic_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "异教徒狂信者 头像",
+      "kind": "dark gothic hand-drawn bust of a cultist zealot in hooded burlap, ritual brand on forehead, self-inflicted wound, burning torch eyes, chest-up, heavy crosshatching, ink splatter, dry brush, sickly marsh palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_fanatic_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "异教徒狂信者 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a cultist zealot in hooded burlap, ritual brand on forehead, self-inflicted wound, burning torch eyes, chest-up, heavy crosshatching, ink splatter, dry brush, sickly marsh palette, film grain, 1024x1024 single skill icon, 异教徒狂信者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_fanatic_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "异教徒狂信者 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a cultist zealot in hooded burlap, ritual brand on forehead, self-inflicted wound, burning torch eyes, chest-up, heavy crosshatching, ink splatter, dry brush, sickly marsh palette, film grain, 1024x1024 single skill icon, 异教徒狂信者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_fanatic_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "异教徒狂信者 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a cultist zealot in hooded burlap, ritual brand on forehead, self-inflicted wound, burning torch eyes, chest-up, heavy crosshatching, ink splatter, dry brush, sickly marsh palette, film grain, 1024x1024 single skill icon, 异教徒狂信者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_fanatic_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "异教徒狂信者 立绘",
+      "kind": "dark gothic hand-drawn bust of a cultist zealot in hooded burlap, ritual brand on forehead, self-inflicted wound, burning torch eyes, chest-up, heavy crosshatching, ink splatter, dry brush, sickly marsh palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_moor_raider_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "渔人劫掠者 头像",
+      "kind": "dark gothic hand-drawn bust of a brutish marsh raider in oilskins and rusted hooks, scarred weathered face, harpoon over shoulder, chest-up, heavy crosshatching, ink splatter, dry brush, murky coastal palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_raider_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "渔人劫掠者 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a brutish marsh raider in oilskins and rusted hooks, scarred weathered face, harpoon over shoulder, chest-up, heavy crosshatching, ink splatter, dry brush, murky coastal palette, film grain, 1024x1024 single skill icon, 渔人劫掠者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_raider_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "渔人劫掠者 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a brutish marsh raider in oilskins and rusted hooks, scarred weathered face, harpoon over shoulder, chest-up, heavy crosshatching, ink splatter, dry brush, murky coastal palette, film grain, 1024x1024 single skill icon, 渔人劫掠者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_raider_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "渔人劫掠者 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a brutish marsh raider in oilskins and rusted hooks, scarred weathered face, harpoon over shoulder, chest-up, heavy crosshatching, ink splatter, dry brush, murky coastal palette, film grain, 1024x1024 single skill icon, 渔人劫掠者 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_raider_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "渔人劫掠者 立绘",
+      "kind": "dark gothic hand-drawn bust of a brutish marsh raider in oilskins and rusted hooks, scarred weathered face, harpoon over shoulder, chest-up, heavy crosshatching, ink splatter, dry brush, murky coastal palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_moor_plague_spawn_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "疫病仆从 头像",
+      "kind": "dark gothic hand-drawn bust of a plague-ridden spawn with weeping sores and pustules, milky dead eyes, tattered linen, chest-up, heavy crosshatching, ink splatter, dry brush, septic green-yellow palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_plague_spawn_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "疫病仆从 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a plague-ridden spawn with weeping sores and pustules, milky dead eyes, tattered linen, chest-up, heavy crosshatching, ink splatter, dry brush, septic green-yellow palette, film grain, 1024x1024 single skill icon, 疫病仆从 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_plague_spawn_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "疫病仆从 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a plague-ridden spawn with weeping sores and pustules, milky dead eyes, tattered linen, chest-up, heavy crosshatching, ink splatter, dry brush, septic green-yellow palette, film grain, 1024x1024 single skill icon, 疫病仆从 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_plague_spawn_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "疫病仆从 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a plague-ridden spawn with weeping sores and pustules, milky dead eyes, tattered linen, chest-up, heavy crosshatching, ink splatter, dry brush, septic green-yellow palette, film grain, 1024x1024 single skill icon, 疫病仆从 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_plague_spawn_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "疫病仆从 立绘",
+      "kind": "dark gothic hand-drawn bust of a plague-ridden spawn with weeping sores and pustules, milky dead eyes, tattered linen, chest-up, heavy crosshatching, ink splatter, dry brush, septic green-yellow palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_moor_bog_shaman_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐沼萨满 头像",
+      "kind": "dark gothic hand-drawn bust of a bog shaman in mud-caked ritual garb and antler headdress, painted skeletal face, clutching a staff of bones, chest-up, heavy crosshatching, ink splatter, dry brush, fen palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_bog_shaman_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐沼萨满 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a bog shaman in mud-caked ritual garb and antler headdress, painted skeletal face, clutching a staff of bones, chest-up, heavy crosshatching, ink splatter, dry brush, fen palette, film grain, 1024x1024 single skill icon, 腐沼萨满 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_bog_shaman_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐沼萨满 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a bog shaman in mud-caked ritual garb and antler headdress, painted skeletal face, clutching a staff of bones, chest-up, heavy crosshatching, ink splatter, dry brush, fen palette, film grain, 1024x1024 single skill icon, 腐沼萨满 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_bog_shaman_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐沼萨满 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a bog shaman in mud-caked ritual garb and antler headdress, painted skeletal face, clutching a staff of bones, chest-up, heavy crosshatching, ink splatter, dry brush, fen palette, film grain, 1024x1024 single skill icon, 腐沼萨满 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_bog_shaman_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "腐沼萨满 立绘",
+      "kind": "dark gothic hand-drawn bust of a bog shaman in mud-caked ritual garb and antler headdress, painted skeletal face, clutching a staff of bones, chest-up, heavy crosshatching, ink splatter, dry brush, fen palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_moor_behemoth_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "荒原巨兽 头像",
+      "kind": "dark gothic hand-drawn bust of a hulking wasteland behemoth with armored hide and horns, small furious eyes, dripping mud, chest-up, heavy crosshatching, ink splatter, dry brush, drab wasteland palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_behemoth_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "荒原巨兽 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a hulking wasteland behemoth with armored hide and horns, small furious eyes, dripping mud, chest-up, heavy crosshatching, ink splatter, dry brush, drab wasteland palette, film grain, 1024x1024 single skill icon, 荒原巨兽 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_behemoth_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "荒原巨兽 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a hulking wasteland behemoth with armored hide and horns, small furious eyes, dripping mud, chest-up, heavy crosshatching, ink splatter, dry brush, drab wasteland palette, film grain, 1024x1024 single skill icon, 荒原巨兽 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_behemoth_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "荒原巨兽 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a hulking wasteland behemoth with armored hide and horns, small furious eyes, dripping mud, chest-up, heavy crosshatching, ink splatter, dry brush, drab wasteland palette, film grain, 1024x1024 single skill icon, 荒原巨兽 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_moor_behemoth_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "荒原巨兽 立绘",
+      "kind": "dark gothic hand-drawn bust of a hulking wasteland behemoth with armored hide and horns, small furious eyes, dripping mud, chest-up, heavy crosshatching, ink splatter, dry brush, drab wasteland palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_warrens_giant_rat_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨鼠 头像",
+      "kind": "dark gothic hand-drawn bust of a monstrous sewer rat with matted fur, gnarled teeth, red beady eyes, filth-slick, chest-up, heavy crosshatching, ink splatter, dry brush, filth palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_giant_rat_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨鼠 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a monstrous sewer rat with matted fur, gnarled teeth, red beady eyes, filth-slick, chest-up, heavy crosshatching, ink splatter, dry brush, filth palette, film grain, 1024x1024 single skill icon, 巨鼠 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_giant_rat_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨鼠 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a monstrous sewer rat with matted fur, gnarled teeth, red beady eyes, filth-slick, chest-up, heavy crosshatching, ink splatter, dry brush, filth palette, film grain, 1024x1024 single skill icon, 巨鼠 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_giant_rat_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "巨鼠 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a monstrous sewer rat with matted fur, gnarled teeth, red beady eyes, filth-slick, chest-up, heavy crosshatching, ink splatter, dry brush, filth palette, film grain, 1024x1024 single skill icon, 巨鼠 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_giant_rat_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "巨鼠 立绘",
+      "kind": "dark gothic hand-drawn bust of a monstrous sewer rat with matted fur, gnarled teeth, red beady eyes, filth-slick, chest-up, heavy crosshatching, ink splatter, dry brush, filth palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_warrens_warren_worm_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴蠕虫 头像",
+      "kind": "dark gothic hand-drawn bust of a pale cave worm with circular rows of teeth and eyeless flesh, slime dripping, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warren_worm_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴蠕虫 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a pale cave worm with circular rows of teeth and eyeless flesh, slime dripping, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴蠕虫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warren_worm_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴蠕虫 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a pale cave worm with circular rows of teeth and eyeless flesh, slime dripping, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴蠕虫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warren_worm_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴蠕虫 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a pale cave worm with circular rows of teeth and eyeless flesh, slime dripping, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴蠕虫 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warren_worm_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "暗穴蠕虫 立绘",
+      "kind": "dark gothic hand-drawn bust of a pale cave worm with circular rows of teeth and eyeless flesh, slime dripping, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_warrens_brood_mother_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "污秽母巢 头像",
+      "kind": "dark gothic hand-drawn bust of a bloated brood mother with pulsing egg-sacs, many small mouths, distended flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_brood_mother_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "污秽母巢 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a bloated brood mother with pulsing egg-sacs, many small mouths, distended flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 污秽母巢 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_brood_mother_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "污秽母巢 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a bloated brood mother with pulsing egg-sacs, many small mouths, distended flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 污秽母巢 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_brood_mother_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "污秽母巢 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a bloated brood mother with pulsing egg-sacs, many small mouths, distended flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 污秽母巢 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_brood_mother_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "污秽母巢 立绘",
+      "kind": "dark gothic hand-drawn bust of a bloated brood mother with pulsing egg-sacs, many small mouths, distended flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_warrens_bile_ooze_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐液怪 头像",
+      "kind": "dark gothic hand-drawn bust of a corrosive slime ooze with bubbling surface and embedded bone fragments, acidic drips, chest-up, heavy crosshatching, ink splatter, dry brush, acid green palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_bile_ooze_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐液怪 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a corrosive slime ooze with bubbling surface and embedded bone fragments, acidic drips, chest-up, heavy crosshatching, ink splatter, dry brush, acid green palette, film grain, 1024x1024 single skill icon, 腐液怪 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_bile_ooze_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐液怪 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a corrosive slime ooze with bubbling surface and embedded bone fragments, acidic drips, chest-up, heavy crosshatching, ink splatter, dry brush, acid green palette, film grain, 1024x1024 single skill icon, 腐液怪 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_bile_ooze_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "腐液怪 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a corrosive slime ooze with bubbling surface and embedded bone fragments, acidic drips, chest-up, heavy crosshatching, ink splatter, dry brush, acid green palette, film grain, 1024x1024 single skill icon, 腐液怪 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_bile_ooze_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "腐液怪 立绘",
+      "kind": "dark gothic hand-drawn bust of a corrosive slime ooze with bubbling surface and embedded bone fragments, acidic drips, chest-up, heavy crosshatching, ink splatter, dry brush, acid green palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "monsters/mon_warrens_warden_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴看守 头像",
+      "kind": "dark gothic hand-drawn bust of a massive cave warden in riveted dark armor, horned helmet, dim eye-slits, holding a great mace, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warden_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴看守 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of a massive cave warden in riveted dark armor, horned helmet, dim eye-slits, holding a great mace, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴看守 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warden_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴看守 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of a massive cave warden in riveted dark armor, horned helmet, dim eye-slits, holding a great mace, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴看守 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warden_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "monster",
+      "subject": "暗穴看守 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of a massive cave warden in riveted dark armor, horned helmet, dim eye-slits, holding a great mace, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024 single skill icon, 暗穴看守 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "monsters/mon_warrens_warden_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "monster",
+      "subject": "暗穴看守 立绘",
+      "kind": "dark gothic hand-drawn bust of a massive cave warden in riveted dark armor, horned helmet, dim eye-slits, holding a great mace, chest-up, heavy crosshatching, ink splatter, dry brush, cavern palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "boss/boss_stone_skull_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 头像",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_stone_skull_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 圣殿守卫「石颅」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_stone_skull_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 圣殿守卫「石颅」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_stone_skull_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 圣殿守卫「石颅」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_stone_skull_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 技能图标 4",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024 single skill icon, 圣殿守卫「石颅」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_stone_skull_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "boss",
+      "subject": "圣殿守卫「石颅」 立绘",
+      "kind": "dark gothic hand-drawn bust of the temple guardian Stone Skull, a colossal ancient golem head carved from cathedral stone with cracked glowing runes, mossy rubble, hollow sockets of cold fire, chest-up, heavy crosshatching, ink splatter, dry brush, cold ruins palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "boss/boss_throat_ripper_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 头像",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_throat_ripper_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 林间兽王「破喉」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_throat_ripper_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 林间兽王「破喉」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_throat_ripper_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 林间兽王「破喉」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_throat_ripper_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 技能图标 4",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024 single skill icon, 林间兽王「破喉」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_throat_ripper_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "boss",
+      "subject": "林间兽王「破喉」 立绘",
+      "kind": "dark gothic hand-drawn bust of the forest beast king Throat Ripper, an enormous corrupted alpha wolf with crowned antlers, torn throat scar, rage-burning eyes, chest-up, heavy crosshatching, ink splatter, dry brush, dark forest palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "boss/boss_whisperer_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 头像",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_whisperer_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024 single skill icon, 荒原大祭司「低语者」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_whisperer_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024 single skill icon, 荒原大祭司「低语者」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_whisperer_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024 single skill icon, 荒原大祭司「低语者」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_whisperer_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 技能图标 4",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024 single skill icon, 荒原大祭司「低语者」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_whisperer_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "boss",
+      "subject": "荒原大祭司「低语者」 立绘",
+      "kind": "dark gothic hand-drawn bust of the moor high priest The Whisperer, a gaunt figure in flowing black robes with a veiled empty face, ethereal whispers curling as smoke, staff of grasping hands, chest-up, heavy crosshatching, ink splatter, dry brush, violet-void palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_avatar.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 头像",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_skill_01.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 技能图标 1",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 暗穴母体「增殖之母」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_skill_02.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 技能图标 2",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 暗穴母体「增殖之母」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_skill_03.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 技能图标 3",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 暗穴母体「增殖之母」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_skill_04.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 技能图标 4",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024 single skill icon, 暗穴母体「增殖之母」 motif, leather frame",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "boss/boss_proliferation_mother_portrait.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "type": "boss",
+      "subject": "暗穴母体「增殖之母」 立绘",
+      "kind": "dark gothic hand-drawn bust of the warrens matriarch Proliferation Mother, a vast segmented brood-queen with rows of breeding sacs and grasping birth-tendrils, pale pulsing flesh, chest-up, heavy crosshatching, ink splatter, dry brush, bioluminescent filth palette, film grain, 1024x1024",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_ruins_explore.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "废墟遗迹 探索背景",
+      "kind": "ruined monastery hall with shattered pillars and gothic arches, cold blue moonlight shafts, warm distant torch embers, heavy fog, dark gothic hand-drawn environment, ink and charcoal, film grain, 1920x1080 seamless horizontal loop",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_ruins_battle_01.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "废墟遗迹 战斗背景 1",
+      "kind": "ruins battle background, broken cathedral nave with rubble and scattered candles, cold blue ambient with warm torch side-light, dust particles, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_ruins_battle_02.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "废墟遗迹 战斗背景 2",
+      "kind": "ruins battle background, crypt chamber with stone sarcophagi and hanging banners, dim green-grey ambient, single shaft of pale light, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_forest_explore.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "阴森林地 探索背景",
+      "kind": "corrupt forest trail through gnarled black trees and hanging moss, sickly green fog, faint moonlight, dark gothic hand-drawn environment, ink and charcoal, film grain, 1920x1080 seamless horizontal loop",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_forest_battle_01.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "阴森林地 战斗背景 1",
+      "kind": "forest battle background, dense eldritch grove with twisted trees and roots, toxic green ambient with faint warm lantern glow, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_forest_battle_02.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "阴森林地 战斗背景 2",
+      "kind": "forest battle background, abandoned hunter's glade ringed by monstrous trees, wet stones, blue-green twilight, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_moor_explore.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "幽暗荒原 探索背景",
+      "kind": "desolate coastal moor with black reeds and stagnant pools, mist rolling off murky water, violet dusk, scattered ritual poles, dark gothic hand-drawn environment, ink and charcoal, film grain, 1920x1080 seamless horizontal loop",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_moor_battle_01.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "幽暗荒原 战斗背景 1",
+      "kind": "moor battle background, fever marsh with drowned posts and corpse-lights, purple-green toxic fog, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_moor_battle_02.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "幽暗荒原 战斗背景 2",
+      "kind": "moor battle background, ruined seaside shrine under overcast sky, broken statues, cold light on wet stone, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_warrens_explore.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "污秽暗穴 探索背景",
+      "kind": "foul sewer cavern with dripping walls, slime channels, faint bioluminescent mold, distant furnace glow, dark gothic hand-drawn environment, ink and charcoal, film grain, 1920x1080 seamless horizontal loop",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_warrens_battle_01.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "污秽暗穴 战斗背景 1",
+      "kind": "warrens battle background, bloated nest chamber with egg-sacs and ichor pools, sickly green bioluminescence, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "backgrounds/bg_warrens_battle_02.png",
+      "size": [
+        1920,
+        1080
+      ],
+      "type": "background",
+      "subject": "污秽暗穴 战斗背景 2",
+      "kind": "warrens battle background, ancient cistern with arches and stagnant water, torchlight on slime-covered brick, dark gothic hand-drawn, film grain, 1920x1080",
+      "source_status": "待原创"
+    },
+    {
+      "file": "ui/ui_status_bleed.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "流血状态图标",
+      "kind": "dark gothic UI status icon, 流血状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_poison.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "中毒状态图标",
+      "kind": "dark gothic UI status icon, 中毒状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_burn.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "燃烧状态图标",
+      "kind": "dark gothic UI status icon, 燃烧状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_stun.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "眩晕状态图标",
+      "kind": "dark gothic UI status icon, 眩晕状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_mark.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "标记状态图标",
+      "kind": "dark gothic UI status icon, 标记状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_fear.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "恐惧状态图标",
+      "kind": "dark gothic UI status icon, 恐惧状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_weak.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "虚弱状态图标",
+      "kind": "dark gothic UI status icon, 虚弱状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_blind.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "致盲状态图标",
+      "kind": "dark gothic UI status icon, 致盲状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_guard.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "守护状态图标",
+      "kind": "dark gothic UI status icon, 守护状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_berserk.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "狂暴状态图标",
+      "kind": "dark gothic UI status icon, 狂暴状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_confuse.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "迷惑状态图标",
+      "kind": "dark gothic UI status icon, 迷惑状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_prot_up.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "护甲增益图标",
+      "kind": "dark gothic UI status icon, 护甲增益图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_dodge_up.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "闪避增益图标",
+      "kind": "dark gothic UI status icon, 闪避增益图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "ui/ui_status_vulnerable.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "ui",
+      "subject": "易伤状态图标",
+      "kind": "dark gothic UI status icon, 易伤状态图标, leather and brass, hand-drawn ink texture",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "fx/fx_thrust.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "刺击特效",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn, 刺击特效",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "fx/fx_stun_hit.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "眩晕冲击特效",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn, 眩晕冲击特效",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "fx/fx_summon.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "召唤门特效",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn, 召唤门特效",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "fx/fx_shield_up.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "护盾特效",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn, 护盾特效",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
+    },
+    {
+      "file": "fx/fx_stress_skull.png",
+      "size": [
+        256,
+        256
+      ],
+      "type": "fx",
+      "subject": "压力特效",
+      "kind": "dark gothic particle/effect sprite, translucent, hand-drawn, 压力特效",
+      "source_status": "replaced",
+      "license": "CC-BY 3.0",
+      "source": "game-icons.net",
+      "attribution": "Icon from game-icons.net (CC BY 3.0)"
     }
   ]
 }
