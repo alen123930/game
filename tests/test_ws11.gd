@@ -46,7 +46,7 @@ func _cleanup_all_saves() -> void:
 
 func _test_capture_restore_full_state() -> void:
 	TownManager.reset_game(11)
-	TownManager.add_gold(5000)
+	TownManager.add_gold(100000)
 	TownManager.add_heirloom("statue", 3)
 	TownManager.add_heirloom("scroll", 2)
 	TownManager.add_supply("torch", 4)
@@ -167,7 +167,7 @@ func _test_hero_state_roundtrip() -> void:
 	_check(int(restored["quirks"].size()) == 2, "怪癖往返（%d 条）" % restored["quirks"].size())
 	_check(String(restored["quirks"][0]["id"]) == "brave", "怪癖内容往返（%s）" % restored["quirks"][0]["id"])
 	_check(String(restored["injuries"][0]) == "rib_fracture", "伤病往返（%s）" % restored["injuries"][0])
-	_check(int(restored["skills"].get("knight_smite", 0)) == 2, "技能等级往返（%s=2）" % restored["skills"].keys())
+	_check(int(restored["skills"].get("knight_smite", 0)) == 2, "技能等级往返（%s=2）" % str(restored["skills"].keys()))
 	_check(String(restored["trinkets"][0]) == "t_ring", "饰品槽1往返（%s）" % restored["trinkets"][0])
 	# 恢复后属性计算仍可用（怪癖/装备/伤病加成生效）
 	var stats := TownManager.get_hero_stats(restored)
@@ -309,6 +309,7 @@ func _test_exploration_autosave_hook() -> void:
 
 func _test_battle_autosave_hook() -> void:
 	TownManager.reset_game(66)
+	TownManager.add_gold(100000)
 	TownManager.refresh_candidates()
 	var ids: Array = []
 	for i in 4:
@@ -332,11 +333,15 @@ func _test_battle_autosave_hook() -> void:
 	var battle: Node = main.get("_current_scene")
 	_check(battle != null and battle.name == "Battle", "进入战斗场景")
 
-	# 战斗结束（返回探索）后触发自动存档
-	await _wait_until(func(): return battle != null and bool(battle.get("_battle_over")), 120)
-	# 直接驱动返回按钮
-	if battle != null and battle.has_method("_on_return_pressed"):
-		battle.call("_on_return_pressed")
+	# WS-8/18：战斗为交互式触屏 UI。用「撤退二次确认」触发 _finish_battle → 自动存档。
+	# 固定撤退掷骰为 1（必然成功），保证 all_escaped → 战斗结束。
+	if battle != null and battle.has_method("_on_retreat_pressed"):
+		TurnManager.debug_force_rolls([1, 1, 1, 1, 1, 1, 1, 1])
+		battle.call("_on_retreat_pressed")
+		await get_tree().process_frame
+		_check(bool(battle.get("retreat_panel").visible), "撤退二次确认面板弹出")
+	if battle != null and battle.has_method("_on_confirm_retreat"):
+		battle.call("_on_confirm_retreat")
 	await get_tree().process_frame
 	_check(SaveManager.has_autosave(), "战斗后触发自动存档")
 	if SaveManager.has_autosave():
