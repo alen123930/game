@@ -16,7 +16,7 @@ const CONFIG_FILES: Array[String] = [
 ## 各配置节必填字段（启动校验用；缺失时打印告警，不阻断加载）。
 const REQUIRED_FIELDS := {
 	"heroes": ["id", "name", "role", "base_stats", "positions", "skill_ids"],
-	"skills": ["id", "name", "type", "source_pos", "target_pos", "base_acc"],
+	"skills": ["id", "name", "type", "source_pos", "target_pos", "acc_mod"],
 	"monsters": ["id", "name", "region", "role", "base_stats", "skills"],
 	"dungeons": ["id", "name", "theme", "difficulty_min", "difficulty_max", "rooms"],
 	"buildings": ["id", "name", "levels"],

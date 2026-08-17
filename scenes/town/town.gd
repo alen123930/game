@@ -503,7 +503,7 @@ func _rebuild_treatment() -> void:
 		if String(q.get("type", "")) != "negative":
 			continue
 		var btn := Button.new()
-		btn.text = "净化「%s」（800 金）" % q.get("name", q.get("id", ""))
+		btn.text = "净化「%s」（%d 金）" % [q.get("name", q.get("id", "")), TownManager.get_purge_cost()]
 		btn.pressed.connect(_on_purge_quirk.bind(hero, String(q.get("id", ""))))
 		quirk_row.add_child(btn)
 	if quirk_row.get_child_count() > 0:

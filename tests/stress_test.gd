@@ -119,7 +119,7 @@ func _test_virtue_strengthen() -> void:
 	var knight: CombatUnit = r["knight"]
 	_check(knight.max_hp == roundi(48 * 1.2), "强化：max_hp ×1.2 = %d" % knight.max_hp)
 	_check(knight.spd == roundi(3 * 1.2), "强化：spd ×1.2 = %d" % knight.spd)
-	_check(knight.acc == roundi(85 * 1.2), "强化：acc ×1.2 = %d" % knight.acc)
+	_check(knight.acc == roundi(20 * 1.2), "强化：acc ×1.2 = %d" % knight.acc)
 	_check(knight.dmg_max == roundi(9 * 1.2), "强化：dmg_max ×1.2 = %d" % knight.dmg_max)
 	_check(is_equal_approx(knight.crit, 0.06), "强化：crit ×1.2 = %.2f" % knight.crit)
 

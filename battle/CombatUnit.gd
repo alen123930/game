@@ -1,10 +1,11 @@
 class_name CombatUnit
 extends RefCounted
-## 战斗单位（英雄或怪物）：属性、站位、技能、冷却、状态。
+## 战斗单位（英雄或怪物）：属性、站位、技能、状态。
 ##
 ## 由 TurnManager 从 heroes.json / monsters.json + skills.json 构建，
-## 运行期数值全部在实例上（hp、stress、position、statuses、cooldowns），
+## 运行期数值全部在实例上（hp、stress、position、statuses），
 ## 不修改 ConfigManager 的只读缓存。
+## WS-18 对齐：DBR 死亡抵抗、新状态表、尸体占位（is_corpse）。
 
 enum Team { HEROES, MONSTERS }
 
@@ -15,6 +16,8 @@ var cfg_id: String = ""
 var display_name: String = ""
 var team: int = Team.HEROES
 var is_hero: bool = false
+## 是否为尸体占位（WS-18：敌人死亡留尸，可攻击/清尸移除）。
+var is_corpse: bool = false
 
 # ---- 基础属性（来自 base_stats）----
 var max_hp: int = 1
@@ -28,6 +31,9 @@ var dmg_max: int = 0
 var prot: float = 0.0          # 护甲（0~0.8）
 var stress: int = 0
 var max_stress: int = 200
+## 死亡抵抗 DBR（DD 对齐）：HP=0 进入死亡之门，每次受击掷 D100 ≤ DBR 稳保命。
+## 英雄基础约 67，可被怪癖/饰品修正；怪物死亡时不走死亡之门。
+var dbr: int = 67
 ## 是否已触发「精神判定」（压力到 100 一次，GDD 2.4）。
 var resolved: bool = false
 ## 精神判定结果："virtue" 美德 / "affliction" 受难崩溃。
@@ -39,23 +45,20 @@ var crisis: String = ""
 ## 站位 1~4（1 为最前排）。
 var position: int = 0
 var alive: bool = true
-## 濒死挣扎中（0 HP，每回合 D100 判定）。
+## 死亡之门中（HP=0，DD 对齐；每次受击掷 DBR）。
 var death_struggling: bool = false
-## 本回合被位移（击退/拉拽）后，该回合之后的下一回合跳过行动（GDD 2.7）。
-## 存储应跳过的回合号（0 = 无惩罚）；由 TurnManager 在 _do_move 时写 round_num+1。
-var displaced_skip_round: int = 0
+## 战斗内撤退成功逃离（WS-18 逐人判定）：alive=false 但非战死。
+var retreated: bool = false
 ## 已行动（供回合循环判断）。
 var acted: bool = false
 
 ## skill_id -> 技能配置（已标准化）。
 var skills: Dictionary = {}
-## skill_id -> 剩余冷却回合数（>0 表示不可用）。
-var cooldowns: Dictionary = {}
 ## 状态效果列表：{ status: String, value: float, duration: int, source_uid: int, ... }
 var statuses: Array[Dictionary] = []
 
-## 可被施加的状态名（GDD 2.8 核心 11 种 + 其他）。
-const STATUS_NAMES := ["bleed", "poison", "burn", "stun", "mark", "fear", "weak", "blind", "guard", "berserk", "confuse"]
+## 可被施加的状态名（WS-18 对齐 DD：去除燃烧/致盲/狂暴/迷惑，加入 Horror/Riposte/Debuff）。
+const STATUS_NAMES := ["bleed", "poison", "stun", "mark", "guard", "horror", "weak", "debuff", "riposte", "vulnerable", "slow", "prot_up", "dodge_up", "taunt", "immune_displacement", "stress_aura"]
 
 func _init(p_uid: int, p_cfg_id: String, p_team: int, p_is_hero: bool, p_pos: int) -> void:
 	uid = p_uid
@@ -77,13 +80,12 @@ static func from_hero(uid: int, hero_id: String, pos: int) -> CombatUnit:
 	return u
 
 ## 从 monsters.json 构建怪物（内联技能，source_pos 默认全站位可用）。
+## WS-18：技能无冷却，仅受站位/目标站位约束。
 static func from_monster(uid: int, monster_id: String, pos: int) -> CombatUnit:
 	var cfg := ConfigManager.get_entry("monsters", monster_id)
 	var u := CombatUnit.new(uid, monster_id, Team.MONSTERS, false, pos)
 	u.display_name = cfg.get("name", monster_id)
 	u._apply_base_stats(cfg.get("base_stats", {}))
-	var ai: Dictionary = cfg.get("ai", {})
-	var skill_cd: Dictionary = ai.get("skill_cooldown", {})
 	for sk in cfg.get("skills", []):
 		var sk_dict: Dictionary = sk.duplicate()
 		if not sk_dict.has("source_pos"):
@@ -92,8 +94,6 @@ static func from_monster(uid: int, monster_id: String, pos: int) -> CombatUnit:
 			sk_dict["dmg_mult"] = 1.0
 		if not sk_dict.has("crit_bonus"):
 			sk_dict["crit_bonus"] = 0.0
-		if not sk_dict.has("cooldown"):
-			sk_dict["cooldown"] = int(skill_cd.get(sk_dict.get("id", ""), 0))
 		if not sk_dict.has("cost"):
 			sk_dict["cost"] = {}
 		if not sk_dict.has("effects"):
@@ -133,6 +133,10 @@ func _apply_base_stats(bs: Dictionary) -> void:
 	dmg_min = int(bs.get("dmg_min", 0))
 	dmg_max = int(bs.get("dmg_max", 0))
 	prot = float(bs.get("prot", 0.0))
+	if bs.has("dbr"):
+		dbr = int(bs["dbr"])
+	elif not is_hero:
+		dbr = 90
 	if bs.has("stress"):
 		stress = int(bs["stress"])
 
@@ -176,48 +180,31 @@ func remove_status(status_name: String) -> void:
 		if statuses[i].get("status", "") == status_name:
 			statuses.remove_at(i)
 
-## 回合开始结算持续伤害（GDD 2.1 / 2.3），返回 {status: 伤害值}。
-## 燃烧忽略 PROT；其余受 PROT 影响。
+## 回合开始结算持续伤害，返回 {status: 伤害值}。流血/中毒均受 PROT 影响。
 func tick_dots() -> Dictionary:
 	var result := {}
 	for s in statuses.duplicate():
 		var name: String = s.get("status", "")
-		if name in ["bleed", "poison", "burn"]:
-			var ignore_prot := name == "burn"
-			var dmg := BattleRules.dot_damage(int(s.get("value", 0)), prot, ignore_prot)
+		if name in ["bleed", "poison"]:
+			var dmg := BattleRules.dot_damage(int(s.get("value", 0)), prot)
 			result[name] = result.get(name, 0) + dmg
 	return result
 
 ## 回合开始：时间型状态计时（duration -1，到期移除）。
-## 流血/中毒/燃烧在 tick_dots 结算伤害后递减。
+## 流血/中毒在 tick_dots 结算伤害后递减。
+## 眩晕不在此计时：由 TurnManager 在单位行动时消耗（跳过本次行动）。
 func tick_status_timers() -> void:
 	for i in range(statuses.size() - 1, -1, -1):
 		var s: Dictionary = statuses[i]
 		var name: String = s.get("status", "")
-		if name in ["bleed", "poison", "burn", "stun", "mark", "fear", "weak", "blind", "guard", "berserk", "confuse"]:
+		if name == "stun":
+			continue
+		if name in STATUS_NAMES:
 			s["duration"] = int(s["duration"]) - 1
 			if int(s["duration"]) <= 0:
 				statuses.remove_at(i)
 
-# ------------------------------------------------------------------
-# 冷却
-# ------------------------------------------------------------------
-
-## 回合开始：所有冷却 -1。
-func tick_cooldowns() -> void:
-	for skill_id in cooldowns.keys():
-		cooldowns[skill_id] = int(cooldowns[skill_id]) - 1
-		if int(cooldowns[skill_id]) <= 0:
-			cooldowns.erase(skill_id)
-
-func is_skill_ready(skill_id: String) -> bool:
-	return not cooldowns.has(skill_id)
-
-func set_cooldown(skill_id: String, turns: int) -> void:
-	if turns > 0:
-		cooldowns[skill_id] = turns
-
-## 技能从当前站位是否可用（GDD 2.1：技能可用性取决于己方站位）。
+## 技能从当前站位是否可用（WS-18：无冷却，仅受己方站位约束）。
 func can_use_from_position(skill_id: String) -> bool:
 	var skill: Dictionary = skills.get(skill_id, {})
 	if skill.is_empty():
@@ -233,8 +220,12 @@ func is_in_target_pos(skill_id: String, target_pos: int) -> bool:
 	var target_pos_list: Array = skill.get("target_pos", [1, 2, 3, 4])
 	return target_pos in target_pos_list
 
+## 本次战斗累计受到的伤害（战斗结束写回任务累计 run_damage，GDD 3.5）。
+var damage_taken: int = 0
+
 func take_damage(amount: int) -> void:
 	hp = maxi(hp - amount, 0)
+	damage_taken += amount
 
 func heal(amount: int) -> void:
 	if not alive:

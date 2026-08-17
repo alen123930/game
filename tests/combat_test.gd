@@ -1,19 +1,19 @@
 extends Node
-## 战斗系统可复现测试（WS-4 完成标准）
+## 战斗系统可复现测试（WS-4 战斗，WS-18 对齐 DD 后更新）
 ## 运行：godot --headless --path . res://tests/combat_test.tscn
 ##
-## 覆盖（GDD 2.1~2.3 / 2.7 / 2.8 / 2.9）：
-##  1. 站位系统：1~4 号位、技能来源/目标站位判定、空缺自动前移
-##  2. 命中公式：基准命中+ACC−DODGE，clamp [5,95]，致盲/狂暴/标记修正
-##  3. 伤害公式：PROT 减免、暴击 ×1.5 + 1~3 压力
-##  4. 状态效果：流血/中毒/燃烧 DOT 回合结算、状态计时与到期移除
-##  5. 濒死判定：0 HP 临死挣扎 D100 ≤50 稳定 / >50 死亡、受击再次判定
-##  6. 位移：击退/拉拽 + 失位惩罚（下回合跳过行动）、击退撞墙伤害
-##  7. 技能冷却：cooldown=N 时 N 个回合不可用
-##  8. 恐惧：每回合 +2 压力；队友死亡全队压力
+## 覆盖（WS-18 对齐后）：
+##  1. 站位系统：1~4 号位、技能来源/目标站位判定、空缺自动前移（英雄）
+##  2. 命中公式：95 基准 + ACC − DODGE + acc_mod，clamp [0,100]
+##  3. 伤害公式：PROT 减免、暴击 ×1.5 + 目标压力 + 施法者减压
+##  4. 状态效果：流血/中毒 DOT 回合结算、状态计时与到期移除、Horror 压力持续
+##  5. 死亡之门 + DBR：HP=0 进死亡之门，每次受击掷 DBR（基础 67）失败即死
+##  6. 位移：击退/拉拽 + 链条位移；撞墙/受阻 → 眩晕（无墙体伤害、无失位惩罚）
+##  7. 尸体机制：敌人死亡留尸占位，可被攻击/清尸移除
+##  8. 技能无冷却：可连续使用，仅受站位约束
 ##  9. 胜负与全灭；10. 同 seed 全自动战斗可复现
 ##
-## 所有命中/伤害/暴击/濒死/墙伤通过 debug_force_rolls 固定，完全确定。
+## 所有命中/伤害/暴击/DBR 通过 debug_force_rolls 固定，完全确定。
 
 var _failures := 0
 
@@ -24,14 +24,15 @@ func _ready() -> void:
 	_test_miss()
 	_test_crit()
 	_test_bleed_dot()
-	_test_deathblow()
-	_test_deathblow_hit_again()
+	_test_poison_dot()
+	_test_death_door()
+	_test_death_door_hit_again()
 	_test_displacement_push()
-	_test_displacement_wall()
+	_test_displacement_wall_stun()
 	_test_displacement_chain()
-	_test_displacement_skip_next()
-	_test_cooldown()
-	_test_fear_and_stress()
+	_test_corpse()
+	_test_no_cooldown()
+	_test_horror_and_stress()
 	_test_position_auto_forward()
 	_test_victory()
 	_test_reproducible_battle()
@@ -71,24 +72,22 @@ func _test_formation_and_positions() -> void:
 	_check(TurnManager.heroes[1].position == 2, "英雄2号位=2")
 	_check(TurnManager.monsters[0].position == 1, "怪物1号位=1")
 	_check(TurnManager.monsters[1].position == 2, "怪物2号位=2")
-	# 技能来源站位判定
 	_check(TurnManager.heroes[0].can_use_from_position("knight_smite"), "骑士在1号位可用 knight_smite")
 	_check(TurnManager.heroes[0].is_in_target_pos("knight_smite", 1), "knight_smite 可命中敌方1号位")
 	_check(not TurnManager.heroes[1].can_use_from_position("pierce_shot"), "猎人在2号位不可用 pierce_shot（来源[3,4]）")
 	_check(not TurnManager.heroes[0].is_in_target_pos("knight_zeal", 3), "knight_zeal 不可命中敌方3号位（目标[1,2]）")
 
 # ------------------------------------------------------------------
-# 2. 命中 + 伤害（GDD 2.3）
+# 2. 命中 + 伤害（95 基准 + ACC − DODGE + acc_mod）
 # ------------------------------------------------------------------
 
 func _test_hit_and_damage() -> void:
-	# 骑士(ACC85) knight_smite(基准90) vs 骷髅兵(DODGE8) → 命中95%
+	# 骑士(ACC20) knight_smite(acc_mod -5) vs 骷髅兵(DODGE8) → 命中 100%
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier"])
 	var k := _uid("hero", 0)
 	var s := _uid("monster", 0)
 	TurnManager.script_action(1, k, "knight_smite", s)
 	TurnManager.script_action(1, s, "defend", -1)
-	# 掷骰序：行动顺序(knight, skel) → 命中 → 暴击 → 伤害
 	TurnManager.debug_force_rolls([100, 1, 50, 99, 7])
 	var st := TurnManager.run_round()
 	_check(st["heroes"][0]["hp"] == 48, "骑士未受伤")
@@ -102,67 +101,66 @@ func _test_hit_and_damage() -> void:
 # ------------------------------------------------------------------
 
 func _test_miss() -> void:
+	# 提高目标闪避使命中低于 100 → 验证落空
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier"])
 	var k := _uid("hero", 0)
 	var s := _uid("monster", 0)
+	TurnManager.find_unit(s).dodge = 40
 	TurnManager.script_action(1, k, "knight_smite", s)
 	TurnManager.script_action(1, s, "defend", -1)
-	# 命中率95%，掷96 → 落空
-	TurnManager.debug_force_rolls([100, 1, 96])
+	# 命中 = 95-5+20-40 = 70，掷80 → 落空
+	TurnManager.debug_force_rolls([100, 1, 80])
 	var st := TurnManager.run_round()
 	_check(st["monsters"][0]["hp"] == 22, "落空时骷髅兵 HP 不变")
 
 # ------------------------------------------------------------------
-# 4. 暴击（GDD 2.3：×1.5 + 目标 1~3 压力）
+# 4. 暴击（×1.5 + 目标压力 + 施法者减压）
 # ------------------------------------------------------------------
 
 func _test_crit() -> void:
-	TurnManager.start_battle(["berserker"], ["ruins_skel_soldier"], {"monster_hp": {"ruins_skel_soldier": 30}})
+	TurnManager.start_battle(["berserker"], ["ruins_skel_soldier"], {"monster_hp": {"ruins_skel_soldier": 30}, "hero_stress": {"berserker": 10}})
 	var b := _uid("hero", 0)
 	var s := _uid("monster", 0)
 	TurnManager.script_action(1, b, "blood_rage", s)
 	TurnManager.script_action(1, s, "defend", -1)
-	# 狂战士 CRIT 0.15 → 暴击判定15%；掷1命中暴击
-	# 掷骰：行动顺序(b,skel) → 命中50 → 暴击1 → 伤害13 → 暴击压力2（对敌）→ 暴击减压3（对己）
+	# 命中50 → 暴击1（crit 20%）→ 伤害13 → 目标压力2 → 施法者减压3
 	TurnManager.debug_force_rolls([100, 1, 50, 1, 13, 2, 3])
 	var st := TurnManager.run_round()
+	var berserker: CombatUnit = _unit_by_uid(b)
+	var skel: CombatUnit = _unit_by_uid(s)
 	# 伤害 = round(13 × (1−0.05) × 1.4 × 1.5) = round(25.935) = 26
 	_check(st["monsters"][0]["hp"] == 30 - 26, "暴击伤害 26，HP=%d" % st["monsters"][0]["hp"])
+	_check(skel.stress == 2, "暴击目标受 2 压力")
+	_check(berserker.stress == 10, "暴击施法者减压（10+3消耗−3减压=10）")
 
 # ------------------------------------------------------------------
-# 5. 流血 DOT（GDD 2.1 / 2.8）：每回合结算，受 PROT，到期移除
+# 5. 流血 DOT：每回合结算，受 PROT，到期移除
 # ------------------------------------------------------------------
 
 func _test_bleed_dot() -> void:
-	# 食尸鬼 claw_tear：伤害 + 流血2/3回合
 	TurnManager.start_battle(["knight"], ["ruins_ghoul"])
 	var k := _uid("hero", 0)
 	var g := _uid("monster", 0)
 	TurnManager.script_action(1, k, "defend", -1)
 	TurnManager.script_action(1, g, "claw_tear", k)
-	# 掷骰：行动顺序(k,ghoul) → 命中50 → 暴击99 → 伤害5
 	TurnManager.debug_force_rolls([1, 100, 50, 99, 5])
 	var st := TurnManager.run_round()
 	var knight: CombatUnit = _unit_by_uid(k)
-	# claw_tear 伤害 = round(5 × (1−0.2) × 1.1) = round(4.4) = 4
 	_check(knight.hp == 48 - 4, "claw_tear 伤害 4，HP=%d" % knight.hp)
 	_check(knight.has_status("bleed"), "骑士获得流血状态")
 	_check(int(knight.get_status("bleed").get("duration", 0)) == 3, "流血持续 3 回合")
 
-	# 回合2：流血 tick = round(2 × (1−0.2)) = 2，duration→2
 	_script_defend(2, [k, g])
 	TurnManager.debug_force_rolls([50, 50])
 	st = TurnManager.run_round()
 	_check(knight.hp == 48 - 4 - 2, "回合2流血 2 点，HP=%d" % knight.hp)
 	_check(int(knight.get_status("bleed").get("duration", 0)) == 2, "流血剩余 2 回合")
 
-	# 回合3：再 tick，duration→1
 	_script_defend(3, [k, g])
 	TurnManager.debug_force_rolls([50, 50])
 	st = TurnManager.run_round()
 	_check(knight.hp == 48 - 4 - 4, "回合3流血 2 点，HP=%d" % knight.hp)
 
-	# 回合4：再 tick，duration→0 移除
 	_script_defend(4, [k, g])
 	TurnManager.debug_force_rolls([50, 50])
 	st = TurnManager.run_round()
@@ -170,37 +168,53 @@ func _test_bleed_dot() -> void:
 	_check(not knight.has_status("bleed"), "流血到期移除")
 
 # ------------------------------------------------------------------
-# 6. 濒死判定（GDD 2.4 / 2.9）
+# 5b. 中毒 DOT
 # ------------------------------------------------------------------
 
-func _test_deathblow() -> void:
-	# 骑士 1 HP，受骷髅兵一击 → 濒死，掷40(≤50) → 稳定保命
+func _test_poison_dot() -> void:
+	# 骑士放 4 号位以符合 rot_spore 目标站位 [3,4]
+	TurnManager.start_battle(["knight"], ["forest_rot_shooter"], {"hero_positions": [4]})
+	var k := _uid("hero", 0)
+	var g := _uid("monster", 0)
+	TurnManager.script_action(1, k, "defend", -1)
+	TurnManager.script_action(1, g, "rot_spore", k)
+	TurnManager.debug_force_rolls([1, 100, 50, 99, 5])
+	var st := TurnManager.run_round()
+	var knight: CombatUnit = _unit_by_uid(k)
+	_check(knight.has_status("poison"), "骑士获得中毒状态")
+	# 骑士 PROT 0.2：回合1 伤害 = round(5×0.8×0.9)=4；回合2 中毒 tick = round(3×0.8)=2
+	_script_defend(2, [k, g])
+	TurnManager.debug_force_rolls([50, 50])
+	TurnManager.run_round()
+	_check(knight.hp == 48 - 4 - 2, "回合2中毒 2 点（受 PROT），HP=%d" % knight.hp)
+
+# ------------------------------------------------------------------
+# 6. 死亡之门 + DBR（英雄基础约 67）
+# ------------------------------------------------------------------
+
+func _test_death_door() -> void:
+	# 骑士 1 HP，受骷髅兵一击 → 死亡之门，DBR 掷 40（≤67）→ 稳定保命
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier"], {"hero_hp": {"knight": 1}})
 	var k := _uid("hero", 0)
 	var s := _uid("monster", 0)
 	TurnManager.script_action(1, k, "defend", -1)
 	TurnManager.script_action(1, s, "bone_slash", k)
-	# 掷骰：行动顺序(k,skel) → 命中50 → 暴击99 → 伤害5 → 濒死40
 	TurnManager.debug_force_rolls([1, 100, 50, 99, 5, 40])
 	var st := TurnManager.run_round()
 	var knight: CombatUnit = _unit_by_uid(k)
-	_check(knight.alive, "濒死判定稳定：骑士存活")
+	_check(knight.alive, "DBR 40 ≤ 67：骑士存活")
 	_check(knight.hp == 0, "骑士 HP=0")
-	_check(knight.death_struggling, "骑士处于濒死挣扎状态")
+	_check(knight.death_struggling, "骑士处于死亡之门")
 	_check(st["active"], "战斗仍在进行")
 
-	# 回合2开始：濒死单位再判定，掷60(>50) → 死亡
-	TurnManager.debug_force_rolls([60])
+	# 回合2 双方防御：无回合开始自动判定，存活
+	_script_defend(2, [k, s])
+	TurnManager.debug_force_rolls([1, 100])
 	st = TurnManager.run_round()
-	_check(not knight.alive, "濒死判定失败：骑士死亡")
-	_check(st["winner"] == CombatUnit.Team.MONSTERS, "怪物获胜")
+	_check(knight.alive, "未受击：死亡之门英雄存活")
 
-# ------------------------------------------------------------------
-# 6b. 受击时再次判定（GDD 2.4）
-# ------------------------------------------------------------------
-
-func _test_deathblow_hit_again() -> void:
-	# 骑士 1 HP 稳定在0后，受第二击再次判定 → 失败死亡
+func _test_death_door_hit_again() -> void:
+	# 死亡之门英雄再次受击 → 再次掷 DBR，失败即死
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier", "ruins_skel_archer"], {"hero_hp": {"knight": 1}})
 	var k := _uid("hero", 0)
 	var s1 := _uid("monster", 0)
@@ -208,25 +222,22 @@ func _test_deathblow_hit_again() -> void:
 	TurnManager.script_action(1, k, "defend", -1)
 	TurnManager.script_action(1, s1, "bone_slash", k)
 	TurnManager.script_action(1, s2, "defend", -1)
-	# 回合1：行动顺序(k,s1,s2) → s1 命中50/暴击99/伤害5 → 濒死40稳定
 	TurnManager.debug_force_rolls([1, 100, 1, 50, 99, 5, 40])
 	TurnManager.run_round()
 	var knight: CombatUnit = _unit_by_uid(k)
-	_check(knight.alive and knight.death_struggling, "第一击后处于濒死")
-	# 回合2：s1 再打骑士。回合开始先掷濒死判定（40稳定），随后 init 3 骰，
-	# s1 命中/暴击/伤害，受击时再次判定掷70 → 死亡
+	_check(knight.alive and knight.death_struggling, "第一击后处于死亡之门")
+	# 回合2：s1 再打骑士，DBR 掷 70 → 死亡
 	TurnManager.script_action(2, s1, "bone_slash", k)
 	_script_defend(2, [k, s2])
-	TurnManager.debug_force_rolls([40, 100, 1, 1, 50, 99, 5, 70])
+	TurnManager.debug_force_rolls([100, 1, 1, 50, 99, 5, 70])
 	var st := TurnManager.run_round()
-	_check(not knight.alive, "受击再次判定失败：骑士死亡")
+	_check(not knight.alive, "死亡之门受击 DBR 70 > 67：骑士死亡")
 
 # ------------------------------------------------------------------
-# 7. 位移：击退（GDD 2.7）
+# 7. 位移：击退（无失位惩罚）
 # ------------------------------------------------------------------
 
 func _test_displacement_push() -> void:
-	# 盾卫 shield_slam：伤害 + 击退1格
 	TurnManager.start_battle(["shieldguard"], ["ruins_skel_soldier"])
 	var sg := _uid("hero", 0)
 	var s := _uid("monster", 0)
@@ -235,35 +246,36 @@ func _test_displacement_push() -> void:
 	TurnManager.debug_force_rolls([100, 1, 50, 99, 5])
 	var st := TurnManager.run_round()
 	var skel: CombatUnit = _unit_by_uid(s)
-	# 伤害 = round(5 × (1−0.05) × 1.0) = 5
 	_check(skel.hp == 22 - 5, "击退技能伤害 5，HP=%d" % skel.hp)
 	_check(skel.position == 2, "骷髅兵被击退至 2 号位")
-	_check(skel.displaced_skip_round == 2, "击退产生失位惩罚（下回合跳过）")
+	_check(st["heroes"][0]["hp"] == 55, "无失位惩罚（盾卫未受影响）")
 
-# ------------------------------------------------------------------
-# 7b. 击退撞墙：额外 1~3 地形伤害
-# ------------------------------------------------------------------
-
-func _test_displacement_wall() -> void:
-	# 4 名骷髅兵占满 1~4 号位，盾卫击退 1 号位 → 链条推到 4 号位撞墙
+func _test_displacement_wall_stun() -> void:
+	# 4 名骷髅兵占满 1~4，击退 1 号位 → 链条推至 4 号位撞墙 → 眩晕（无墙体伤害）
 	TurnManager.start_battle(["shieldguard"], ["ruins_skel_soldier", "ruins_skel_soldier", "ruins_skel_soldier", "ruins_skel_soldier"])
 	var sg := _uid("hero", 0)
 	var s1 := _uid("monster", 0)
 	var s4 := _uid("monster", 3)
 	TurnManager.script_action(1, sg, "shield_slam", s1)
-	_script_defend(1, [s1, _uid("monster", 1), _uid("monster", 2), s4])
-	# 掷骰：行动顺序(5单位) → 命中50 → 暴击99 → 伤害5 → 撞墙2
-	TurnManager.debug_force_rolls([100, 1, 1, 1, 1, 50, 99, 5, 2])
+	TurnManager.script_action(1, s1, "defend", -1)
+	TurnManager.script_action(1, _uid("monster", 1), "defend", -1)
+	TurnManager.script_action(1, _uid("monster", 2), "defend", -1)
+	# 4号位被眩晕后跳过攻击：验证盾卫不受伤害
+	TurnManager.script_action(1, s4, "bone_slash", sg)
+	TurnManager.debug_force_rolls([100, 1, 1, 1, 1, 50, 99, 5])
 	var st := TurnManager.run_round()
 	var skel4: CombatUnit = _unit_by_uid(s4)
-	_check(skel4.hp == 22 - 2, "4号位骷髅兵撞墙受 2 点地形伤害，HP=%d" % skel4.hp)
+	_check(skel4.hp == 22, "4号位骷髅兵撞墙无伤害（HP=%d）" % skel4.hp)
 	_check(skel4.position == 4, "4号位骷髅兵未越过边界")
-	# 满编阵型：链条被墙阻断，前排未被推动（无位移、无失位惩罚）
-	_check(st["monsters"][0]["position"] == 1, "满编阵型前排未被推动（仍在1号位）")
-	_check(_unit_by_uid(s1).displaced_skip_round == 0, "未发生位移，无失位惩罚")
+	var stun_logged := false
+	for e in TurnManager.event_log:
+		if e.get("type") == "displace_stun" and int(e.get("unit", -1)) == s4:
+			stun_logged = true
+	_check(stun_logged, "位移受阻 → 眩晕（displace_stun 事件）")
+	_check(st["heroes"][0]["hp"] == 55, "被眩晕的4号位跳过攻击（盾卫未受伤）")
 
 func _test_displacement_chain() -> void:
-	# 3 名骷髅兵占 1~3 号位（4 号位空），击退 1 号位 → 链条整体后移一格
+	# 3 名骷髅兵占 1~3，击退 1 号位 → 链条整体后移一格
 	TurnManager.start_battle(["shieldguard"], ["ruins_skel_soldier", "ruins_skel_soldier", "ruins_skel_soldier"])
 	var sg := _uid("hero", 0)
 	var s1 := _uid("monster", 0)
@@ -276,100 +288,95 @@ func _test_displacement_chain() -> void:
 	_check(_unit_by_uid(s1).position == 2, "1号位被击退至 2 号位（链条位移）")
 	_check(_unit_by_uid(s2).position == 3, "2号位被推动至 3 号位")
 	_check(_unit_by_uid(s3).position == 4, "3号位被推动至 4 号位")
-	_check(_unit_by_uid(s3).displaced_skip_round == 2, "链条末端单位同样进入失位惩罚")
+	_check(st["heroes"][0]["hp"] == 55, "链条位移无失位惩罚")
 
 # ------------------------------------------------------------------
-# 7c. 失位惩罚：下回合跳过行动
+# 8. 尸体机制
 # ------------------------------------------------------------------
 
-func _test_displacement_skip_next() -> void:
-	TurnManager.start_battle(["shieldguard"], ["ruins_skel_soldier"])
-	var sg := _uid("hero", 0)
-	var s := _uid("monster", 0)
-	TurnManager.script_action(1, sg, "shield_slam", s)
-	TurnManager.script_action(1, s, "defend", -1)
-	TurnManager.debug_force_rolls([100, 1, 50, 99, 5])
+func _test_corpse() -> void:
+	# 击杀骷髅兵 → 留尸占位，尸体可被攻击清除，清除后前移
+	TurnManager.start_battle(["knight"], ["ruins_skel_soldier", "ruins_skel_soldier"], {"monster_hp": {"ruins_skel_soldier": 5}})
+	var k := _uid("hero", 0)
+	var s1 := _uid("monster", 0)
+	var s2 := _uid("monster", 1)
+	TurnManager.script_action(1, k, "knight_smite", s1)
+	_script_defend(1, [s1, s2])
+	TurnManager.debug_force_rolls([100, 1, 1, 50, 99, 9])
 	TurnManager.run_round()
-	var skel: CombatUnit = _unit_by_uid(s)
-	_check(skel.displaced_skip_round == 2, "击退后失位惩罚标记存在")
-	# 回合2：骷髅兵试图攻击，但被失位惩罚跳过
-	TurnManager.script_action(2, sg, "defend", -1)
-	TurnManager.script_action(2, s, "bone_slash", sg)
-	TurnManager.debug_force_rolls([100, 1])
-	var st := TurnManager.run_round()
-	_check(st["heroes"][0]["hp"] == 55, "失位骷髅兵跳过行动，盾卫未受伤")
-	_check(skel.displaced_skip_round == 0, "失位惩罚已消耗")
+	var corpse: CombatUnit = null
+	for m in TurnManager.monsters:
+		if m.is_corpse:
+			corpse = m
+	_check(corpse != null, "敌人死亡留尸占位")
+	_check(corpse.position == 1, "尸体占用 1 号位")
+	_check(_unit_by_uid(s2).position == 2, "尸体阻挡后排前移")
+	# 攻击尸体 → 清除 → 前移
+	TurnManager.script_action(2, k, "knight_smite", corpse.uid)
+	TurnManager.script_action(2, s2, "defend", -1)
+	TurnManager.debug_force_rolls([100, 1, 50, 99, 10])
+	TurnManager.run_round()
+	var corpse_exists := false
+	for m in TurnManager.monsters:
+		if m.is_corpse:
+			corpse_exists = true
+	_check(not corpse_exists, "尸体被攻击清除")
+	_check(_unit_by_uid(s2).position == 1, "尸体清除后前移")
 
 # ------------------------------------------------------------------
-# 8. 技能冷却
+# 9. 技能无冷却
 # ------------------------------------------------------------------
 
-func _test_cooldown() -> void:
+func _test_no_cooldown() -> void:
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier"])
 	var k := _uid("hero", 0)
 	var s := _uid("monster", 0)
 	TurnManager.script_action(1, k, "knight_zeal", s)
 	TurnManager.script_action(1, s, "defend", -1)
 	TurnManager.debug_force_rolls([100, 1, 50, 99, 5])
-	var st := TurnManager.run_round()
+	TurnManager.run_round()
 	var knight: CombatUnit = _unit_by_uid(k)
-	_check(knight.cooldowns.has("knight_zeal"), "knight_zeal 进入冷却")
-	_check(int(knight.cooldowns.get("knight_zeal", 0)) == 3, "冷却 2 → 初始值 3")
-	_check(not knight.is_skill_ready("knight_zeal"), "knight_zeal 不可用")
-	# 回合2：冷却-1 → 2，仍不可用
-	_script_defend(2, [k, s])
-	TurnManager.debug_force_rolls([50, 50])
-	TurnManager.run_round()
-	_check(int(knight.cooldowns.get("knight_zeal", 0)) == 2, "回合2 冷却=2")
-	# 回合3：冷却-1 → 1
-	_script_defend(3, [k, s])
-	TurnManager.debug_force_rolls([50, 50])
-	TurnManager.run_round()
-	_check(int(knight.cooldowns.get("knight_zeal", 0)) == 1, "回合3 冷却=1")
-	# 回合4：冷却-1 → 0 移除，恢复可用
-	_script_defend(4, [k, s])
-	TurnManager.debug_force_rolls([50, 50])
-	TurnManager.run_round()
-	_check(knight.is_skill_ready("knight_zeal"), "回合4 冷却结束恢复可用")
-	# 技能消耗：knight_zeal cost stress 2
 	_check(knight.stress == 2, "knight_zeal 消耗 2 压力")
+	# 回合2 再次使用：无冷却
+	TurnManager.script_action(2, k, "knight_zeal", s)
+	TurnManager.script_action(2, s, "defend", -1)
+	TurnManager.debug_force_rolls([100, 1, 50, 99, 5])
+	TurnManager.run_round()
+	_check(knight.stress == 4, "knight_zeal 连续使用（无冷却）")
+	_check(_unit_by_uid(s).hp == 22 - 10, "knight_zeal 再次生效（HP=%d）" % _unit_by_uid(s).hp)
 
 # ------------------------------------------------------------------
-# 9. 恐惧（每回合+2压力）+ 压力累计
+# 10. Horror（压力持续）+ 压力累计
 # ------------------------------------------------------------------
 
-func _test_fear_and_stress() -> void:
-	# 骸骨祭司 fear_bone：压力伤害3 + 恐惧2回合
+func _test_horror_and_stress() -> void:
 	TurnManager.start_battle(["knight"], ["ruins_skel_priest"])
 	var k := _uid("hero", 0)
 	var p := _uid("monster", 0)
 	TurnManager.script_action(1, k, "defend", -1)
 	TurnManager.script_action(1, p, "fear_bone", k)
-	# 掷骰：行动顺序(k,priest) → 命中50 → 暴击99
 	TurnManager.debug_force_rolls([1, 100, 50, 99])
 	TurnManager.run_round()
 	var knight: CombatUnit = _unit_by_uid(k)
 	_check(knight.stress == 3, "fear_bone 压力伤害 3，压力=%d" % knight.stress)
-	_check(knight.has_status("fear"), "骑士获得恐惧")
-	# 回合2开始：恐惧 +2 压力，duration→1
+	_check(knight.has_status("horror"), "骑士获得 Horror")
 	_script_defend(2, [k, p])
 	TurnManager.debug_force_rolls([50, 50])
 	TurnManager.run_round()
-	_check(knight.stress == 5, "回合2 恐惧 +2，压力=%d" % knight.stress)
-	_check(int(knight.get_status("fear").get("duration", 0)) == 1, "恐惧剩余 1 回合")
-	# 回合3开始：恐惧 +2，到期移除
+	_check(knight.stress == 5, "回合2 Horror +2，压力=%d" % knight.stress)
+	_check(int(knight.get_status("horror").get("duration", 0)) == 1, "Horror 剩余 1 回合")
 	_script_defend(3, [k, p])
 	TurnManager.debug_force_rolls([50, 50])
 	TurnManager.run_round()
-	_check(knight.stress == 7, "回合3 恐惧 +2，压力=%d" % knight.stress)
-	_check(not knight.has_status("fear"), "恐惧到期移除")
+	_check(knight.stress == 7, "回合3 Horror +2，压力=%d" % knight.stress)
+	_check(not knight.has_status("horror"), "Horror 到期移除")
 
 # ------------------------------------------------------------------
-# 10. 空缺自动前移
+# 11. 空缺自动前移（英雄）
 # ------------------------------------------------------------------
 
 func _test_position_auto_forward() -> void:
-	# 3 名骷髅兵，击杀 1 号位 → 其余前移
+	# 3 名骷髅兵，击杀 1 号位 → 尸体占位，后排不前移；清尸后前移
 	TurnManager.start_battle(["knight"], ["ruins_skel_soldier", "ruins_skel_soldier", "ruins_skel_soldier"], {"monster_hp": {"ruins_skel_soldier": 5}})
 	var k := _uid("hero", 0)
 	var s1 := _uid("monster", 0)
@@ -377,17 +384,24 @@ func _test_position_auto_forward() -> void:
 	var s3 := _uid("monster", 2)
 	TurnManager.script_action(1, k, "knight_smite", s1)
 	_script_defend(1, [s1, s2, s3])
-	# 掷骰：行动顺序(k,s1,s2,s3) → 命中50 → 暴击99 → 伤害9 → 濒死70(死亡)
-	TurnManager.debug_force_rolls([100, 1, 1, 1, 50, 99, 9, 70])
-	var st := TurnManager.run_round()
-	var m2: CombatUnit = _unit_by_uid(s2)
-	var m3: CombatUnit = _unit_by_uid(s3)
-	_check(not _unit_by_uid(s1).alive, "1号位骷髅兵死亡")
-	_check(m2.position == 1, "原2号位前移至 1 号位")
-	_check(m3.position == 2, "原3号位前移至 2 号位")
+	TurnManager.debug_force_rolls([100, 1, 1, 1, 50, 99, 9])
+	TurnManager.run_round()
+	var corpse: CombatUnit = null
+	for m in TurnManager.monsters:
+		if m.is_corpse:
+			corpse = m
+	_check(corpse != null, "击杀留尸")
+	_check(_unit_by_uid(s2).position == 2, "尸体阻挡：原2号位不动")
+	# 清尸
+	TurnManager.script_action(2, k, "knight_smite", corpse.uid)
+	_script_defend(2, [s2, s3])
+	TurnManager.debug_force_rolls([100, 1, 1, 50, 99, 10])
+	TurnManager.run_round()
+	_check(_unit_by_uid(s2).position == 1, "清尸后原2号位前移至 1 号位")
+	_check(_unit_by_uid(s3).position == 2, "清尸后原3号位前移至 2 号位")
 
 # ------------------------------------------------------------------
-# 11. 胜负（敌方全灭）
+# 12. 胜负（敌方全灭）
 # ------------------------------------------------------------------
 
 func _test_victory() -> void:
@@ -396,19 +410,18 @@ func _test_victory() -> void:
 	var s := _uid("monster", 0)
 	TurnManager.script_action(1, k, "knight_smite", s)
 	TurnManager.script_action(1, s, "defend", -1)
-	TurnManager.debug_force_rolls([100, 1, 50, 99, 9, 70])
+	TurnManager.debug_force_rolls([100, 1, 50, 99, 9])
 	var st := TurnManager.run_round()
-	_check(not st["active"], "战斗结束")
+	_check(not st["active"], "战斗结束（尸体不判胜）")
 	_check(st["winner"] == CombatUnit.Team.HEROES, "英雄获胜")
 
 # ------------------------------------------------------------------
-# 12. 同 seed 全自动战斗可复现
+# 13. 同 seed 全自动战斗可复现
 # ------------------------------------------------------------------
 
 func _test_reproducible_battle() -> void:
 	var heroes := ["knight", "shieldguard", "berserker", "physician"]
 	var monsters := ["ruins_skel_soldier", "ruins_skel_archer", "ruins_skel_priest", "ruins_ghoul"]
-	# 火把为全局状态（WS-7 战斗每回合 −1），两场对局前统一复位保证可比
 	GameState.torch = 75
 	TurnManager.start_battle(heroes, monsters, {"seed": 20240812})
 	var st1 := TurnManager.run_battle(60)

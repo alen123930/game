@@ -455,11 +455,50 @@ func _trigger_event() -> void:
 		if line != "":
 			_log(line)
 		_log("地板突然塌陷，队伍擦伤（少量伤害）。")
+	# 事件房的怪癖改变与疾病感染（GDD 3.5）
+	_roll_event_afflictions()
 	room["explored"] = true
 	GameState.rooms_cleared += 1
 	_refresh_room_tiles()
 	_update_ui()
 	_autosave()
+
+## 事件房怪癖改变 + 疾病感染判定（GDD 3.5）。
+## 概率与方向来自 exploration.json `afflictions`（town_manager 读取）。
+func _roll_event_afflictions() -> void:
+	# 1) 怪癖改变：先尝试替换一个已有怪癖，否则新获取
+	if randf() < TownManager.get_event_quirk_chance():
+		var hero := _random_party_hero()
+		if not hero.is_empty():
+			var res := TownManager.change_quirk(hero)
+			if not res.get("ok", false):
+				res = TownManager.gain_quirk(hero,
+					"positive" if randf() < TownManager.get_event_quirk_positive_chance() else "negative")
+			if res.get("ok", false):
+				var q: Dictionary = res.get("quirk", {})
+				var removed := String(res.get("removed", ""))
+				if removed != "":
+					var old_name: String = String(ConfigManager.get_entry("quirks", removed).get("name", removed))
+					_log("异象改变心境：「%s」→「%s」。" % [old_name, q.get("name", "")])
+				else:
+					_log("异象赋予你新的感悟——获得怪癖「%s」。" % q.get("name", ""))
+	# 2) 疾病感染：特定区域/事件
+	if randf() < TownManager.get_event_disease_chance():
+		var region := String(_dungeon.get("map_type", "ruins"))
+		var hero := _random_party_hero()
+		if not hero.is_empty():
+			var d := TownManager.apply_random_disease(hero, region)
+			if not d.is_empty():
+				_log("污浊之气侵入「%s」——感染了疾病「%s」。" % [hero.get("name", ""), d.get("name", "")])
+
+func _random_party_hero() -> Dictionary:
+	var alive: Array = []
+	for h in GameState.party:
+		if int(h.get("hp", 0)) > 0:
+			alive.append(h)
+	if alive.is_empty():
+		return {}
+	return alive[randi() % alive.size()]
 
 
 func _open_safe() -> void:
@@ -558,6 +597,14 @@ func _apply_battle_result() -> void:
 		if result.get("is_boss", false):
 			GameState.boss_defeated = true
 			_log("关底 Boss 已被击败——遗迹的黑暗核心被打破。")
+			# 关底有更高概率感染疾病（GDD 3.5：特定区域/事件感染）
+			if randf() < TownManager.get_boss_disease_chance():
+				var region := String(_dungeon.get("map_type", "ruins"))
+				var hero := _random_party_hero()
+				if not hero.is_empty():
+					var d := TownManager.apply_random_disease(hero, region)
+					if not d.is_empty():
+						_log("关底瘴气弥漫——「%s」感染了疾病「%s」。" % [hero.get("name", ""), d.get("name", "")])
 			_end_run(true)
 		else:
 			var gold := randi_range(50, 120)

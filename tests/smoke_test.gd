@@ -27,7 +27,7 @@ func _test_config() -> void:
 	_check(ConfigManager.is_loaded(), "ConfigManager 完成加载")
 	# get_section 返回整节字典（含 _meta 元数据），实体数 = 总键数 - 1。
 	var expected := {
-		"heroes": 8, "skills": 32, "monsters": 24, "dungeons": 4,
+		"heroes": 8, "skills": 33, "monsters": 25, "dungeons": 4,
 		"buildings": 8, "loot_tables": 5, "quirks": 12, "items": 9,
 		"trinkets": 12, "injuries": 5,
 	}
@@ -35,13 +35,13 @@ func _test_config() -> void:
 		var dict: Dictionary = ConfigManager.get_section(section)
 		var entity_count := dict.size() - (1 if dict.has("_meta") else 0)
 		_check(entity_count == expected[section], "%s 实体数 = %d（期望 %d）" % [section, entity_count, expected[section]])
-	_check(ConfigManager.get_entry_total() == 129, "全部配置实体总数 = 129")
+	_check(ConfigManager.get_entry_total() == 131, "全部配置实体总数 = 131")
 	_check(ConfigManager.get_section("loot_tables").has("_meta"), "loot_tables 含 _meta（exp_formula 等）")
 	_check(ConfigManager.get_entry("heroes", "knight").get("name", "") == "圣骑士", "heroes.knight.name = 圣骑士")
 	_check(ConfigManager.get_entry("monsters", "boss_stone_skull").get("phases", 0) == 2, "boss_stone_skull.phases = 2")
 	_check(ConfigManager.get_entry("loot_tables", "1").get("gold_min", 0) == 600, "loot_tables.1.gold_min = 600")
 	_check(ConfigManager.has_entry("items", "torch"), "items 包含 torch")
-	_check(ConfigManager.get_entry("skills", "pierce_shot").get("base_acc", 0) == 90, "skills.pierce_shot.base_acc = 90")
+	_check(ConfigManager.get_entry("skills", "pierce_shot").get("acc_mod", 0) == -5, "skills.pierce_shot.acc_mod = -5（95 基准命中修正）")
 
 func _test_state_machine() -> void:
 	var main: GameMain = load("res://scenes/main/Main.tscn").instantiate()
