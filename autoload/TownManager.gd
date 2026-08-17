@@ -736,10 +736,11 @@ func select_party(hero_ids: Array) -> Dictionary:
 	return {"ok": true, "count": ids.size()}
 
 ## 出发：把选定队伍写入 GameState.party（复用 WS-5 探索闭环），补给用城镇库存。
-func prepare_run(length: String) -> Dictionary:
+## quest_type 对齐 4 类任务：explore/collect/hunt/boss（WS-19）。
+func prepare_run(length: String, quest_type: String = "explore") -> Dictionary:
 	if not has_selected_party():
 		return {"ok": false, "reason": "no_party"}
-	GameState.start_run(length)
+	GameState.start_run(length, quest_type)
 	return {"ok": true}
 
 ## 结算：金币/经验/伤病/怪癖回写名册，任务收益进城镇（GDD 3.5 / 4.5 子集，完整经济由 WS-10）。

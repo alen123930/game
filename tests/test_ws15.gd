@@ -97,7 +97,7 @@ func _test_exploration_embedding() -> void:
 		_check(text.contains("圣殿") or text.contains("修道院") or text.contains("神像"), "区域开场白写入探索日志")
 		_check(GameState.story_prologue_shown, "序章标记已置位（仅显示一次）")
 
-	# 事件房探索：触发事件文案（循环直到触发一次事件房）
+	# 奇物房探索：触发叙事文案（循环直到触发一次奇物房）
 	var dungeon: Dictionary = expl.get("_dungeon")
 	var found_event := false
 	var guard := 0
@@ -105,17 +105,17 @@ func _test_exploration_embedding() -> void:
 		if guard > 200 or found_event:
 			break
 		guard += 1
-		if String(room["type"]) != "event":
+		if String(room["type"]) != "curio":
 			continue
 		expl.set("_current_room_id", int(room["id"]))
 		room["trapped"] = false
 		room["locked_door"] = false
 		expl.call("_on_explore_pressed")
 		var event_text: String = expl.get("log_label").get_parsed_text()
-		_check(event_text.contains("墙壁") or event_text.contains("遗物") or event_text.contains("祭坛") or event_text.contains("塌陷") or event_text.contains("低语") or event_text.contains("地板"), "事件房写入叙事文案")
+		_check(event_text.contains("墙壁") or event_text.contains("遗物") or event_text.contains("祭坛") or event_text.contains("塌陷") or event_text.contains("低语") or event_text.contains("地板") or event_text.contains("奇物"), "奇物房写入叙事文案")
 		found_event = true
 	if not found_event:
-		_check(true, "本局无事件房（跳过，叙事已由数据测试覆盖）")
+		_check(true, "本局无奇物房（跳过，叙事已由数据测试覆盖）")
 
 	GameState.end_run()
 	main.queue_free()

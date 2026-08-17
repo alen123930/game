@@ -15,6 +15,8 @@ var run_active: bool = false
 var rooms_cleared: int = 0
 var boss_defeated: bool = false
 var quest_length: String = "short"            # short / medium / long
+var quest_type: String = "explore"            # explore / collect / hunt / boss（WS-19 对齐 4 类任务）
+var collect_count: int = 0                    # 收集任务已收集数量
 var run_gold: int = 0                         # 本次任务获得的金币（展示用，经济系统由 WS-10 接管）
 
 # ---- 剧情（WS-15，GDD 第五章）----
@@ -48,14 +50,16 @@ func _ready() -> void:
 
 
 ## 开始一次遗迹探索（由城镇/结算场景触发）。
-func start_run(length: String) -> void:
+func start_run(length: String, qtype: String = "explore") -> void:
 	quest_length = length
+	quest_type = qtype
 	current_dungeon = {}
 	current_pos = 0
 	torch = int(_dungeon_config.get("torch", {}).get("start", 75))
 	run_active = true
 	rooms_cleared = 0
 	boss_defeated = false
+	collect_count = 0
 	run_gold = 0
 	pending_battle = {}
 	battle_result = {}
@@ -96,6 +100,80 @@ func get_torch_tier() -> Dictionary:
 func add_torch(amount: int) -> void:
 	torch = clampi(torch + amount, 0, 100)
 	torch_changed.emit(torch)
+
+
+# ---- 侦查（WS-19，GDD 4.2 对齐：进入新房间掷侦查骰）----
+
+## 侦查骰基础成功率（未计入任何修正）：exploration.json `exploration.scout_base_chance`。
+func get_scout_base_chance() -> float:
+	return float(_dungeon_config.get("exploration", {}).get("scout_base_chance", 0.35))
+
+
+## 当前火把档位带来的侦查修正（百分比值，如 明亮 +25）。
+func get_scout_torch_bonus() -> int:
+	var tier: Dictionary = get_torch_tier()
+	return int(tier.get("scout_bonus", 0))
+
+
+## 队伍提供的侦查修正（百分比值）：
+## 技能（skills.json `scout` 字段）+ 怪癖（`scout` 效果）+ 饰品（`scout` 效果）。
+func get_party_scout_bonus() -> int:
+	var total := 0
+	for hero in party:
+		# 技能：技能 id → 等级
+		for skill_id in hero.get("skills", {}).keys():
+			var scfg: Dictionary = ConfigManager.get_entry("skills", String(skill_id))
+			total += int(scfg.get("scout", 0))
+		# 怪癖
+		for q in hero.get("quirks", []):
+			var qcfg: Dictionary = ConfigManager.get_entry("quirks", String(q.get("id", "")))
+			for e in qcfg.get("effects", []):
+				if String(e.get("status", "")) == "scout":
+					total += int(e.get("value", 0))
+		# 饰品
+		for slot in hero.get("trinkets", []):
+			if slot == null or String(slot) == "":
+				continue
+			var tcfg: Dictionary = ConfigManager.get_entry("trinkets", String(slot))
+			for e in tcfg.get("effects", []):
+				if String(e.get("status", "")) == "scout":
+					total += int(e.get("value", 0))
+	return total
+
+
+## 综合侦查成功率：基础 + 火把修正 + 队伍修正，clamp 到 0.05~0.95。
+func get_scout_chance() -> float:
+	var chance := get_scout_base_chance() \
+		+ float(get_scout_torch_bonus()) / 100.0 \
+		+ float(get_party_scout_bonus()) / 100.0
+	return clampf(chance, 0.05, 0.95)
+
+
+## 掷侦查骰：成功返回 true。
+func roll_scout() -> bool:
+	return randf() < get_scout_chance()
+
+
+# ---- 露营接口（WS-19 预留，营地系统由 WS-22 独立任务实现）----
+
+## 当前任务长度对应的露营次数：中 = 1、长 = 2、短 = 0。
+func get_camp_count() -> int:
+	var camp: Dictionary = _dungeon_config.get("exploration", {}).get("camp_count", {})
+	return int(camp.get(quest_length, 0))
+
+
+## 当前任务类型名称（exploration.json `quests`）。
+func get_quest_type_name() -> String:
+	var quests: Dictionary = _dungeon_config.get("quests", {})
+	var q: Dictionary = quests.get(quest_type, {})
+	return String(q.get("name", quest_type))
+
+
+## 收集任务目标数量（exploration.json `quests.collect.target` 按长度）。
+func get_collect_target() -> int:
+	var quests: Dictionary = _dungeon_config.get("quests", {})
+	var collect: Dictionary = quests.get("collect", {})
+	return int(collect.get("target", {}).get(quest_length, 3))
 
 
 # ---- 补给 ----

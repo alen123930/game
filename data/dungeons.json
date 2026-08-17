@@ -1,6 +1,6 @@
 {
 	"_meta": {
-		"description": "区域与关卡结构（GDD 4.1 / 4.2）。rooms 为房间类型数量配置（短/中/长）",
+		"description": "区域与关卡结构（GDD 4.1 / 4.2）。rooms 为房间类型数量配置（短/中/长）；任务类型对齐暗黑地牢 4 类：探索/收集/狩猎/Boss",
 		"task_lengths": ["short", "medium", "long"],
 		"torch_decay_outside_battle": 5,
 		"torch_decay_per_turn": 1
@@ -13,15 +13,15 @@
 		"difficulty_max": 2,
 		"features": ["圣物/祭坛事件多", "黑暗惩罚较高"],
 		"task_types": [
-			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
-			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
-			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
-			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+			{ "id": "explore", "name": "探索", "desc": "到达目标房" },
+			{ "id": "collect", "name": "收集", "desc": "收集指定物" },
+			{ "id": "hunt", "name": "狩猎", "desc": "击杀关底 Boss" },
+			{ "id": "boss", "name": "Boss 任务", "desc": "深入关底击败 Boss" }
 		],
 		"rooms": {
-			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
-			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
-			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+			"short": { "battle": 3, "curio": 2, "treasure": 1, "safe": 1 },
+			"medium": { "battle": 4, "curio": 2, "treasure": 2, "safe": 1 },
+			"long": { "battle": 5, "curio": 3, "treasure": 2, "safe": 2 }
 		},
 		"map_size": [4, 4],
 		"boss": "boss_stone_skull",
@@ -35,15 +35,15 @@
 		"difficulty_max": 3,
 		"features": ["大量流血伤害", "草药资源多"],
 		"task_types": [
-			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
-			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
-			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
-			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+			{ "id": "explore", "name": "探索", "desc": "到达目标房" },
+			{ "id": "collect", "name": "收集", "desc": "收集指定物" },
+			{ "id": "hunt", "name": "狩猎", "desc": "击杀关底 Boss" },
+			{ "id": "boss", "name": "Boss 任务", "desc": "深入关底击败 Boss" }
 		],
 		"rooms": {
-			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
-			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
-			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+			"short": { "battle": 3, "curio": 2, "treasure": 1, "safe": 1 },
+			"medium": { "battle": 4, "curio": 2, "treasure": 2, "safe": 1 },
+			"long": { "battle": 5, "curio": 3, "treasure": 2, "safe": 2 }
 		},
 		"map_size": [5, 4],
 		"boss": "boss_throat_ripper",
@@ -57,15 +57,15 @@
 		"difficulty_max": 4,
 		"features": ["压力型敌人多", "毒雾持续压力"],
 		"task_types": [
-			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
-			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
-			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
-			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+			{ "id": "explore", "name": "探索", "desc": "到达目标房" },
+			{ "id": "collect", "name": "收集", "desc": "收集指定物" },
+			{ "id": "hunt", "name": "狩猎", "desc": "击杀关底 Boss" },
+			{ "id": "boss", "name": "Boss 任务", "desc": "深入关底击败 Boss" }
 		],
 		"rooms": {
-			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
-			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
-			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+			"short": { "battle": 3, "curio": 2, "treasure": 1, "safe": 1 },
+			"medium": { "battle": 4, "curio": 2, "treasure": 2, "safe": 1 },
+			"long": { "battle": 5, "curio": 3, "treasure": 2, "safe": 2 }
 		},
 		"map_size": [5, 5],
 		"boss": "boss_whisperer",
@@ -79,15 +79,15 @@
 		"difficulty_max": 5,
 		"features": ["中毒、火灾伤害", "照明极差"],
 		"task_types": [
-			{ "id": "hunt", "name": "狩猎", "desc": "清除区域内全部威胁" },
-			{ "id": "purge", "name": "清剿", "desc": "歼灭关底 Boss" },
-			{ "id": "expedition", "name": "远征", "desc": "到达目标房间取回圣物" },
-			{ "id": "rescue", "name": "救援", "desc": "营救失陷的幸存者" }
+			{ "id": "explore", "name": "探索", "desc": "到达目标房" },
+			{ "id": "collect", "name": "收集", "desc": "收集指定物" },
+			{ "id": "hunt", "name": "狩猎", "desc": "击杀关底 Boss" },
+			{ "id": "boss", "name": "Boss 任务", "desc": "深入关底击败 Boss" }
 		],
 		"rooms": {
-			"short": { "battle": 3, "treasure": 1, "event": 2, "safe": 1, "boss": 0 },
-			"medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 2, "boss": 0 },
-			"long": { "battle": 7, "treasure": 3, "event": 4, "safe": 2, "boss": 1 }
+			"short": { "battle": 3, "curio": 2, "treasure": 1, "safe": 1 },
+			"medium": { "battle": 4, "curio": 2, "treasure": 2, "safe": 1 },
+			"long": { "battle": 5, "curio": 3, "treasure": 2, "safe": 2 }
 		},
 		"map_size": [6, 5],
 		"boss": "boss_proliferation_mother",

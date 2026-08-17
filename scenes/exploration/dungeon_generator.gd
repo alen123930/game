@@ -1,21 +1,27 @@
 class_name DungeonGenerator
-## 程序化网格地图生成（GDD 4.2）
-## 网格 4×4~6×5；房间类型：战斗/宝箱/事件/安全/起始/关底。
-## 生成结果为一个连通房间图（spanning tree + 少量回廊），起始房在边缘、关底房最深处。
+## 程序化网格地图生成（GDD 4.2，WS-19 对齐暗黑地牢）
+## 网格 4×4~6×5；房间类型：战斗/奇物/宝箱/目标/起始/安全/关底。
+## 房间之间以走廊相连：走廊可含陷阱（可拆除或触发）或障碍（碎石/藤蔓，需铲子清除）。
+## 生成结果为一个连通房间图（spanning tree + 少量回廊），起始房在边缘、目标/关底房最深处。
+## 目标房由任务类型决定：探索/收集 → 目标房；狩猎/Boss → 关底房（Boss 房）。
 
-const ROOM_TYPES := ["battle", "treasure", "event", "safe", "start", "boss"]
-const TYPE_WEIGHT := {"battle": 5, "treasure": 2, "event": 3, "safe": 2, "start": 1, "boss": 1}
+const ROOM_TYPES := ["battle", "curio", "treasure", "goal", "safe", "start", "boss"]
+const TYPE_WEIGHT := {"battle": 5, "curio": 3, "treasure": 2, "safe": 2, "start": 1, "goal": 1, "boss": 1}
+const CORRIDOR_TYPES := ["normal", "trap", "obstacle"]
 
 var _config: Dictionary
 var _length: String
+var _quest_type: String
 
 
-## 生成一张遗迹地图。config 来自 data/dungeons.json，length 为 short/medium/long。
-## 返回：{cols, rows, rooms: Array, start_room: int, boss_room: int, length}
-static func generate(config: Dictionary, length: String, rng: RandomNumberGenerator = null) -> Dictionary:
+## 生成一张遗迹地图。config 来自 data/dungeons.json，length 为 short/medium/long，
+## quest_type 为 explore/collect/hunt/boss。
+## 返回：{cols, rows, rooms, corridors, start_room, goal_room, boss_room, length, quest_type}
+static func generate(config: Dictionary, length: String, quest_type: String = "explore", rng: RandomNumberGenerator = null) -> Dictionary:
 	var gen := DungeonGenerator.new()
 	gen._config = config
 	gen._length = length
+	gen._quest_type = quest_type
 	return gen._generate(rng)
 
 
@@ -81,8 +87,8 @@ func _generate(rng: RandomNumberGenerator) -> Dictionary:
 			if room_id >= target_rooms:
 				break
 
-	# 关底房放在距起始房最远的房间
-	var boss_room := _farthest_room(positions, start_pos)
+	# 目标/关底房放在距起始房最远的房间
+	var goal_room := _farthest_room(positions, start_pos)
 
 	# 构建邻接表（网格四邻域）
 	var adjacency := _build_adjacency(positions, cols, rows)
@@ -91,7 +97,7 @@ func _generate(rng: RandomNumberGenerator) -> Dictionary:
 	var spanning := _spanning_tree(positions, adjacency, 0, r)
 
 	# 分配房间类型
-	var types := _assign_types(room_id, boss_room, ratios, r)
+	var types := _assign_types(room_id, goal_room, ratios, r)
 
 	# 房间数据
 	var rooms := []
@@ -112,18 +118,27 @@ func _generate(rng: RandomNumberGenerator) -> Dictionary:
 	# 陷阱与门锁（GDD 4.2）
 	_apply_hazards(rooms, 0, r)
 
+	# 走廊：每条房间连接对应一条走廊节点，可含陷阱/障碍
+	var corridors := _build_corridors(rooms, r)
+
 	return {
 		"cols": cols,
 		"rows": rows,
 		"rooms": rooms,
+		"corridors": corridors,
 		"start_room": 0,
-		"boss_room": boss_room,
+		"goal_room": goal_room,
+		"boss_room": goal_room,
 		"length": _length,
+		"quest_type": _quest_type,
 		"map_type": "ruins",
 		# 运行配置直接嵌入生成结果，供探索场景读取（GDD 7.2 数据驱动）
 		"exploration": _config.get("exploration", {}),
 		"torch": _config.get("torch", {}),
 		"traps": _config.get("traps", {}),
+		"obstacles": _config.get("obstacles", {}),
+		"corridors_cfg": _config.get("corridors", {}),
+		"quests": _config.get("quests", {}),
 		"doors": _config.get("doors", {}),
 		"loot": _config.get("loot", {}),
 		"encounters": _config.get("encounters", {}),
@@ -133,10 +148,9 @@ func _generate(rng: RandomNumberGenerator) -> Dictionary:
 func _room_count_from_ratios(ratios: Dictionary) -> int:
 	var n := 1  # 起始房
 	n += int(ratios.get("battle", 0))
+	n += int(ratios.get("curio", 0))
 	n += int(ratios.get("treasure", 0))
-	n += int(ratios.get("event", 0))
 	n += int(ratios.get("safe", 0))
-	n += int(ratios.get("boss", 0))
 	return n
 
 
@@ -249,27 +263,26 @@ func _edge_in(tree: Dictionary, a: int, b: int) -> bool:
 	return arr.has(b)
 
 
-func _assign_types(room_count: int, boss_room: int, ratios: Dictionary, r: RandomNumberGenerator) -> Array:
-	# 组装类型包（去掉起始房与关底房名额后），shuffle 分配到其余房间
+func _assign_types(room_count: int, goal_room: int, ratios: Dictionary, r: RandomNumberGenerator) -> Array:
+	# 组装类型包（去掉起始房与目标房名额后），shuffle 分配到其余房间
 	var type_bag := []
 	var battle_n := int(ratios.get("battle", 0))
+	var curio_n := int(ratios.get("curio", 0))
 	var treasure_n := int(ratios.get("treasure", 0))
-	var event_n := int(ratios.get("event", 0))
 	var safe_n := int(ratios.get("safe", 0))
-	var boss_n := int(ratios.get("boss", 0))
 
 	# 房间不足时用战斗房补齐剩余名额
-	var assigned_slots := battle_n + treasure_n + event_n + safe_n + boss_n
-	var free_slots := room_count - 1 - boss_n  # 除起始房外的非关底名额
+	var assigned_slots := battle_n + curio_n + treasure_n + safe_n
+	var free_slots := room_count - 1  # 除起始房外的名额
 	if free_slots > assigned_slots:
 		battle_n += free_slots - assigned_slots
 
 	for i in battle_n:
 		type_bag.append("battle")
+	for i in curio_n:
+		type_bag.append("curio")
 	for i in treasure_n:
 		type_bag.append("treasure")
-	for i in event_n:
-		type_bag.append("event")
 	for i in safe_n:
 		type_bag.append("safe")
 
@@ -279,12 +292,14 @@ func _assign_types(room_count: int, boss_room: int, ratios: Dictionary, r: Rando
 		result[i] = "battle"
 
 	result[0] = "start"
-	if boss_n > 0 and boss_room != 0:
-		result[boss_room] = "boss"
+	# 目标房：探索/收集 → 目标房；狩猎/Boss → 关底房（Boss）
+	var goal_type := "goal" if _quest_type in ["explore", "collect"] else "boss"
+	if goal_room != 0:
+		result[goal_room] = goal_type
 
 	var candidates := []
 	for i in range(1, room_count):
-		if i != boss_room:
+		if i != goal_room:
 			candidates.append(i)
 	candidates.shuffle()
 
@@ -293,7 +308,6 @@ func _assign_types(room_count: int, boss_room: int, ratios: Dictionary, r: Rando
 		if idx >= candidates.size():
 			break
 		var room_id: int = candidates[idx]
-		# 若候选房是关底房则跳过（关底已单独分配）
 		result[room_id] = t
 		idx += 1
 	return result
@@ -312,7 +326,51 @@ func _apply_hazards(rooms: Array, start_id: int, r: RandomNumberGenerator) -> vo
 		var type_name := String(rd["type"])
 		if type_name == "start":
 			continue
-		if r.randf() < trap_chance and type_name != "boss":
+		if r.randf() < trap_chance and type_name not in ["boss", "goal"]:
 			rd["trapped"] = true
-		if r.randf() < lock_chance and type_name != "boss":
+		if r.randf() < lock_chance and type_name not in ["boss", "goal"]:
 			rd["locked_door"] = true
+
+
+## 走廊：每条房间连接生成一条走廊节点。走廊类型 normal/trap/obstacle。
+## 障碍（碎石/藤蔓）需铲子清除；陷阱可拆除或触发。
+func _build_corridors(rooms: Array, r: RandomNumberGenerator) -> Array:
+	var corr_cfg: Dictionary = _config.get("corridors", {})
+	var trap_chance := float(corr_cfg.get("trap_chance", 0.2))
+	var obstacle_chance := float(corr_cfg.get("obstacle_chance", 0.15))
+	var obstacle_kinds: Array = corr_cfg.get("obstacle_kinds", ["debris", "vines"])
+
+	var corridors: Array = []
+	var seen := {}
+	var cid := 0
+	for room in rooms:
+		var rd: Dictionary = room
+		for nb in rd.get("connections", []):
+			var a := mini(int(rd["id"]), int(nb))
+			var b := maxi(int(rd["id"]), int(nb))
+			var key := "%d-%d" % [a, b]
+			if seen.has(key):
+				continue
+			seen[key] = true
+			var pa: Vector2i = rooms[a]["pos"]
+			var pb: Vector2i = rooms[b]["pos"]
+			var corr := {
+				"id": cid,
+				"from": a,
+				"to": b,
+				"pos": Vector2((pa.x + pb.x) * 0.5, (pa.y + pb.y) * 0.5),
+				"type": "normal",
+				"obstacle_kind": "",
+				"cleared": false,
+				"revealed": false,
+				"disarmed": false,
+			}
+			var roll := r.randf()
+			if roll < trap_chance:
+				corr["type"] = "trap"
+			elif roll < trap_chance + obstacle_chance:
+				corr["type"] = "obstacle"
+				corr["obstacle_kind"] = obstacle_kinds[r.randi_range(0, obstacle_kinds.size() - 1)]
+			corridors.append(corr)
+			cid += 1
+	return corridors

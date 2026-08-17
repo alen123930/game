@@ -99,4 +99,4 @@ custom_minimum_size = Vector2(0, 120)
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
-text = "欢迎进入废墟遗迹。点击相邻房间移动，进入房间后可「侦查 → 探索 → 检查」。"
+text = "欢迎进入废墟遗迹。点击相邻房间移动，进入新房间会自动侦查掷骰。"

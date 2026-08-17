@@ -7,7 +7,7 @@
 	"t_pendant": { "id": "t_pendant", "name": "旧项链", "rarity": "white", "effects": [{ "status": "hp_pct", "value": 0.05 }] },
 	"t_dagger_charm": { "id": "t_dagger_charm", "name": "匕首吊坠", "rarity": "white", "effects": [{ "status": "dodge", "value": 3 }] },
 	"t_ward_badge": { "id": "t_ward_badge", "name": "守卫徽章", "rarity": "blue", "effects": [{ "status": "acc", "value": 3 }, { "status": "spd", "value": 1 }] },
-	"t_raven_feather": { "id": "t_raven_feather", "name": "渡鸦之羽", "rarity": "blue", "effects": [{ "status": "dodge", "value": 6 }, { "status": "crit", "value": 0.02 }] },
+	"t_raven_feather": { "id": "t_raven_feather", "name": "渡鸦之羽", "rarity": "blue", "effects": [{ "status": "dodge", "value": 6 }, { "status": "crit", "value": 0.02 }, { "status": "scout", "value": 10 }] },
 	"t_blood_medallion": { "id": "t_blood_medallion", "name": "血之徽记", "rarity": "blue", "effects": [{ "status": "hp_pct", "value": 0.08 }, { "status": "stress_reduction", "value": 0.1 }] },
 	"t_ancestor_seal": { "id": "t_ancestor_seal", "name": "先祖封印", "rarity": "purple", "effects": [{ "status": "acc", "value": 4 }, { "status": "crit", "value": 0.05 }, { "status": "hp_pct", "value": 0.06 }] },
 	"t_void_orb": { "id": "t_void_orb", "name": "虚空之球", "rarity": "purple", "effects": [{ "status": "spd", "value": 2 }, { "status": "dodge", "value": 5 }, { "status": "stress_reduction", "value": 0.15 }] },

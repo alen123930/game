@@ -1,11 +1,12 @@
 {
   "dungeon_types": {
     "battle": { "name": "战斗房", "desc": "敌人盘踞于此，进入即触发战斗。" },
+    "curio": { "name": "奇物房", "desc": "房间里残留着异象与可互动的奇物。" },
     "treasure": { "name": "宝箱房", "desc": "暗处藏着宝箱，或许有陷阱看守。" },
-    "event": { "name": "事件房", "desc": "房间里残留着异象与遗留物。" },
+    "goal": { "name": "目标房", "desc": "本次任务的目标所在。" },
+    "boss": { "name": "关底房", "desc": "任务最深处的存在在此等待。" },
     "safe": { "name": "安全房", "desc": "相对安稳的一角，可以稍作休整。" },
-    "start": { "name": "起始房", "desc": "队伍进入遗迹的入口。" },
-    "boss": { "name": "关底房", "desc": "遗迹最深处的存在在此等待。" }
+    "start": { "name": "起始房", "desc": "队伍进入遗迹的入口。" }
   },
   "map": {
     "min_cols": 4,
@@ -13,19 +14,28 @@
     "min_rows": 4,
     "max_rows": 5,
     "room_ratios": {
-      "short": { "battle": 3, "treasure": 1, "event": 2, "safe": 2, "boss": 0 },
-      "medium": { "battle": 5, "treasure": 2, "event": 3, "safe": 3, "boss": 0 },
-      "long": { "battle": 7, "treasure": 3, "event": 4, "safe": 3, "boss": 1 }
+      "short": { "battle": 3, "curio": 2, "treasure": 1, "safe": 1 },
+      "medium": { "battle": 4, "curio": 2, "treasure": 2, "safe": 1 },
+      "long": { "battle": 5, "curio": 3, "treasure": 2, "safe": 2 }
     },
     "min_rooms": 8
   },
+  "corridors": {
+    "trap_chance": 0.2,
+    "obstacle_chance": 0.15,
+    "obstacle_kinds": ["debris", "vines"]
+  },
   "exploration": {
-    "scout_cost_torch": 1,
-    "scout_success_bright": 0.9,
-    "scout_success_dim": 0.6,
-    "scout_success_dark": 0.3,
-    "inspect_cost_torch": 1,
-    "explore_requires_scout": false
+    "scout_base_chance": 0.35,
+    "scout_torch_bonus_scale": 1.0,
+    "reveal_adjacent_on_success": true,
+    "camp_count": { "short": 0, "medium": 1, "long": 2 }
+  },
+  "quests": {
+    "explore": { "name": "探索", "goal": "reach", "desc": "到达目标房即可完成任务。" },
+    "collect": { "name": "收集", "goal": "collect", "target": { "short": 2, "medium": 3, "long": 4 }, "desc": "收集指定数量的遗物后到达目标房。" },
+    "hunt": { "name": "狩猎", "goal": "boss", "desc": "击杀关底 Boss 完成任务。" },
+    "boss": { "name": "Boss任务", "goal": "boss", "desc": "深入关底，击败强大的 Boss。" }
   },
   "torch": {
     "start": 75,
@@ -48,6 +58,13 @@
     "damage_max": 6,
     "stress_min": 5,
     "stress_max": 12
+  },
+  "obstacles": {
+    "shovel_clears": true,
+    "hand_clear_chance": 0.4,
+    "hand_clear_stress": 4,
+    "debris_name": "碎石",
+    "vines_name": "藤蔓"
   },
   "doors": {
     "locked_chance": 0.2,

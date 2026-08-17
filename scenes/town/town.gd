@@ -4,6 +4,7 @@ extends Control
 ## 所有状态读写 TownManager；建筑页展示 WS-12 外景美术（assets/art/buildings/）。
 
 var _selected_length := "short"
+var _selected_quest_type := "explore"
 var _selected_hero_id := ""
 var _detail_hero_id := ""
 
@@ -19,6 +20,7 @@ const TAB_TITLES := ["建筑", "招募", "英雄养成", "商店", "治疗减压
 @onready var shop_list: VBoxContainer = %ShopList
 @onready var treat_list: VBoxContainer = %TreatList
 @onready var length_label: Label = %LengthLabel
+@onready var quest_type_label: Label = %QuestTypeLabel
 @onready var party_label: Label = %PartyLabel
 @onready var party_list: HBoxContainer = %PartyList
 
@@ -51,6 +53,13 @@ func _rebuild_all() -> void:
 	_rebuild_treatment()
 	_update_party()
 	length_label.text = "任务长度：%s" % _length_name(_selected_length)
+	quest_type_label.text = "任务类型：%s" % _quest_type_name(_selected_quest_type)
+
+
+func _quest_type_name(qtype: String) -> String:
+	return {
+		"explore": "探索", "collect": "收集", "hunt": "狩猎", "boss": "Boss任务",
+	}.get(qtype, qtype)
 
 
 func _update_resource_label() -> void:
@@ -560,13 +569,33 @@ func _on_long_pressed() -> void:
 	length_label.text = "任务长度：%s" % _length_name(_selected_length)
 
 
+func _on_explore_quest_pressed() -> void:
+	_selected_quest_type = "explore"
+	quest_type_label.text = "任务类型：探索"
+
+
+func _on_collect_quest_pressed() -> void:
+	_selected_quest_type = "collect"
+	quest_type_label.text = "任务类型：收集"
+
+
+func _on_hunt_quest_pressed() -> void:
+	_selected_quest_type = "hunt"
+	quest_type_label.text = "任务类型：狩猎"
+
+
+func _on_boss_quest_pressed() -> void:
+	_selected_quest_type = "boss"
+	quest_type_label.text = "任务类型：Boss任务"
+
+
 func _on_start_pressed() -> void:
 	if TownManager.has_selected_party():
-		var res := TownManager.prepare_run(_selected_length)
+		var res := TownManager.prepare_run(_selected_length, _selected_quest_type)
 		if not res.get("ok", false):
 			return
 	else:
-		GameState.start_run(_selected_length)
+		GameState.start_run(_selected_length, _selected_quest_type)
 	_change_state(GameMain.GameState.EXPLORATION)
 
 

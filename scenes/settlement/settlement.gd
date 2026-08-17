@@ -29,8 +29,8 @@ func _ready() -> void:
 	if narrative != "":
 		outcome_label.text += "\n%s" % narrative
 
-	detail_label.text = "已探索房间：%d\n任务金币：%d（已入城镇）\n经验：%d（按任务长度）\n关底 Boss：%s\n剩余火把：%d\n\n英雄状态（HP/压力）、伤病/疾病与怪癖已回写城镇。" % [
-		rooms, gold, exp, ("已击败" if boss else "未遭遇"), torch,
+	detail_label.text = "任务类型：%s（%s）\n已探索房间：%d\n任务金币：%d（已入城镇，撤退无惩罚）\n经验：%d（按任务长度）\n关底 Boss：%s\n剩余火把：%d\n\n英雄状态（HP/压力）、伤病/疾病与怪癖已回写城镇。" % [
+		GameState.get_quest_type_name(), GameState.quest_length, rooms, gold, exp, ("已击败" if boss else "未遭遇"), torch,
 	]
 	_append_affliction_report(settle)
 
@@ -67,5 +67,5 @@ func _on_back_pressed() -> void:
 
 
 func _on_again_pressed() -> void:
-	GameState.start_run(GameState.quest_length)
+	GameState.start_run(GameState.quest_length, GameState.quest_type)
 	_change_state(GameMain.GameState.EXPLORATION)

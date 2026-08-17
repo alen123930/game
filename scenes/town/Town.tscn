@@ -173,6 +173,31 @@ text = "中"
 layout_mode = 2
 text = "长"
 
+[node name="QuestTypeLabel" type="Label" parent="Margin/VBox/Bottom/DepartRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "任务类型：探索"
+font_size = 22
+
+[node name="QuestTypeBtns" type="HBoxContainer" parent="Margin/VBox/Bottom/DepartRow"]
+layout_mode = 2
+
+[node name="ExploreBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/QuestTypeBtns"]
+layout_mode = 2
+text = "探索"
+
+[node name="CollectBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/QuestTypeBtns"]
+layout_mode = 2
+text = "收集"
+
+[node name="HuntBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/QuestTypeBtns"]
+layout_mode = 2
+text = "狩猎"
+
+[node name="BossBtn" type="Button" parent="Margin/VBox/Bottom/DepartRow/QuestTypeBtns"]
+layout_mode = 2
+text = "Boss"
+
 [node name="PartyLabel" type="Label" parent="Margin/VBox/Bottom/DepartRow"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -200,5 +225,9 @@ layout_mode = 2
 [connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/ShortBtn" to="." method="_on_short_pressed"]
 [connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/MediumBtn" to="." method="_on_medium_pressed"]
 [connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/LengthBtns/LongBtn" to="." method="_on_long_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/QuestTypeBtns/ExploreBtn" to="." method="_on_explore_quest_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/QuestTypeBtns/CollectBtn" to="." method="_on_collect_quest_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/QuestTypeBtns/HuntBtn" to="." method="_on_hunt_quest_pressed"]
+[connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/QuestTypeBtns/BossBtn" to="." method="_on_boss_quest_pressed"]
 [connection signal="pressed" from="Margin/VBox/Bottom/DepartRow/StartBtn" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="Margin/VBox/Tabs/RecruitTab/RecruitHeader/RefreshBtn" to="." method="_on_refresh_pressed"]
