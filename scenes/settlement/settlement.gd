@@ -33,6 +33,8 @@ func _ready() -> void:
 		rooms, gold, exp, ("已击败" if boss else "未遭遇"), torch,
 	]
 	_append_affliction_report(settle)
+	# 结算后自动存档（GDD 7.1：把回写后的城镇状态落盘）
+	SaveManager.autosave()
 
 
 func _change_state(state: int) -> void:

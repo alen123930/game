@@ -11,27 +11,27 @@ func _ready() -> void:
 
 func _on_new_game_pressed() -> void:
 	TownManager.reset_game()
-	var data := {
-		"gold": TownManager.gold,
-		"heirlooms": TownManager.heirlooms,
-		"roster": TownManager.roster,
-		"buildings": TownManager.building_levels,
-		"quest_progress": {},
-	}
-	if SaveManager.save_game(1, data):
+	GameState.reset_run()
+	if SaveManager.save_slot(1):
 		print("[MainMenu] 已建立新存档（槽位 1）")
 	_change_state(GameMain.GameState.TOWN)
 
 func _on_continue_pressed() -> void:
-	if SaveManager.has_save(1):
-		var data := SaveManager.load_game(1)
-		if data.is_empty():
-			print("[MainMenu] 槽位 1 无有效存档，请先开始新游戏")
-		else:
-			print("[MainMenu] 已读槽位 1 存档，继续游戏")
-			_change_state(GameMain.GameState.TOWN)
-	else:
-		print("[MainMenu] 槽位 1 无存档，请先开始新游戏")
+	# 优先恢复自动存档（最近的进度），否则回退到槽位 1。
+	var loaded := SaveManager.load_autosave()
+	if not loaded and SaveManager.has_save(1):
+		loaded = SaveManager.load_slot(1)
+	if not loaded:
+		print("[MainMenu] 无有效存档，请先开始新游戏")
+		return
+	print("[MainMenu] 已读档，继续游戏")
+	_change_state(_continue_scene())
+
+## 读档后进入的场景：若任务进行中（地图存在）则回探索，否则回城镇。
+func _continue_scene() -> int:
+	if GameState.run_active and not GameState.current_dungeon.is_empty():
+		return GameMain.GameState.EXPLORATION
+	return GameMain.GameState.TOWN
 
 func _on_settings_pressed() -> void:
 	print("[MainMenu] 设置（占位）：当前音量 = %s" % SaveManager.get_setting("master_volume", 0.8))
@@ -40,6 +40,6 @@ func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 func _change_state(state: int) -> void:
-	var main: GameMain = get_tree().current_scene as GameMain
+	var main: GameMain = get_tree().get_first_node_in_group("game_main")
 	if main != null:
 		main.change_state(state)

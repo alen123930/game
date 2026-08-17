@@ -180,6 +180,7 @@ func _on_scout_pressed() -> void:
 		_log("侦查失败：黑暗中难以辨明，只看到模糊的轮廓。")
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 ## 探索：触发房间内容（战斗/宝箱/事件/安全/关底）。陷阱未处理时先处理陷阱。
@@ -239,6 +240,7 @@ func _on_use_torch_pressed() -> void:
 	else:
 		_log("没有火把了。")
 	_update_ui()
+	_autosave()
 
 
 func _on_retreat_pressed() -> void:
@@ -298,6 +300,7 @@ func _on_shovel_disarm() -> void:
 	_close_choice_panel()
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 func _on_risky_disarm() -> void:
@@ -313,6 +316,7 @@ func _on_risky_disarm() -> void:
 	_close_choice_panel()
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 func _on_ignore_trap() -> void:
@@ -375,6 +379,12 @@ func _start_encounter(is_boss: bool) -> void:
 	_change_state(GameMain.GameState.BATTLE)
 
 
+func _autosave() -> void:
+	# 自动存档：每节点/每次行动后写入 autosave.json（GDD 7.1）
+	if GameState.run_active:
+		SaveManager.autosave()
+
+
 func _open_treasure() -> void:
 	var room: Dictionary = _dungeon["rooms"][_current_room_id]
 	var loot_cfg: Dictionary = _dungeon.get("loot", {})
@@ -406,6 +416,7 @@ func _open_treasure() -> void:
 	_log(msg + got)
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 func _trigger_event() -> void:
@@ -450,6 +461,7 @@ func _trigger_event() -> void:
 	GameState.rooms_cleared += 1
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 ## 事件房怪癖改变 + 疾病感染判定（GDD 3.5）。
 ## 概率与方向来自 exploration.json `afflictions`（town_manager 读取）。
@@ -503,6 +515,7 @@ func _open_safe() -> void:
 	_log("安全房：队伍在此喘息，回复少量生命并缓解压力。")
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 # ============ 移动 / 门锁 ============
@@ -561,6 +574,7 @@ func _move_to(room_id: int) -> void:
 	_show_room_info()
 	_refresh_room_tiles()
 	_update_ui()
+	_autosave()
 
 
 ## 战斗外每进入一个房间火把 −5（GDD 2.5）。
@@ -600,6 +614,7 @@ func _apply_battle_result() -> void:
 	else:
 		_log("队伍撤退回了房间。")
 	_update_ui()
+	_autosave()
 
 
 # ============ 结算 ============
@@ -613,6 +628,7 @@ func _end_run(victory: bool) -> void:
 		"torch": GameState.torch,
 		"party": GameState.party,
 	}
+	_autosave()
 	_change_state(GameMain.GameState.SETTLEMENT)
 
 

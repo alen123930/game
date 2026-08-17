@@ -713,6 +713,9 @@ func _finish_battle(victory: bool) -> void:
 		"is_boss": bool(pb.get("is_boss", false)),
 	}
 	GameState.pending_battle = {}
+	# 每战斗后自动存档（GDD 7.1）
+	if GameState.run_active:
+		SaveManager.autosave()
 	_change_state(GameMain.GameState.EXPLORATION)
 
 ## 战斗结束把英雄 HP/压力/累计伤害回写 GameState.party（GDD 3.5：结算按伤害量触发伤病）。
