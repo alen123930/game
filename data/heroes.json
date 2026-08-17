@@ -13,7 +13,7 @@
 		"name": "圣骑士",
 		"role": "坦克/输出",
 		"background": "晨昏庄园世袭骑士，誓言守卫庄园，背负家族罪孽。",
-		"base_stats": { "hp": 48, "spd": 3, "acc": 85, "dodge": 5, "crit": 0.05, "dmg_min": 5, "dmg_max": 9, "prot": 0.2 },
+		"base_stats": { "hp": 48, "spd": 3, "acc": 20, "dodge": 5, "crit": 0.05, "dmg_min": 5, "dmg_max": 9, "prot": 0.2, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.02, "prot_max": 0.4 },
 		"positions": [1, 2],
 		"skill_ids": ["knight_smite", "knight_guard", "knight_zeal", "knight_heal"]
@@ -23,7 +23,7 @@
 		"name": "盾卫",
 		"role": "纯坦克",
 		"background": "北地雇佣兵，沉默寡言，只为酬金与活下去。",
-		"base_stats": { "hp": 55, "spd": 2, "acc": 82, "dodge": 3, "crit": 0.03, "dmg_min": 4, "dmg_max": 7, "prot": 0.3 },
+		"base_stats": { "hp": 55, "spd": 2, "acc": 18, "dodge": 3, "crit": 0.03, "dmg_min": 4, "dmg_max": 7, "prot": 0.3, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.02, "prot_max": 0.4 },
 		"positions": [1],
 		"skill_ids": ["shield_bash", "shield_wall", "taunt", "shield_slam"]
@@ -33,17 +33,17 @@
 		"name": "狂战士",
 		"role": "高输出高压力",
 		"background": "在黑暗之潮中失去全部族人，以怒火为甲。",
-		"base_stats": { "hp": 42, "spd": 5, "acc": 80, "dodge": 8, "crit": 0.15, "dmg_min": 8, "dmg_max": 13, "prot": 0.05 },
+		"base_stats": { "hp": 42, "spd": 5, "acc": 16, "dodge": 8, "crit": 0.15, "dmg_min": 8, "dmg_max": 13, "prot": 0.05, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.01, "prot_max": 0.1 },
 		"positions": [1, 2],
-		"skill_ids": ["blood_rage", "whirlwind", "berserk", "reckless_charge"]
+		"skill_ids": ["blood_rage", "whirlwind", "war_cry", "reckless_charge"]
 	},
 	"rogue": {
 		"id": "rogue",
 		"name": "盗贼",
 		"role": "位移/暴击",
 		"background": "庄园旧仆之子，偷学了禁室中的秘密技艺。",
-		"base_stats": { "hp": 30, "spd": 9, "acc": 92, "dodge": 28, "crit": 0.12, "dmg_min": 5, "dmg_max": 10, "prot": 0.0 },
+		"base_stats": { "hp": 30, "spd": 9, "acc": 30, "dodge": 28, "crit": 0.12, "dmg_min": 5, "dmg_max": 10, "prot": 0.0, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.0, "prot_max": 0.0 },
 		"positions": [3, 4],
 		"skill_ids": ["backstab", "shadow_step", "poison_blade", "evade"]
@@ -53,7 +53,7 @@
 		"name": "猎人",
 		"role": "远程输出",
 		"background": "林地守林人后代，熟知野兽与瘴气，也深知林中之物不可深究。",
-		"base_stats": { "hp": 32, "spd": 8, "acc": 95, "dodge": 22, "crit": 0.1, "dmg_min": 6, "dmg_max": 11, "prot": 0.0 },
+		"base_stats": { "hp": 32, "spd": 8, "acc": 32, "dodge": 22, "crit": 0.1, "dmg_min": 6, "dmg_max": 11, "prot": 0.0, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.0, "prot_max": 0.0 },
 		"positions": [3, 4],
 		"skill_ids": ["pierce_shot", "mark_prey", "volley", "snare_trap"]
@@ -63,17 +63,17 @@
 		"name": "医师",
 		"role": "治疗/减压",
 		"background": "流亡的圣烛会医者，见过太多治愈的代价。",
-		"base_stats": { "hp": 34, "spd": 6, "acc": 90, "dodge": 15, "crit": 0.05, "dmg_min": 4, "dmg_max": 7, "prot": 0.0 },
+		"base_stats": { "hp": 34, "spd": 6, "acc": 24, "dodge": 15, "crit": 0.05, "dmg_min": 4, "dmg_max": 7, "prot": 0.0, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.0, "prot_max": 0.0 },
 		"positions": [2, 4],
-		"skill_ids": ["cure", "stress_relief", "patch_wound", "cleanse"]
+		"skill_ids": ["cure", "stress_relief", "patch_wound", "corpse_cleanse"]
 	},
 	"occultist": {
 		"id": "occultist",
 		"name": "神秘学家",
 		"role": "压力/诅咒",
 		"background": "前圣殿学者，研究黑暗语言，半疯半清醒。",
-		"base_stats": { "hp": 28, "spd": 7, "acc": 85, "dodge": 12, "crit": 0.08, "dmg_min": 5, "dmg_max": 9, "prot": 0.0 },
+		"base_stats": { "hp": 28, "spd": 7, "acc": 22, "dodge": 12, "crit": 0.08, "dmg_min": 5, "dmg_max": 9, "prot": 0.0, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.0, "prot_max": 0.0 },
 		"positions": [3, 4],
 		"skill_ids": ["dark_bargain", "curse", "dark_heal", "stun_rune"]
@@ -83,9 +83,9 @@
 		"name": "符文师",
 		"role": "控制/增益",
 		"background": "落魄符文工匠，相信文字能封住不可名状之物。",
-		"base_stats": { "hp": 26, "spd": 7, "acc": 88, "dodge": 14, "crit": 0.05, "dmg_min": 3, "dmg_max": 6, "prot": 0.0 },
+		"base_stats": { "hp": 26, "spd": 7, "acc": 24, "dodge": 14, "crit": 0.05, "dmg_min": 3, "dmg_max": 6, "prot": 0.0, "dbr": 67 },
 		"growth": { "hp": 5, "spd": 1, "acc": 2, "dodge": 1, "crit": 0.01, "dmg_min": 1, "dmg_max": 1, "prot": 0.0, "prot_max": 0.0 },
 		"positions": [3, 4],
-		"skill_ids": ["seal_of_fire", "ward_rune", "slow_rune", "chaos_rune"]
+		"skill_ids": ["blight_rune", "ward_rune", "slow_rune", "horror_rune"]
 	}
 }

@@ -163,13 +163,13 @@ func _test_interactive_battle_win() -> void:
 	# 圣骑士②：技能 → 目标 → 执行（一记击杀）
 	_battle._on_skill_selected("knight_smite")
 	skel.hp = 1
-	# 掷骰序：行动顺序(5) → 圣骑士② 命中/暴击/伤害/濒死
-	# 行动顺序掷骰 [100] 使圣骑士② 先手，其余 1
-	TurnManager.debug_force_rolls([1, 100, 1, 1, 1, 1, 99, 1, 70])
+	# 掷骰序：行动顺序(5) → 圣骑士② 命中/暴击/伤害
+	# WS-18：怪物 0 HP 即死留尸（无 DBR 掷骰）
+	TurnManager.debug_force_rolls([1, 100, 1, 1, 1, 1, 99, 1])
 	_battle._on_target_selected(skel.uid)
 	st = _battle._get_debug_state()
 	_check(k2.uid in st["commanded"], "圣骑士② 攻击已下令")
-	_check(TurnManager.debug_pending_rolls() == 9, "掷骰队列已排好（确定性）")
+	_check(TurnManager.debug_pending_rolls() == 8, "掷骰队列已排好（确定性）")
 
 	_battle._on_end_turn_pressed()
 	await get_tree().process_frame
@@ -224,6 +224,8 @@ func _test_long_press_and_retreat() -> void:
 	_check(not _battle._get_debug_state()["battle_over"], "取消后战斗未结束")
 
 	_battle._on_retreat_pressed()
+	# WS-18 逐人撤退判定：固定全员成功 → 战斗结束（失败结算）
+	TurnManager.debug_force_rolls([50, 50, 50, 50])
 	_battle._on_confirm_retreat()
 	var st: Dictionary = _battle._get_debug_state()
 	_check(st["battle_over"], "确认撤退 → 战斗结束")

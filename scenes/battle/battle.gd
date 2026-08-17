@@ -26,11 +26,11 @@ const CLASS_TO_HERO := {
 	"神秘学家": "occultist",
 	"符文师": "runecrafter",
 }
-## 状态 key → 中文名（长按详情/状态栏展示）。
+## 状态 key → 中文名（长按详情/状态栏展示）。WS-18 对齐 DD：去燃烧/致盲/狂暴/迷惑。
 const STATUS_NAMES_ZH := {
-	"bleed": "流血", "poison": "中毒", "burn": "燃烧", "stun": "眩晕", "mark": "标记",
-	"fear": "恐惧", "weak": "虚弱", "blind": "致盲", "guard": "守护", "berserk": "狂暴",
-	"confuse": "迷惑", "prot_up": "护甲↑", "dodge_up": "闪避↑", "vulnerable": "脆弱",
+	"bleed": "流血", "poison": "中毒", "stun": "眩晕", "mark": "标记",
+	"guard": "守护", "horror": "恐惧", "weak": "虚弱", "debuff": "减益",
+	"riposte": "反击", "prot_up": "护甲↑", "dodge_up": "闪避↑", "vulnerable": "脆弱",
 	"slow": "迟缓", "immune_displacement": "免位移", "taunt": "嘲讽",
 }
 const ITEM_NAMES_ZH := {
@@ -206,14 +206,14 @@ func _maybe_auto_end() -> void:
 func _all_commandable_commanded() -> bool:
 	var any := false
 	for h in TurnManager.heroes:
-		if h.alive and not h.death_struggling:
+		if h.alive and not h.retreated:
 			any = true
 			if not _commanded.has(h.uid):
 				return false
 	return true
 
 func _is_commandable(unit: CombatUnit) -> bool:
-	return unit != null and unit.alive and not unit.death_struggling and not _commanded.has(unit.uid)
+	return unit != null and unit.alive and not unit.retreated and not _commanded.has(unit.uid)
 
 ## 结束回合：按玩家脚本 + 敌方/其余 AI 推进一个完整回合。
 func _end_turn() -> void:
@@ -244,7 +244,7 @@ func _on_slot_pressed(uid: int) -> void:
 		return
 	if _armed_skill != "":
 		var u := TurnManager.find_unit(uid)
-		if u != null and u.is_hero and u.alive and not u.death_struggling:
+		if u != null and u.is_hero and u.alive and not u.retreated:
 			if u.skills.has(_armed_skill) and _skill_usable(u, _armed_skill):
 				_selected_hero = u
 				_arm_skill(_armed_skill)
@@ -314,7 +314,25 @@ func _on_retreat_pressed() -> void:
 
 func _on_confirm_retreat() -> void:
 	retreat_panel.visible = false
-	_finish_battle(false)
+	# WS-18 对齐 DD：战斗内撤退逐人判定（受撤退技能/压力影响），成功者逃、失败者留
+	var res := TurnManager.attempt_retreat()
+	_append_log()
+	if res["all_escaped"] or not TurnManager.battle_active:
+		_victory = false
+		_log("战斗结束：队伍撤退。")
+		_finish_battle(false)
+		return
+	var stayed_names: Array[String] = []
+	for uid in res["stayed"]:
+		var u := TurnManager.find_unit(int(uid))
+		if u != null:
+			stayed_names.append(u.display_name)
+	_log("部分英雄未能撤退：%s 留在战场。" % "、".join(stayed_names))
+	_phase = Phase.COMMAND
+	_commanded = {}
+	_armed_skill = ""
+	_valid_targets = []
+	_refresh_all()
 
 func _on_cancel_retreat() -> void:
 	retreat_panel.visible = false
@@ -342,13 +360,11 @@ func _on_item_apply(item_id: String) -> void:
 # ------------------------------------------------------------------
 
 func _skill_usable(hero: CombatUnit, skill_id: String) -> bool:
-	if hero == null or not hero.alive or hero.death_struggling:
+	if hero == null or not hero.alive or hero.retreated:
 		return false
 	if not hero.skills.has(skill_id):
 		return false
 	if not hero.can_use_from_position(skill_id):
-		return false
-	if not hero.is_skill_ready(skill_id):
 		return false
 	return not _compute_targets(hero, skill_id).is_empty()
 
@@ -457,7 +473,7 @@ func _rebuild_hero_row() -> void:
 		btn.add_theme_font_size_override("font_size", 22)
 		var tag := ""
 		if not h.alive:
-			tag = "（死亡）"
+			tag = "（已撤退）" if h.retreated else "（死亡）"
 		elif h.death_struggling:
 			tag = "（濒死）"
 		elif _commanded.has(h.uid):
@@ -495,11 +511,7 @@ func _rebuild_skill_row() -> void:
 		var btn := Button.new()
 		btn.custom_minimum_size = Vector2(205, 165)
 		btn.add_theme_font_size_override("font_size", 26)
-		var cd := int(_selected_hero.cooldowns.get(skill_id, 0))
-		var txt := String(skill.get("name", skill_id))
-		if cd > 0:
-			txt += "\n冷却 %d" % cd
-		btn.text = txt
+		btn.text = String(skill.get("name", skill_id))
 		btn.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
 		if not _skill_usable(_selected_hero, skill_id):
 			btn.disabled = true
@@ -535,7 +547,7 @@ func _show_detail(unit: CombatUnit) -> void:
 	for c in detail_vbox.get_children():
 		c.queue_free()
 	var title := Label.new()
-	title.text = "%s（%s）　%s号位" % [unit.display_name, "英雄" if unit.is_hero else "敌人", unit.position]
+	title.text = "%s（%s）　%s号位" % [unit.display_name, ("尸体" if unit.is_corpse else ("英雄" if unit.is_hero else "敌人")), unit.position]
 	title.add_theme_font_size_override("font_size", 32)
 	detail_vbox.add_child(title)
 
@@ -645,8 +657,9 @@ func _apply_item_effect(item_id: String, hero: CombatUnit) -> void:
 			hero.remove_status("poison")
 			_log("%s 使用解毒剂，解除中毒。" % hero.display_name)
 		"holy_water":
-			hero.remove_status("burn")
-			_log("%s 使用圣水，解除燃烧。" % hero.display_name)
+			hero.remove_status("horror")
+			hero.remove_status("bleed")
+			_log("%s 使用圣水，驱散恐惧与流血。" % hero.display_name)
 		"herb":
 			hero.remove_status("weak")
 			_log("%s 使用药草，解除虚弱。" % hero.display_name)
@@ -704,6 +717,7 @@ func _finish_battle(victory: bool) -> void:
 
 ## 战斗结束把英雄 HP/压力/累计伤害回写 GameState.party（GDD 3.5：结算按伤害量触发伤病）。
 ## CombatUnit 按 display_name（heroes.json 职业名）与 party 英雄的 name/class 匹配。
+## WS-18：撤退成功的英雄（retreated）保留 HP 与战利品；战死英雄 HP 置 0。
 func _write_back_party() -> void:
 	if GameState == null:
 		return
@@ -714,7 +728,7 @@ func _write_back_party() -> void:
 			h["hp"] = maxi(0, cu.hp)
 			h["stress"] = clampi(cu.stress, 0, 200)
 			h["run_damage"] = int(h.get("run_damage", 0)) + cu.damage_taken
-			if not cu.alive:
+			if not cu.alive and not cu.retreated:
 				h["hp"] = 0
 			break
 
@@ -768,13 +782,23 @@ func _format_event(entry: Dictionary) -> String:
 		"unit_died":
 			return "R%d %s 死亡（%s）" % [round, _un(entry.get("unit", -1)), entry.get("cause", "")]
 		"deathblow_stable":
-			return "R%d %s 濒死挣扎稳定" % [round, _un(entry.get("unit", -1))]
+			return "R%d %s 死亡抵抗成功，坠入死亡之门" % [round, _un(entry.get("unit", -1))]
 		"deathblow_fail":
-			return "R%d %s 濒死挣扎失败死亡" % [round, _un(entry.get("unit", -1))]
+			return "R%d %s 死亡抵抗失败，死亡" % [round, _un(entry.get("unit", -1))]
 		"displace":
 			return "R%d %s 位移 → %d 号位" % [round, _un(entry.get("unit", -1)), entry.get("to", 0)]
-		"displace_wall":
-			return "R%d %s 撞墙受 %d 伤害" % [round, _un(entry.get("unit", -1)), entry.get("dmg", 0)]
+		"displace_stun":
+			return "R%d %s 位移受阻，陷入眩晕" % [round, _un(entry.get("unit", -1))]
+		"riposte":
+			return "R%d %s 反击 %s，造成 %d 伤害" % [round, _un(entry.get("unit", -1)), _un(entry.get("target", -1)), entry.get("dmg", 0)]
+		"corpse":
+			return "R%d %s 倒下，留下尸体（%d 号位）" % [round, _un(entry.get("unit", -1)), entry.get("pos", 0)]
+		"corpse_destroyed":
+			return "R%d %d 号位的尸体被清除" % [round, entry.get("pos", 0)]
+		"retreat_success":
+			return "R%d %s 成功撤退逃离" % [round, _un(entry.get("unit", -1))]
+		"retreat_fail":
+			return "R%d %s 撤退失败，留在战场" % [round, _un(entry.get("unit", -1))]
 		"status_applied":
 			return "R%d %s 获得 %s（%d 回合）" % [round, _un(entry.get("unit", -1)), entry.get("status", ""), entry.get("duration", 0)]
 		"summon":
@@ -894,6 +918,8 @@ class UnitSlot:
 		stress_bar.value = float(unit.stress)
 		var status_label: Label = get_node("StatusLabel")
 		var parts: Array[String] = []
+		if unit.is_corpse:
+			parts.append("尸体")
 		if unit.death_struggling:
 			parts.append("濒死")
 		for s in unit.statuses:
@@ -910,6 +936,10 @@ class UnitSlot:
 			normal = _sb(Color(0.16, 0.30, 0.14), Color(0.5, 0.95, 0.4), 5)
 			hover = _sb(Color(0.20, 0.38, 0.18), Color(0.65, 1.0, 0.5), 5)
 			pressed = _sb(Color(0.24, 0.44, 0.20), Color(0.8, 1.0, 0.6), 5)
+		elif unit.is_corpse:
+			normal = _sb(Color(0.15, 0.12, 0.10), Color(0.30, 0.26, 0.22), 2)
+			hover = normal
+			pressed = normal
 		elif is_selected:
 			normal = _sb(Color(0.36, 0.30, 0.12), Color(0.95, 0.75, 0.35), 4)
 			hover = _sb(Color(0.42, 0.35, 0.14), Color(1.0, 0.85, 0.45), 4)

@@ -1,12 +1,14 @@
 extends Node
-## TurnManager：回合制战斗核心单例（GDD 2.1~2.3 / 2.7 / 2.8 / 2.9）
+## TurnManager：回合制战斗核心单例（WS-18 按《暗黑地牢》对齐：WS-17 第 2 节）
 ##
 ## 职责：
 ##   1. 回合流程：回合开始结算持续效果 → SPD+D100 行动顺序 → 依次行动 → 回合结束检查。
 ##   2. 站位系统：双方各 4 格（1~4 号位），技能可用性与目标站位判定，空缺自动前移。
-##   3. 技能结算：命中/伤害/暴击/治疗/状态/位移/召唤/冷却/消耗。
-##   4. 濒死判定（0 HP 临死挣扎 D100）与死亡结算。
-##   5. 胜负判定（敌方全灭胜 / 我方全灭败）。
+##   3. 技能结算：命中（95 基准+ACC−DODGE）/伤害/暴击（目标压力+施法者减压）/治疗/状态/
+##      位移（受阻→眩晕）/召唤/消耗。技能无冷却，仅受站位/目标站位约束。
+##   4. 死亡之门 + DBR：HP=0 进死亡之门，每次受击掷死亡抵抗（英雄基础约 67%），失败即死。
+##   5. 尸体机制：敌人死亡留尸占位，可被攻击/清尸技能移除。
+##   6. 胜负判定（敌方全灭胜 / 我方全灭败）；战斗内撤退逐人判定。
 ##
 ## 数据全部来自 ConfigManager（只读），运行期数值在 CombatUnit 实例上。
 ## 随机性通过 rng（可播种）与 debug_force_rolls 控制，保证测试可复现。
@@ -23,6 +25,9 @@ const MAX_ROUNDS := 50
 const TEAM_SLOTS := 4
 ## 队友死亡给全队英雄的压力（GDD 2.4：队伍成员死亡是压力来源）。
 const STRESS_ON_ALLY_DEATH := 10
+
+## 尸体默认 HP（WS-18：敌人死亡留尸，被攻击/清尸移除；可被怪物配置覆盖）。
+const CORPSE_HP_DEFAULT := 10
 
 ## 压力系统（GDD 2.4）：0~200，正常上限 100。
 const STRESS_RESOLVE_THRESHOLD := 100    # 压力达 100 触发精神判定
@@ -44,6 +49,13 @@ const AFFLICTION_SELF_ABUSE_MOVE_STRESS := 2 # 自弃：移动时 +2 压力
 ## 火把系统（GDD 2.5）：战斗每回合 −1。
 const TORCH_DECAY_PER_BATTLE_ROUND := 1
 
+## 战斗内撤退逐人判定（WS-18 对齐 DD）：
+## 每名英雄掷 D100 ≤ 撤退判定值 → 成功逃跑；失败者留在战斗。
+## 判定值 = RETREAT_BASE + SPD×RETREAT_SPD_FACTOR − 压力/RETREAT_STRESS_FACTOR。
+const RETREAT_BASE := 50
+const RETREAT_SPD_FACTOR := 2
+const RETREAT_STRESS_FACTOR := 10
+
 ## 战斗事件日志（测试断言用）。
 var event_log: Array[Dictionary] = []
 
@@ -56,8 +68,6 @@ var winner: int = -1   # CombatUnit.Team
 ## 可播种 RNG（复现测试用）。
 var rng := RandomNumberGenerator.new()
 var _uid_seq: int = 0
-## 本回合已做过濒死判定的单位 uid 集合。
-var _deathblow_rolled_round: Dictionary = {}
 
 ## 脚本化行动计划：{ round: { uid: {skill, target_uid} } }（测试用，覆盖 AI）。
 var _script: Dictionary = {}
@@ -86,7 +96,7 @@ func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) ->
 	var monster_stress: Dictionary = opts.get("monster_stress", {})
 	_script = opts.get("script", {})
 
-	for i in hero_ids.size():
+	for i in mini(hero_ids.size(), TEAM_SLOTS):
 		_uid_seq += 1
 		var pos := i + 1
 		if i < hero_positions.size():
@@ -97,7 +107,7 @@ func start_battle(hero_ids: Array, monster_ids: Array, opts: Dictionary = {}) ->
 		if hero_stress.has(hero_ids[i]):
 			u.stress = int(hero_stress[hero_ids[i]])
 		heroes.append(u)
-	for i in monster_ids.size():
+	for i in mini(monster_ids.size(), TEAM_SLOTS):
 		_uid_seq += 1
 		var pos := i + 1
 		if i < monster_positions.size():
@@ -179,6 +189,42 @@ func get_battle_state() -> Dictionary:
 		"monsters": _unit_snapshots(monsters),
 	}
 
+## 战斗内撤退（WS-18 对齐 DD）：逐人判定。
+## 每名存活英雄掷 D100 ≤ 判定值 → 成功逃跑；失败者留在战斗。
+## 判定值 = RETREAT_BASE + SPD×RETREAT_SPD_FACTOR − 压力/RETREAT_STRESS_FACTOR，
+## clamp [5,95]；受撤退技能/压力影响。
+## 成功者标记为逃离（alive=false 且 retreated），败者留场。
+## 返回 { escaped: [uid...], stayed: [uid...], all_escaped: bool }。
+func attempt_retreat() -> Dictionary:
+	var escaped: Array = []
+	var stayed: Array = []
+	for h in heroes.duplicate():
+		if not h.alive or h.is_corpse:
+			continue
+		var chance := clampi(
+			RETREAT_BASE + h.spd * RETREAT_SPD_FACTOR - int(h.stress / RETREAT_STRESS_FACTOR),
+			5, 95)
+		var roll := _roll(1, 100)
+		if roll <= chance:
+			escaped.append(h.uid)
+			h.alive = false
+			h.death_struggling = false
+			h.retreated = true
+			_log("retreat_success", {"unit": h.uid, "roll": roll, "chance": chance})
+		else:
+			stayed.append(h.uid)
+			_log("retreat_fail", {"unit": h.uid, "roll": roll, "chance": chance})
+	if not escaped.is_empty() or not stayed.is_empty():
+		_log("retreat_attempt", {"escaped": escaped, "stayed": stayed})
+	var all_escaped := not escaped.is_empty() and stayed.is_empty()
+	if all_escaped:
+		battle_active = false
+		winner = CombatUnit.Team.MONSTERS
+		emit_signal("battle_ended", winner)
+		_log("battle_end", {"winner": winner, "retreat": true})
+	_check_battle_end()
+	return {"escaped": escaped, "stayed": stayed, "all_escaped": all_escaped}
+
 func _unit_snapshots(list: Array) -> Array:
 	var out: Array = []
 	for u in list:
@@ -191,7 +237,9 @@ func _unit_snapshots(list: Array) -> Array:
 			"hp": u.hp,
 			"max_hp": u.max_hp,
 			"alive": u.alive,
+			"is_corpse": u.is_corpse,
 			"death_struggling": u.death_struggling,
+			"dbr": u.dbr,
 			"stress": u.stress,
 			"resolution": u.resolution,
 			"crisis": u.crisis,
@@ -210,29 +258,25 @@ func _apply_torch_battle_decay() -> void:
 	GameState.add_torch(-decay)
 
 # ------------------------------------------------------------------
-# 回合开始：持续效果 / 状态计时 / 冷却 / 濒死（GDD 2.1）
+# 回合开始：持续效果 / 状态计时 / 死亡之门 DOT（WS-18）
 # ------------------------------------------------------------------
 
 func _round_start_effects() -> void:
-	# 本回合内已做过濒死判定的单位（避免 DOT 触发后回合开始再重复判定）
-	_deathblow_rolled_round = {}
 	for u in _all_units():
-		if not u.alive:
+		if not u.alive or u.is_corpse:
 			continue
-		# 持续伤害（流血/中毒/燃烧）
+		# 持续伤害（流血/中毒）
 		var dots: Dictionary = u.tick_dots()
 		for status_name in dots:
 			_apply_damage(null, u, int(dots[status_name]), false, true)
-		# 恐惧：每回合 +2 压力（GDD 2.8）
-		if u.has_status("fear"):
+		# Horror（压力持续，DD 对齐）：每回合 +2 压力
+		if u.has_status("horror"):
 			_apply_stress(u, 2)
 		# 美德「坚定」：每回合 −3 压力（GDD 2.4）
 		if u.resolved and u.resolution == "virtue" and u.crisis == "坚定":
 			_apply_stress(u, -VIRTUE_STEADFAST_RELIEF)
 		# 时间型状态计时
 		u.tick_status_timers()
-		# 冷却递减
-		u.tick_cooldowns()
 	# 火把熄灭（低压氛围）：黑暗档每回合 +1 压力（GDD 2.4 压力来源）
 	if GameState != null:
 		var tier_stress := int(GameState.get_torch_tier().get("stress_per_round", 0))
@@ -240,10 +284,6 @@ func _round_start_effects() -> void:
 			for h in heroes:
 				if h.alive:
 					_apply_stress(h, tier_stress)
-	# 濒死单位每回合 D100 判定（GDD 2.4），本回合已判定过的不再重复
-	for u in _all_units():
-		if u.alive and u.death_struggling and not _deathblow_rolled_round.has(u.uid):
-			_roll_death_struggle(u, "round_start")
 	_check_battle_end()
 
 # ------------------------------------------------------------------
@@ -253,7 +293,7 @@ func _round_start_effects() -> void:
 func _initiative_order() -> Array:
 	var list: Array = []
 	for u in _all_units():
-		if u.alive:
+		if u.alive and not u.is_corpse:
 			list.append({"unit": u, "init": u.spd + _roll(1, 100)})
 	list.sort_custom(func(a, b):
 		if a["init"] != b["init"]:
@@ -268,15 +308,7 @@ func _initiative_order() -> Array:
 # ------------------------------------------------------------------
 
 func _perform_action(unit: CombatUnit) -> void:
-	# 濒死单位（0 HP 临死挣扎中）无法行动（GDD 2.4）
-	if unit.death_struggling:
-		_log("skip_deathblow", {"unit": unit.uid})
-		return
-	# 失位惩罚 / 眩晕：跳过行动（GDD 2.7 / 2.8）
-	if unit.displaced_skip_round > 0 and round_num >= unit.displaced_skip_round:
-		unit.displaced_skip_round = 0
-		_log("skip_displaced", {"unit": unit.uid})
-		return
+	# 眩晕：跳过行动（DD 对齐）
 	if unit.has_status("stun"):
 		unit.remove_status("stun")
 		_log("skip_stun", {"unit": unit.uid})
@@ -344,7 +376,7 @@ func _crisis_choice(unit: CombatUnit) -> Dictionary:
 func _pick_crisis_skill(unit: CombatUnit, target_pos: int) -> String:
 	var fallback := ""
 	for skill_id: String in unit.skills.keys():
-		if not unit.can_use_from_position(skill_id) or not unit.is_skill_ready(skill_id):
+		if not unit.can_use_from_position(skill_id):
 			continue
 		var skill: Dictionary = unit.skills[skill_id]
 		if not (target_pos in skill.get("target_pos", [1, 2, 3, 4])):
@@ -359,7 +391,7 @@ func _pick_crisis_skill(unit: CombatUnit, target_pos: int) -> String:
 func _frontmost_opponent(unit: CombatUnit) -> CombatUnit:
 	var best: CombatUnit = null
 	for u in _opponents(unit):
-		if u.alive and (best == null or u.position < best.position):
+		if u.alive and not u.is_corpse and (best == null or u.position < best.position):
 			best = u
 	return best
 
@@ -372,8 +404,8 @@ func _resolve_skill(actor: CombatUnit, choice: Dictionary) -> void:
 	var skill: Dictionary = actor.skills.get(skill_id, {})
 	if skill.is_empty():
 		return
-	# 技能可用性：站位 / 冷却
-	if not actor.can_use_from_position(skill_id) or not actor.is_skill_ready(skill_id):
+	# 技能可用性：站位约束（WS-18：无冷却）
+	if not actor.can_use_from_position(skill_id):
 		_log("skill_unavailable", {"unit": actor.uid, "skill": skill_id})
 		return
 	# 消耗（cost）
@@ -389,16 +421,8 @@ func _resolve_skill(actor: CombatUnit, choice: Dictionary) -> void:
 		_log("skill_no_target", {"unit": actor.uid, "skill": skill_id})
 		return
 
-	# 冷却开始计算：cooldown=N 表示 N 个回合不可用（回合开始时 -1）
-	var cd := int(skill.get("cooldown", 0))
-	actor.set_cooldown(skill_id, cd + 1)
-
 	emit_signal("unit_acted", actor, skill_id)
 	_log("skill_used", {"unit": actor.uid, "skill": skill_id, "targets": targets.map(func(u): return u.uid)})
-
-	# 迷惑：行动时 30% 概率攻击随机目标（GDD 2.8）
-	if actor.has_status("confuse") and _roll(1, 100) <= 30:
-		targets = [_pick_random_opponent(actor)]
 
 	for target in targets:
 		if not target.alive:
@@ -475,8 +499,8 @@ func _resolve_skill_vs_target(actor: CombatUnit, skill: Dictionary, target: Comb
 				_log("heal_blocked", {"target": target.uid, "crisis": target.crisis})
 		"stress_damage":
 			var v := int(_effect_value(skill, "stress_damage", 0))
-			# 恐惧：对施压技能伤害 +50%（GDD 2.8）
-			if target.has_status("fear"):
+			# Horror：对施压技能伤害 +50%（DD 对齐）
+			if target.has_status("horror"):
 				v = int(round(v * 1.5))
 			_apply_stress(target, v)
 		"stress_heal":
@@ -491,22 +515,21 @@ func _resolve_skill_vs_target(actor: CombatUnit, skill: Dictionary, target: Comb
 	# 附加效果
 	_apply_effects(actor, skill, target)
 
-## 命中判定（GDD 2.3）：基准命中 + 施法者ACC − 目标DODGE − 位置惩罚。
-## 致盲 −20 命中；狂暴命中 −15%；标记目标受击命中 +20%。
+	# 反击（Riposte，DD 对齐）：目标带反击且被命中 → 立即反击攻击者
+	if hit_result["hit"] and skill.get("type", "damage") == "damage" \
+			and target.has_status("riposte") and actor != null and actor.alive:
+		_trigger_riposte(target, actor)
+
+## 命中判定（WS-18 对齐 DD）：95% 基准 + ACC − DODGE + 技能命中修正 acc_mod，clamp [0,100]。
+## 标记目标受击命中 + acc_bonus。
 func _roll_hit(attacker: CombatUnit, target: CombatUnit, skill: Dictionary) -> Dictionary:
-	var base_acc := int(skill.get("base_acc", 80))
-	var acc := attacker.acc
-	if attacker.has_status("blind"):
-		acc -= 20
-	if attacker.has_status("berserk"):
-		acc -= int(float(attacker.get_status("berserk").get("acc_down", 0.15)) * 100.0)
-	var dodge := target.dodge
-	var chance := BattleRules.hit_chance(base_acc, acc, dodge, 0)
+	var acc_mod := int(skill.get("acc_mod", 0))
+	var chance := BattleRules.hit_chance(acc_mod, attacker.acc, target.dodge)
 	if target.has_status("mark"):
 		var mark := target.get_status("mark")
 		var bonus := float(mark.get("acc_bonus", 0.2))
 		chance += int(bonus * 100.0)
-	chance = clampi(chance, 5, 95)
+	chance = clampi(chance, 0, 100)
 	var hit := _roll(1, 100) <= chance
 	var crit := false
 	# 仅伤害类技能掷暴击（GDD 2.3：命中掷出暴击时 ×1.5）
@@ -518,6 +541,16 @@ func _roll_hit(attacker: CombatUnit, target: CombatUnit, skill: Dictionary) -> D
 		if _roll(1, 100) <= int(crit_chance):
 			crit = true
 	return {"hit": hit, "crit": crit, "hit_chance": chance}
+
+## 反击结算：带 riposte 的单位被命中后立即以自身伤害反击攻击者。
+func _trigger_riposte(riposter: CombatUnit, attacker: CombatUnit) -> void:
+	var mult := float(riposter.get_status("riposte").get("value", 0.0))
+	if mult <= 0.0:
+		mult = 1.0
+	var dmg_roll := _roll(riposter.dmg_min, riposter.dmg_max)
+	var dmg := BattleRules.compute_damage(dmg_roll, attacker.prot, mult)
+	_log("riposte", {"unit": riposter.uid, "target": attacker.uid, "dmg": dmg})
+	_apply_damage(riposter, attacker, dmg, false)
 
 ## 附加效果（状态 / 位移 / 召唤 / 治疗 / 净化等）。
 ## 治疗/压力类已在 type 分支结算，此处跳过对应项避免重复。
@@ -540,17 +573,17 @@ func _apply_effects(actor: CombatUnit, skill: Dictionary, target: CombatUnit) ->
 			"stress_damage":
 				if stype != "stress_damage":
 					var v := int(e.get("value", 0))
-					if target.has_status("fear"):
+					if target.has_status("horror"):
 						v = int(round(v * 1.5))
 					_apply_stress(target, v)
 			"stress_heal":
 				if stype != "stress_heal":
 					_apply_stress(target, -int(e.get("value", 0)))
-			"bleed", "poison", "burn":
+			"bleed", "poison":
 				if _effect_procs(e):
 					target.apply_status(status_name, float(e.get("value", 0)), int(e.get("duration", 3)), actor.uid)
 					emit_signal("status_applied", target, status_name, int(e.get("duration", 3)))
-			"stun", "mark", "fear", "weak", "blind", "guard", "berserk", "confuse":
+			"stun", "mark", "guard", "horror", "weak", "debuff", "riposte", "taunt":
 				if _effect_procs(e):
 					target.apply_status(status_name, float(e.get("value", 0)), int(e.get("duration", 1)), actor.uid, _status_extra(e))
 					emit_signal("status_applied", target, status_name, int(e.get("duration", 1)))
@@ -568,6 +601,8 @@ func _apply_effects(actor: CombatUnit, skill: Dictionary, target: CombatUnit) ->
 			"cure":
 				for rm in e.get("statuses", []):
 					target.remove_status(rm)
+			"clear_corpse":
+				_clear_corpse(target)
 			"summon":
 				_summon(actor.team, e.get("unit", ""), int(e.get("count", 1)))
 			_:
@@ -580,9 +615,8 @@ func _effect_procs(e: Dictionary) -> bool:
 
 func _status_extra(e: Dictionary) -> Dictionary:
 	var extra := {}
-	for key in ["acc_bonus", "dmg_up", "acc_down"]:
-		if e.has(key):
-			extra[key] = e[key]
+	if e.has("acc_bonus"):
+		extra["acc_bonus"] = e["acc_bonus"]
 	return extra
 
 func _effect_value(skill: Dictionary, status_name: String, default: float) -> float:
@@ -594,6 +628,8 @@ func _effect_value(skill: Dictionary, status_name: String, default: float) -> fl
 # ------------------------------------------------------------------
 # 伤害 / 濒死 / 死亡
 # ------------------------------------------------------------------
+# 伤害 / 死亡之门 DBR / 死亡
+# ------------------------------------------------------------------
 
 func _apply_damage(attacker: CombatUnit, target: CombatUnit, amount: int, is_crit: bool = false, is_dot: bool = false) -> void:
 	if not target.alive or amount <= 0:
@@ -602,20 +638,26 @@ func _apply_damage(attacker: CombatUnit, target: CombatUnit, amount: int, is_cri
 	emit_signal("damage_dealt", attacker, target, amount, is_crit)
 	_log("damage", {"attacker": attacker.uid if attacker else -1, "target": target.uid, "amount": amount, "crit": is_crit, "dot": is_dot, "hp_left": target.hp})
 	if target.hp <= 0 and target.alive:
-		_roll_death_struggle(target, "dot" if is_dot else "hit")
+		if target.is_corpse:
+			_destroy_corpse(target)
+		elif target.is_hero:
+			_roll_deathblow(target, "dot" if is_dot else "hit")
+		else:
+			# 敌人 HP=0 即死（DD：死亡之门仅英雄），留尸占位
+			_kill_unit(target, "lethal_hit")
 
-## 濒死判定（GDD 2.4 / 2.9）：D100 ≤50 稳定保命，否则死亡。
-## 受击（含 DOT）时触发再次判定；回合开始由 _round_start_effects 统一判定。
-func _roll_death_struggle(unit: CombatUnit, reason: String) -> void:
+## 死亡之门 + DBR（WS-18 对齐 DD）：HP=0 进死亡之门，每次受击掷 D100 ≤ DBR 稳保命，
+## 否则即死。英雄基础 DBR 约 67，可被怪癖/饰品修正（CombatUnit.dbr）。
+## 移除 GDD 的 D100≤50 判定；无回合开始自动判定，仅受击（含 DOT）触发。
+func _roll_deathblow(unit: CombatUnit, reason: String) -> void:
 	if not unit.alive:
 		return
-	_deathblow_rolled_round[unit.uid] = true
 	unit.death_struggling = true
 	var roll := _roll(1, 100)
-	if BattleRules.deathblow_stable(roll):
-		_log("deathblow_stable", {"unit": unit.uid, "roll": roll})
+	if BattleRules.deathblow_resist(unit.dbr, roll):
+		_log("deathblow_stable", {"unit": unit.uid, "roll": roll, "dbr": unit.dbr})
 	else:
-		_log("deathblow_fail", {"unit": unit.uid, "roll": roll})
+		_log("deathblow_fail", {"unit": unit.uid, "roll": roll, "dbr": unit.dbr})
 		_kill_unit(unit, "deathblow")
 
 func _kill_unit(unit: CombatUnit, cause: String) -> void:
@@ -624,23 +666,58 @@ func _kill_unit(unit: CombatUnit, cause: String) -> void:
 	unit.alive = false
 	unit.death_struggling = false
 	unit.statuses.clear()
-	unit.cooldowns.clear()
 	emit_signal("unit_died", unit)
 	_log("unit_died", {"unit": unit.uid, "cause": cause})
-	# 队友死亡压力（仅英雄）
 	if unit.is_hero:
+		# 队友死亡压力（仅英雄）；英雄不留尸，队伍前移
 		for h in heroes:
 			if h.alive:
 				_apply_stress(h, STRESS_ON_ALLY_DEATH)
-	# 空缺自动前移（GDD 2.1）
-	_compact_team(unit.team)
+		_compact_team(unit.team)
+	else:
+		# 敌人死亡留尸占位（WS-18 尸体机制）
+		_spawn_corpse(unit)
 	_check_battle_end()
 
-## 空缺自动前移：存活单位按站位重排到 1..N。
+# ------------------------------------------------------------------
+# 尸体机制（WS-18 对齐 DD）
+# ------------------------------------------------------------------
+
+## 敌人死亡后生成尸体：占用原站位，可被攻击/清尸技能移除。
+func _spawn_corpse(unit: CombatUnit) -> void:
+	var corpse_hp := CORPSE_HP_DEFAULT
+	var cfg := ConfigManager.get_entry("monsters", unit.cfg_id)
+	if not cfg.is_empty() and cfg.has("corpse_hp"):
+		corpse_hp = int(cfg["corpse_hp"])
+	_uid_seq += 1
+	var c := CombatUnit.new(_uid_seq, "corpse_%s" % unit.cfg_id, unit.team, false, unit.position)
+	c.display_name = "%s的尸体" % unit.display_name
+	c.is_corpse = true
+	c.max_hp = corpse_hp
+	c.hp = corpse_hp
+	monsters.append(c)
+	_log("corpse", {"unit": unit.uid, "pos": c.position, "hp": corpse_hp})
+
+## 移除尸体（被攻击致死或清尸技能）：清空占位后怪物前移。
+func _destroy_corpse(corpse: CombatUnit) -> void:
+	if not corpse.is_corpse or not corpse.alive:
+		return
+	corpse.alive = false
+	monsters.erase(corpse)
+	_log("corpse_destroyed", {"pos": corpse.position})
+	_compact_team(corpse.team)
+
+## 清尸技能：直接移除目标尸体；目标非尸体则无效。
+func _clear_corpse(target: CombatUnit) -> void:
+	if target.is_corpse and target.alive:
+		_destroy_corpse(target)
+
+## 空缺自动前移：存活单位（不含尸体占位）按站位重排到 1..N。
+## 有尸体存在时怪物不会前移；尸体被清除后才前移。
 func _compact_team(team: int) -> void:
 	var list: Array = []
 	for u in _team_units(team):
-		if u.alive:
+		if u.alive and not u.is_corpse:
 			list.append(u)
 	list.sort_custom(func(a, b): return a.position < b.position)
 	for i in list.size():
@@ -650,28 +727,33 @@ func _compact_team(team: int) -> void:
 # 位移（GDD 2.7）
 # ------------------------------------------------------------------
 
-## 击退（dir=1，向后） / 拉拽（dir=-1，向前）。成功位移 → 失位惩罚（下回合跳过行动）。
-## 撞墙（击退至 4 号位边界）→ 额外 1~3 点地形伤害。
+## 击退（dir=1，向后） / 拉拽（dir=-1，向前）。WS-18 对齐 DD：
+##   - 位移受阻（撞墙/尸体阻挡）→ 目标眩晕（无墙体伤害）。
+##   - 移除 GDD 的失位惩罚机制（不再跳过下回合行动）。
 ## 目标位被占时链条位移：先把占据者推出/拉走，腾出位置再移动本目标。
 ## 返回该单位是否成功移动。
 func _displace(target: CombatUnit, dir: int, distance: int) -> bool:
-	if not target.alive:
+	if not target.alive or target.is_corpse:
 		return false
 	if target.has_status("immune_displacement"):
 		_log("displace_immune", {"unit": target.uid})
 		return false
 	var dest := target.position + dir * distance
 	if dest > TEAM_SLOTS:
-		var wall_dmg := _roll(1, 3)
-		_log("displace_wall", {"unit": target.uid, "dmg": wall_dmg})
-		_apply_damage(_current_actor, target, wall_dmg, false, true)
+		# 击退撞墙 → 眩晕（DD 对齐）
+		_stun_blocked(target)
 		return false
 	if dest < 1:
+		# 拉拽到前排边界：无墙，仅失败
 		return false
 	var occupant := _unit_at(target.team, dest)
 	if occupant == null:
 		_do_move(target, dest, dir)
 		return true
+	if occupant.is_corpse:
+		# 尸体阻挡 → 眩晕
+		_stun_blocked(target)
+		return false
 	# 链条位移：先把占据者推出/拉走
 	if _displace(occupant, dir, distance):
 		if _unit_at(target.team, dest) == null:
@@ -679,10 +761,13 @@ func _displace(target: CombatUnit, dir: int, distance: int) -> bool:
 			return true
 	return false
 
+## 位移受阻：施加眩晕（DD 对齐，取代 GDD 墙体伤害）。
+func _stun_blocked(target: CombatUnit) -> void:
+	target.apply_status("stun", 0.0, 1, _current_actor.uid if _current_actor else 0)
+	_log("displace_stun", {"unit": target.uid})
+
 func _do_move(unit: CombatUnit, dest: int, dir: int) -> void:
 	unit.position = dest
-	# 失位惩罚：下回合（round_num+1）起跳过行动（GDD 2.7）
-	unit.displaced_skip_round = round_num + 1
 	_log("displace", {"unit": unit.uid, "to": dest, "dir": dir})
 	# 自弃受难：移动时承受压力（GDD 2.4）
 	if unit.resolution == "affliction" and unit.crisis == "自弃":
@@ -711,7 +796,7 @@ func _move_self(unit: CombatUnit, distance: int) -> void:
 
 func _hero_ai_choice(unit: CombatUnit) -> Dictionary:
 	for skill_id in unit.skills.keys():
-		if not unit.can_use_from_position(skill_id) or not unit.is_skill_ready(skill_id):
+		if not unit.can_use_from_position(skill_id):
 			continue
 		var skill: Dictionary = unit.skills[skill_id]
 		var stype: String = skill.get("type", "damage")
@@ -732,7 +817,7 @@ func _hero_ai_choice(unit: CombatUnit) -> Dictionary:
 
 func _monster_ai_choice(unit: CombatUnit) -> Dictionary:
 	for skill_id in unit.skills.keys():
-		if not unit.can_use_from_position(skill_id) or not unit.is_skill_ready(skill_id):
+		if not unit.can_use_from_position(skill_id):
 			continue
 		var skill: Dictionary = unit.skills[skill_id]
 		if skill.get("target_pos", []) == [0]:
@@ -746,7 +831,7 @@ func _ai_pick_target(actor: CombatUnit, skill: Dictionary) -> CombatUnit:
 	var tpos: Array = skill.get("target_pos", [1, 2, 3, 4])
 	var best: CombatUnit = null
 	for u in _opponents(actor):
-		if u.alive and (u.position in tpos):
+		if u.alive and not u.is_corpse and (u.position in tpos):
 			if best == null or u.position < best.position:
 				best = u
 	return best
@@ -756,7 +841,7 @@ func _monster_pick_target(mon: CombatUnit, skill: Dictionary) -> CombatUnit:
 	var tpos: Array = skill.get("target_pos", [1, 2, 3, 4])
 	var candidates: Array = []
 	for h in heroes:
-		if h.alive and (h.position in tpos):
+		if h.alive and not h.is_corpse and (h.position in tpos):
 			candidates.append(h)
 	if candidates.is_empty():
 		return null
@@ -899,19 +984,20 @@ func find_unit(uid: int) -> CombatUnit:
 ## 守护：寻找 target 相邻（position±1）且带 guard 状态的队友。
 func _find_adjacent_guard(target: CombatUnit) -> CombatUnit:
 	for u in _team_units(target.team):
-		if not u.alive or u == target:
+		if not u.alive or u.is_corpse or u == target:
 			continue
 		if u.has_status("guard") and absi(u.position - target.position) == 1:
 			return u
 	return null
 
 func _pick_random_opponent(actor: CombatUnit) -> CombatUnit:
-	var opp := _opponents(actor).filter(func(u): return u.alive)
+	var opp := _opponents(actor).filter(func(u): return u.alive and not u.is_corpse)
 	if opp.is_empty():
 		return null
 	return opp[_roll(0, opp.size() - 1)]
 
 ## 召唤（GDD 2.6 summon）：在己方后排空位生成配置中的怪物。
+## 尸体占用站位，会阻挡召唤（WS-18 尸体占位）。
 func _summon(team: int, monster_id: String, count: int) -> void:
 	if monster_id == "" or count <= 0:
 		return
@@ -920,7 +1006,7 @@ func _summon(team: int, monster_id: String, count: int) -> void:
 		return
 	var team_units: Array = _team_units(team)
 	for i in count:
-		if team_units.filter(func(u): return u.alive).size() >= TEAM_SLOTS:
+		if team_units.filter(func(u): return u.alive and not u.is_corpse).size() >= TEAM_SLOTS:
 			break
 		var pos := TEAM_SLOTS
 		while _unit_at(team, pos) != null and pos > 1:
@@ -941,7 +1027,7 @@ func _check_battle_end() -> void:
 			heroes_alive += 1
 	var mons_alive := 0
 	for m in monsters:
-		if m.alive:
+		if m.alive and not m.is_corpse:
 			mons_alive += 1
 	if heroes_alive == 0 or mons_alive == 0:
 		battle_active = false
