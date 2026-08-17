@@ -66,6 +66,9 @@ func start_run(length: String) -> void:
 	if party.is_empty():
 		for hero in PLACEHOLDER_PARTY:
 			party.append(hero.duplicate(true))
+	# 重置本次任务累计伤害（结算时按伤害量触发伤病，GDD 3.5）
+	for hero in party:
+		hero["run_damage"] = 0
 	supplies = TownManager.supplies
 	run_started.emit()
 
@@ -120,12 +123,14 @@ func party_has_class(hero_class: String) -> bool:
 	return false
 
 
-## 队伍受伤（陷阱失败，GDD 4.2）。
+## 队伍受伤（陷阱失败/事件，GDD 4.2）。
+## 同时累计每名英雄的 run_damage（结算按伤害量触发伤病，GDD 3.5）。
 func damage_party(min_dmg: int, max_dmg: int) -> Dictionary:
 	var total := 0
 	for hero in party:
 		var dmg := randi_range(min_dmg, max_dmg)
 		hero["hp"] = maxi(0, int(hero["hp"]) - dmg)
+		hero["run_damage"] = int(hero.get("run_damage", 0)) + dmg
 		total += dmg
 	return {"total_damage": total}
 

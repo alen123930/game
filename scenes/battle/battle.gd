@@ -686,12 +686,13 @@ func _change_state(state: int) -> void:
 	if main != null:
 		main.change_state(state)
 
-## 战斗结束 → 写 GameState.battle_result 返回探索场景。
+## 战斗结束 → 回写队伍状态 → 写 GameState.battle_result 返回探索场景。
 func _finish_battle(victory: bool) -> void:
 	if _battle_over:
 		return
 	_battle_over = true
 	_victory = victory
+	_write_back_party()
 	var pb: Dictionary = GameState.pending_battle
 	GameState.battle_result = {
 		"victory": victory,
@@ -700,6 +701,22 @@ func _finish_battle(victory: bool) -> void:
 	}
 	GameState.pending_battle = {}
 	_change_state(GameMain.GameState.EXPLORATION)
+
+## 战斗结束把英雄 HP/压力/累计伤害回写 GameState.party（GDD 3.5：结算按伤害量触发伤病）。
+## CombatUnit 按 display_name（heroes.json 职业名）与 party 英雄的 name/class 匹配。
+func _write_back_party() -> void:
+	if GameState == null:
+		return
+	for cu in TurnManager.heroes:
+		for h in GameState.party:
+			if String(h.get("name", "")) != cu.display_name and String(h.get("class", "")) != cu.display_name:
+				continue
+			h["hp"] = maxi(0, cu.hp)
+			h["stress"] = clampi(cu.stress, 0, 200)
+			h["run_damage"] = int(h.get("run_damage", 0)) + cu.damage_taken
+			if not cu.alive:
+				h["hp"] = 0
+			break
 
 # ------------------------------------------------------------------
 # 队伍解析 / 事件日志
